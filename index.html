@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PueriCalc - Dr. Wevelin</title>
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Gotham Book', 'Comfortaa', Arial, sans-serif;
+      padding: 20px;
+      background: rgb(255,255,255);
+      color: #2c3e50;
+    }
+    header { text-align: center; margin-bottom: 30px; }
+    header img { max-width: 150px; }
+    h2, h3 {
+      color: rgb(40,90,129);
+      font-family: 'Comfortaa', Arial, sans-serif;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      font-family: 'Gotham Book', Arial, sans-serif;
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      color: rgb(40,90,129);
+    }
+    input, select {
+      font-family: 'Gotham Book', 'Comfortaa', Arial, sans-serif;
+      padding: 10px; width: 100%; margin-top: 5px;
+      border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;
+      background: rgb(185,224,229);
+      color: #2c3e50;
+    }
+    button {
+      margin-top: 20px; padding: 12px; width: 100%;
+      background: rgb(40,90,129);
+      color: white; font-size: 16px;
+      font-family: 'Comfortaa', Arial, sans-serif;
+      border: none; border-radius: 6px; cursor: pointer;
+      box-shadow: 0 2px 4px rgba(40,90,129,0.1);
+    }
+    button:hover { background: rgb(185,224,229); color: rgb(40,90,129);}
+    .resultado, .result {
+      margin-top: 25px; padding: 15px 10px;
+      background: #fff; border-radius: 7px; border: 1px solid #ccc;
+      font-family: 'Gotham Book', 'Comfortaa', Arial, sans-serif;
+      white-space: pre-line;
+    }
+    .destaque {
+      font-weight: bold; color: rgb(40,90,129); font-family: 'Comfortaa', Arial, sans-serif;
+    }
+    footer {
+      margin-top: 40px; font-size: 12px;
+      text-align: center; color: #555; border-top: 1px solid #ccc; padding-top: 15px;
+      font-family: 'Comfortaa', Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="IMG_4625.png" alt="Logo Dr. Wevelin Matos" />
+</header>
+
+<h2>Calculadora de Idade Gestacional e DPP</h2>
+
+<label for="modo">Escolha o modo de entrada:</label>
+<select id="modo" onchange="alternarModo()">
+  <option value="dum">Com DUM</option>
+  <option value="usg">Com USG 1º trimestre</option>
+</select>
+
+<div id="entradaDUM">
+  <label for="dum">Data da Última Menstruação (DUM):</label>
+  <input type="date" id="dum" />
+</div>
+
+<div id="entradaUSG" style="display: none;">
+  <label for="dataUSG">Data da ultrassonografia:</label>
+  <input type="date" id="dataUSG" />
+  <label for="semanas">Idade gestacional no USG:</label>
+  <input type="number" id="semanas" placeholder="Semanas" min="0" max="13"/>
+  <input type="number" id="dias" placeholder="Dias" min="0" max="6"/>
+</div>
+
+<button onclick="calcular()">Calcular</button>
+
+<div class="resultado" id="resultado"></div>
+
+<h3>Idade Gestacional Corrigida Pós-Natal</h3>
+<label for="dataNascimento">Data de nascimento:</label>
+<input type="date" id="dataNascimento" />
+
+<label>IG ao nascimento:</label>
+<div style="display:flex; gap:10px;">
+  <input type="number" id="igNascimentoSemanas" placeholder="Semanas" min="20" max="42" style="width:55%">
+  <input type="number" id="igNascimentoDias" placeholder="Dias" min="0" max="6" style="width:35%">
+</div>
+
+<label for="dataHojeCorrigida">Data para cálculo:</label>
+<input type="date" id="dataHojeCorrigida" value="">
+
+<button onclick="calcularCorrigidaPosNatal()">Calcular Corrigida Pós-Natal</button>
+
+<div class="result" id="idadeCrono"></div>
+<div class="result" id="resultadoCorrigida"></div>
+
+<section id="classificacao-pig">
+  <h2>Classificação ao Nascer (PIG, AIG, GIG)</h2>
+  <label for="peso-nasc">Peso ao nascer (g):</label>
+  <input type="number" id="peso-nasc" min="300" max="6000" />
+  <label for="idade-gestacional-nasc">Idade Gestacional ao nascer (semanas):</label>
+  <input type="number" id="idade-gestacional-nasc" min="22" max="42" />
+  <button type="button" onclick="classificaPIG()">Classificar</button>
+  <div class="result" id="resultado-classificacao"></div>
+</section>
+
+<section id="ganho-peso">
+  <h2>Ganho de Peso Diário</h2>
+  <label for="peso-inicial">Peso inicial (g):</label>
+  <input type="number" id="peso-inicial" />
+  <label for="data-inicial">Data inicial:</label>
+  <input type="date" id="data-inicial" />
+  <label for="peso-final">Peso final (g):</label>
+  <input type="number" id="peso-final" />
+  <label for="data-final">Data final:</label>
+  <input type="date" id="data-final" />
+  <button type="button" onclick="calculaGanhoPeso()">Calcular ganho de peso diário</button>
+  <div class="result" id="resultado-ganho-peso"></div>
+</section>
+
+<section id="velocidade-crescimento-estatura">
+  <h2>Velocidade de Crescimento da Estatura</h2>
+  <label for="estatura-inicial">Estatura inicial (cm):</label>
+  <input type="number" id="estatura-inicial" />
+  <label for="data-estatura-inicial">Data inicial:</label>
+  <input type="date" id="data-estatura-inicial" />
+  <label for="estatura-final">Estatura final (cm):</label>
+  <input type="number" id="estatura-final" />
+  <label for="data-estatura-final">Data final:</label>
+  <input type="date" id="data-estatura-final" />
+  <button type="button" onclick="calculaVelocidadeCrescimento()">Calcular velocidade</button>
+  <div class="result" id="resultado-velocidade-estatura"></div>
+</section>
+
+<section id="velocidade-crescimento-pc">
+  <h2>Velocidade de Crescimento do Perímetro Cefálico</h2>
+  <label for="pc-inicial">Perímetro cefálico inicial (cm):</label>
+  <input type="number" id="pc-inicial" />
+  <label for="data-pc-inicial">Data inicial:</label>
+  <input type="date" id="data-pc-inicial" />
+  <label for="pc-final">Perímetro cefálico final (cm):</label>
+  <input type="number" id="pc-final" />
+  <label for="data-pc-final">Data final:</label>
+  <input type="date" id="data-pc-final" />
+  <button type="button" onclick="calculaVelocidadeCrescimentoPC()">Calcular velocidade</button>
+  <div class="result" id="resultado-velocidade-pc"></div>
+</section>
+
+<section id="ictericia-neonatal">
+  <h2>Indicação de Fototerapia e Exsanguineotransfusão</h2>
+  <label for="idade-gestacional-bilirrubina">Idade Gestacional (semanas):</label>
+  <input type="number" id="idade-gestacional-bilirrubina" min="22" max="42" /><br /><br />
+  <label for="peso-nasc-ictericia">Peso ao nascer (g):</label>
+  <input type="number" id="peso-nasc-ictericia" min="400" max="6000" /><br /><br />
+  <label for="horas-vida">Idade pós-natal (horas):</label>
+  <input type="number" id="horas-vida" min="0" max="168" /><br /><br />
+  <label for="bilirrubina-total">Bilirrubina Total (mg/dL):</label>
+  <input type="number" id="bilirrubina-total" step="0.1" min="0" max="50" /><br /><br />
+  <label for="fatores-risco">Fatores de risco (doença hemolítica, asfixia, etc):</label>
+  <select id="fatores-risco">
+    <option value="nao">Não</option>
+    <option value="sim">Sim</option>
+  </select>
+  <button type="button" onclick="indicaTratamentoIctericia()">Verificar indicação</button>
+  <div class="result" id="resultado-ictericia"></div>
+</section>
+
+<section id="capacidade-gastrica">
+  <h2>Cálculo Capacidade Gástrica e Volume de Fórmula Infantil</h2>
+  <label for="peso-bebe">Peso atual do bebê (kg):</label>
+  <input type="number" id="peso-bebe" step="0.01" />
+  <button type="button" onclick="calculaCapacidadeGastrica()">Calcular capacidade e volume</button>
+  <div class="result" id="resultado-capacidade"></div>
+</section>
+
+<section id="bibliografia">
+  <h2>Bibliografia Utilizada</h2>
+  <ul id="lista-bibliografia">
+    <li>Alexander, G. et al., 1999. Neonatal growth standards. Pediatrics Journal.</li>
+    <li>American Academy of Pediatrics, 2004. Management of hyperbilirubinemia in the newborn infant. Pediatrics.</li>
+    <li>Rodriguez, M. et al., 2015. Nutritional needs in infancy. Journal of Pediatric Care.</li>
+  </ul>
+</section>
+
+<footer>
+  <p><strong>Dr. Wevelin Matos</strong> | Pediatria e Cardiologia Pediátrica</p>
+  <p>CRM/SP 196372 | (16) 99783-2383 | @dr.wevelinmatos</p>
+  <p>Ribeirão Preto - SP</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  let hoje = new Date();
+  document.getElementById("dataHojeCorrigida").value = hoje.toISOString().slice(0,10);
+});
+
+function alternarModo() {
+  const modo = document.getElementById("modo").value;
+  document.getElementById("entradaDUM").style.display = modo === "dum" ? "block" : "none";
+  document.getElementById("entradaUSG").style.display = modo === "usg" ? "block" : "none";
+  document.getElementById("resultado").innerHTML = '';
+}
+
+function calcular() {
+  const hoje = new Date();
+  let dpp, igData, igCorrigida;
+
+  if (document.getElementById("modo").value === "dum") {
+    const dum = new Date(document.getElementById("dum").value);
+    if (isNaN(dum)) {
+      alert("Insira uma data válida para a DUM.");
+      return;
+    }
+    dpp = new Date(dum);
+    dpp.setDate(dpp.getDate() + 280);
+    const diff = Math.floor((hoje - dum) / (1000 * 60 * 60 * 24));
+    const semanas = Math.floor(diff / 7);
+    const dias = diff % 7;
+    igData = `Idade Gestacional hoje: <span class='destaque'>${semanas} semanas e ${dias} dias</span>`;
+    igCorrigida = '';
+  } else {
+    const dataUSG = new Date(document.getElementById("dataUSG").value);
+    const semanasUSG = parseInt(document.getElementById("semanas").value);
+    const diasUSG = parseInt(document.getElementById("dias").value);
+    if (isNaN(dataUSG) || isNaN(semanasUSG) || isNaN(diasUSG)) {
+      alert("Preencha corretamente os campos do USG.");
+      return;
+    }
+    const idadeGestacionalDias = semanasUSG * 7 + diasUSG;
+    const dataEstimadaDUM = new Date(dataUSG);
+    dataEstimadaDUM.setDate(dataEstimadaDUM.getDate() - idadeGestacionalDias);
+    dpp = new Date(dataEstimadaDUM);
+    dpp.setDate(dpp.getDate() + 280);
+
+    const diff = Math.floor((hoje - dataEstimadaDUM) / (1000 * 60 * 60 * 24));
+    const igSemanas = Math.floor(diff / 7);
+    const igDias = diff % 7;
+    igData = `Idade Gestacional hoje: <span class='destaque'>${igSemanas} semanas e ${igDias} dias</span>`;
+    igCorrigida = `<br/>Idade Gestacional corrigida (USG): <span class='destaque'>${igSemanas} semanas e ${igDias} dias</span>`;
+  }
+  document.getElementById("resultado").innerHTML =
+    `<p>${igData}${igCorrigida ? igCorrigida : ''}</p>
+    <p><strong>Data Provável do Parto:</strong> ${dpp.toLocaleDateString('pt-BR')}</p>`;
+}
+
+// Função corrigida da icterícia
+function indicaTratamentoIctericia() {
+  const ig = parseInt(document.getElementById('idade-gestacional-bilirrubina').value);
+  const horas = parseInt(document.getElementById('horas-vida').value);
+  const bilirrubina = parseFloat(document.getElementById('bilirrubina-total').value);
+  const pesoNasc = parseFloat(document.getElementById('peso-nasc-ictericia').value);
+  const risco = document.getElementById('fatores-risco').value === 'sim';
+
+  if (
+    isNaN(ig) || isNaN(horas) || isNaN(bilirrubina) ||
+    (ig < 34 && (isNaN(pesoNasc) || pesoNasc <= 0))
+  ) {
+    alert('Preencha todos os campos corretamente, especialmente o peso ao nascer para IG < 34 semanas.');
+    return;
+  }
+
+  let indicacao = 'Sem indicação de tratamento.';
+
+  if (ig < 34) {
+    const tabelaPeso = [
+      { min: 0, max: 1500, fotoMin: 6, fotoMax: 8, exsangMin: 11, exsangMax: 13 },
+      { min: 1501, max: 2000, fotoMin: 8, fotoMax: 10, exsangMin: 13, exsangMax: 15 },
+      { min: 2001, max: 2500, fotoMin: 10, fotoMax: 12, exsangMin: 15, exsangMax: 17 },
+      { min: 2501, max: Infinity, fotoMin: 12, fotoMax: 14, exsangMin: 17, exsangMax: 19 }
+    ];
+    const catPeso = tabelaPeso.find(cat => pesoNasc >= cat.min && pesoNasc <= cat.max);
+    if (catPeso) {
+      if (bilirrubina >= catPeso.exsangMin) {
+        indicacao = 'Indicação de Exsanguineotransfusão';
+      } else if (bilirrubina >= catPeso.fotoMin) {
+        indicacao = 'Indicação de Fototerapia';
+      }
+    }
+  } else {
+    const tabelaIdade = [
+      { horasMin: 0, horasMax: 24, foto: { semRisco: 12, comRisco: 8 }, exsang: { semRisco: 16, comRisco: 12 } },
+      { horasMin: 25, horasMax: 36, foto: { semRisco: 14, comRisco: 10 }, exsang: { semRisco: 18, comRisco: 14 } },
+      { horasMin: 37, horasMax: 48, foto: { semRisco: 16, comRisco: 12 }, exsang: { semRisco: 20, comRisco: 16 } },
+      { horasMin: 49, horasMax: 72, foto: { semRisco: 18, comRisco: 14 }, exsang: { semRisco: 22, comRisco: 18 } },
+      { horasMin: 73, horasMax: 96, foto: { semRisco: 20, comRisco: 16 }, exsang: { semRisco: 24, comRisco: 20 } },
+      { horasMin: 97, horasMax: 168, foto: { semRisco: 22, comRisco: 18 }, exsang: { semRisco: 26, comRisco: 22 } }
+    ];
+
+    let faixa = tabelaIdade.find(f => horas >= f.horasMin && horas <= f.horasMax);
+
+    if (faixa) {
+      const fotoLimite = risco ? faixa.foto.comRisco : faixa.foto.semRisco;
+      const exsangLimite = risco ? faixa.exsang.comRisco : faixa.exsang.semRisco;
+
+      if (bilirrubina >= exsangLimite) {
+        indicacao = 'Indicação de Exsanguineotransfusão';
+      } else if (bilirrubina >= fotoLimite) {
+        indicacao = 'Indicação de Fototerapia';
+      }
+    }
+  }
+
+  if (risco && indicacao === 'Sem indicação de tratamento.' && bilirrubina >= 12) {
+    indicacao = 'Observação reforçada (Fatores de risco presentes)';
+  }
+
+  document.getElementById('resultado-ictericia').textContent = indicacao;
+}
+
+// Demais funções calculadoras (mantidas iguais às já corrigidas)
+
+function calcularCorrigidaPosNatal() {
+  const dataNascimento = new Date(document.getElementById("dataNascimento").value);
+  const semanas = parseInt(document.getElementById("igNascimentoSemanas").value);
+  const dias = parseInt(document.getElementById("igNascimentoDias").value);
+  const dataHoje = new Date(document.getElementById("dataHojeCorrigida").value);
+
+  if (isNaN(dataNascimento.getTime()) || isNaN(semanas) || isNaN(dias) || isNaN(dataHoje.getTime())) {
+    document.getElementById("idadeCrono").innerHTML = "";
+    document.getElementById("resultadoCorrigida").innerHTML = "<span style='color:#a00'>Preencha todos os campos corretamente.</span>";
+    return;
+  }
+
+  const diffDias = Math.floor((dataHoje - dataNascimento) / (1000 * 60 * 60 * 24));
+  if (diffDias < 0) {
+    document.getElementById("idadeCrono").innerHTML = "";
+    document.getElementById("resultadoCorrigida").innerHTML = "<span style='color:#a00'>A data para cálculo deve ser após o nascimento.</span>";
+    return;
+  }
+
+  const mesesCrono = Math.floor(diffDias / 30);
+  const diasCrono = diffDias % 30;
+
+  const totalDiasCorrigida = semanas * 7 + dias + diffDias;
+  const semanasCorrigida = Math.floor(totalDiasCorrigida / 7);
+  const diasCorrigida = totalDiasCorrigida % 7;
+
+  const totalPremat = 40 * 7 - (semanas * 7 + dias);
+
+  let idadeCorrigidaDias = diffDias - totalPremat;
+  if (idadeCorrigidaDias < 0) idadeCorrigidaDias = 0;
+  const mesesCorrigidos = Math.floor(idadeCorrigidaDias / 30);
+  const diasCorrigidos = idadeCorrigidaDias % 30;
+
+  document.getElementById("idadeCrono").innerHTML =
+    `<b>Idade Cronológica:</b><br>
+     <span class='destaque'>${mesesCrono} meses e ${diasCrono} dias</span>
+     <br><small>(Total: ${diffDias} dias)</small>`;
+
+  document.getElementById("resultadoCorrigida").innerHTML =
+    `<b>Idade gestacional corrigida:</b>
+     <span class='destaque'>${semanasCorrigida} semanas e ${diasCorrigida} dias</span>
+     <br><b>Idade corrigida (pós-natal):</b>
+     <span class='destaque'>${mesesCorrigidos} meses e ${diasCorrigidos} dias</span>
+     <br><small>(Calculada para ${dataHoje.toLocaleDateString('pt-BR')}, prematuridade: ${totalPremat} dias)</small>`;
+}
+
+function classificaPIG() {
+  const peso = parseFloat(document.getElementById('peso-nasc').value);
+  const ig = parseInt(document.getElementById('idade-gestacional-nasc').value);
+  if (isNaN(peso) || isNaN(ig)) {
+    alert('Preencha peso e idade gestacional.');
+    return;
+  }
+  let classificacao = 'Adequado para Idade Gestacional (AIG)';
+  if (peso < 2500) classificacao = 'Pequeno para Idade Gestacional (PIG)';
+  else if (peso > 4000) classificacao = 'Grande para Idade Gestacional (GIG)';
+  document.getElementById('resultado-classificacao').textContent = `Classificação: ${classificacao}`;
+}
+
+function calculaGanhoPeso() {
+  const pInicial = parseFloat(document.getElementById('peso-inicial').value);
+  const pFinal = parseFloat(document.getElementById('peso-final').value);
+  const dInicial = new Date(document.getElementById('data-inicial').value);
+  const dFinal = new Date(document.getElementById('data-final').value);
+  if (isNaN(pInicial) || isNaN(pFinal) || isNaN(dInicial.getTime()) || isNaN(dFinal.getTime())) {
+    alert('Preencha todos os campos corretamente.');
+    return;
+  }
+  const diffDias = (dFinal - dInicial) / (1000 * 3600 * 24);
+  if (diffDias <= 0) {
+    alert('A data final deve ser posterior à data inicial.');
+    return;
+  }
+  const ganhoDiario = (pFinal - pInicial) / diffDias;
+  document.getElementById('resultado-ganho-peso').textContent = `Ganho de peso diário: ${ganhoDiario.toFixed(2)} g/dia`;
+}
+
+function calculaVelocidadeCrescimento() {
+  const inicial = parseFloat(document.getElementById('estatura-inicial').value);
+  const final = parseFloat(document.getElementById('estatura-final').value);
+  const dInicial = new Date(document.getElementById('data-estatura-inicial').value);
+  const dFinal = new Date(document.getElementById('data-estatura-final').value);
+
+  if (isNaN(inicial) || isNaN(final) || isNaN(dInicial.getTime()) || isNaN(dFinal.getTime())) {
+    alert('Preencha todos os campos corretamente.');
+    return;
+  }
+  const diffDias = (dFinal - dInicial) / (1000 * 3600 * 24);
+  if (diffDias <= 0) {
+    alert('A data final deve ser posterior à data inicial.');
+    return;
+  }
+  const velocidadeMes = ((final - inicial) / diffDias) * 30;
+  const velocidadeAno = ((final - inicial) / diffDias) * 365;
+  document.getElementById('resultado-velocidade-estatura').textContent =
+    `Velocidade de crescimento: ${velocidadeMes.toFixed(2)} cm/mês (${velocidadeAno.toFixed(2)} cm/ano)`;
+}
+
+function calculaVelocidadeCrescimentoPC() {
+  const inicial = parseFloat(document.getElementById('pc-inicial').value);
+  const final = parseFloat(document.getElementById('pc-final').value);
+  const dInicial = new Date(document.getElementById('data-pc-inicial').value);
+  const dFinal = new Date(document.getElementById('data-pc-final').value);
+
+  if (isNaN(inicial) || isNaN(final) || isNaN(dInicial.getTime()) || isNaN(dFinal.getTime())) {
+    alert('Preencha todos os campos corretamente.');
+    return;
+  }
+  const diffDias = (dFinal - dInicial) / (1000 * 3600 * 24);
+  if (diffDias <= 0) {
+    alert('A data final deve ser posterior à data inicial.');
+    return;
+  }
+  const velocidadeMes = ((final - inicial) / diffDias) * 30;
+  document.getElementById('resultado-velocidade-pc').textContent =
+    `Velocidade de crescimento: ${velocidadeMes.toFixed(2)} cm/mês`;
+}
+
+function calculaCapacidadeGastrica() {
+  const peso = parseFloat(document.getElementById('peso-bebe').value);
+  if (isNaN(peso) || peso <= 0) {
+    alert('Informe um peso válido.');
+    return;
+  }
+  const capacidadeMin = 5 * peso;
+  const capacidadeMax = 7 * peso;
+  const volumeMin = 150 * peso;
+  const volumeMax = 200 * peso;
+  document.getElementById('resultado-capacidade').textContent = 
+    `Capacidade gástrica: ${capacidadeMin.toFixed(1)} a ${capacidadeMax.toFixed(1)} ml. ` +
+    `Volume fórmula diária: ${volumeMin.toFixed(1)} a ${volumeMax.toFixed(1)} ml.`;
+}
+</script>
+
+</body>
+</html>
