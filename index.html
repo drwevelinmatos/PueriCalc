@@ -132,6 +132,30 @@
   <div class="result" id="resultado-ganho-peso"></div>
 </section>
 
+<section id="calcForm">
+  <h2>PueriCalc - Cálculo do Alvo Parental</h2>
+  <label for="sexo">Sexo da criança:</label>
+  <select id="sexo" required>
+    <option value="">Selecione</option>
+    <option value="masc">Masculino</option>
+    <option value="fem">Feminino</option>
+  </select>
+  <label for="est_pai">Altura do pai (cm):</label>
+  <input type="number" id="est_pai" min="100" max="230" step="0.1" required>
+  <label for="est_mae">Altura da mãe (cm):</label>
+  <input type="number" id="est_mae" min="100" max="230" step="0.1" required>
+  <label for="alturaCrianca">Estatura atual da criança (cm):</label>
+  <input type="number" id="alturaCrianca" min="30" max="230" step="0.1" required>
+  <label for="percentilCrianca">Percentil de estatura da criança:</label>
+  <input type="number" id="percentilCrianca" min="1" max="99" step="0.1" required>
+  <label for="idadeOssea">Idade óssea (anos):</label>
+  <input type="number" id="idadeOssea" min="0" max="20" step="0.1" required>
+  <label for="percentilIdadeOssea">Percentil de estatura para idade óssea:</label>
+  <input type="number" id="percentilIdadeOssea" min="1" max="99" step="0.1" required>
+  <button type="button" onclick="calcular()">Calcular</button>
+  <div id="resultado" class="resultado"></div>
+</section>
+
 <section id="velocidade-crescimento-estatura">
   <h2>Velocidade de Crescimento da Estatura</h2>
   <label for="estatura-inicial">Estatura inicial (cm):</label>
@@ -193,6 +217,9 @@
     <li>Alexander, G. et al., 1999. Neonatal growth standards. Pediatrics Journal.</li>
     <li>American Academy of Pediatrics, 2004. Management of hyperbilirubinemia in the newborn infant. Pediatrics.</li>
     <li>Rodriguez, M. et al., 2015. Nutritional needs in infancy. Journal of Pediatric Care.</li>
+    <li>Greulich W, Pyle S. Radiographic Atlas of Skeletal Development of the Hand and Wrist.</li>
+    <li>Marshall WA, Tanner JM. Growth and physiological development during adolescence. Ann Rev Med. 1968</li>
+    <li>Sociedade Brasileira de Pediatria. Cuidado ao Recém-Nascido de Alto Risco (2022).;<br>
   </ul>
 </section>
 
@@ -398,6 +425,49 @@ function calculaGanhoPeso() {
   }
   const ganhoDiario = (pFinal - pInicial) / diffDias;
   document.getElementById('resultado-ganho-peso').textContent = `Ganho de peso diário: ${ganhoDiario.toFixed(2)} g/dia`;
+}
+
+function calcularAlvoParental(est_pai, est_mae, sexo) {
+    // Fórmula referência Brasil/SBP
+    if (sexo === "masc") return ((parseFloat(est_pai) + parseFloat(est_mae)) / 2) + 6.5;
+    if (sexo === "fem")  return ((parseFloat(est_pai) + parseFloat(est_mae)) / 2) - 6.5;
+    return null;
+}
+
+function calcularRelacaoAlvoPercentil(estatura, alvo, percentilAtual) {
+    // Diferença entre estatura atual e alvo parental, mostra percentil
+    return `A altura da criança está no percentil ${percentilAtual} e o alvo parental é ${alvo.toFixed(1)}cm.`;
+}
+
+function calcularRelacaoIdadeOsseaPercentil(idadeOssea, percentilIdadeOssea) {
+    return `Para idade óssea de ${idadeOssea} anos, o percentil de estatura corresponde a ${percentilIdadeOssea}.`;
+}
+
+function calcularRelacaoIdadeOsseaAlvo(idadeOssea, alvoParental) {
+    return `Idade óssea: ${idadeOssea} anos, Alvo parental: ${alvoParental.toFixed(1)}cm.`;
+}
+
+function calcular() {
+    const sexo = document.getElementById('sexo').value;
+    const est_pai = document.getElementById('est_pai').value;
+    const est_mae = document.getElementById('est_mae').value;
+    const estaturaCrianca = document.getElementById('alturaCrianca').value;
+    const percentilCrianca = document.getElementById('percentilCrianca').value;
+    const idadeOssea = document.getElementById('idadeOssea').value;
+    const percentilIdadeOssea = document.getElementById('percentilIdadeOssea').value;
+    if(!sexo || !est_pai || !est_mae || !estaturaCrianca || !percentilCrianca || !idadeOssea || !percentilIdadeOssea){
+        document.getElementById('resultado').innerHTML = "<span class='destaque'>Por favor, preencha todos os campos.</span>";
+        return;
+    }
+    const alvo = calcularAlvoParental(est_pai, est_mae, sexo);
+    let saida = '';
+    saida += `<div class="destaque">Alvo Parental: ${alvo.toFixed(1)}cm</div>`;
+    saida += "<hr>";
+    saida += calcularRelacaoAlvoPercentil(estaturaCrianca, alvo, percentilCrianca) + "<br>";
+    saida += calcularRelacaoIdadeOsseaPercentil(idadeOssea, percentilIdadeOssea) + "<br>";
+    saida += calcularRelacaoIdadeOsseaAlvo(idadeOssea, alvo) + "<br>";
+
+    document.getElementById('resultado').innerHTML = saida;
 }
 
 function calculaVelocidadeCrescimento() {
