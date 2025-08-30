@@ -189,26 +189,146 @@
   <div class="result" id="resultado-velocidade-pc"></div>
 </section>
 
-<section id="ictericia-neonatal">
-  <h2>Indicação de Fototerapia e Exsanguineotransfusão</h2>
-  <label for="idade-gestacional-bilirrubina">Idade Gestacional (semanas):</label>
-  <input type="number" id="idade-gestacional-bilirrubina" min="22" max="42" /><br /><br />
-  <label for="peso-nasc-ictericia">Peso ao nascer (g):</label>
-  <input type="number" id="peso-nasc-ictericia" min="400" max="6000" /><br /><br />
-  <label for="horas-vida">Idade pós-natal (horas):</label>
-  <input type="number" id="horas-vida" min="0" max="168" /><br /><br />
-  <label for="bilirrubina-total">Bilirrubina Total (mg/dL):</label>
-  <input type="number" id="bilirrubina-total" step="0.1" min="0" max="50" /><br /><br />
-  <label for="fatores-risco">Fatores de risco (doença hemolítica, asfixia, etc):</label>
-  <select id="fatores-risco">
-    <option value="nao">Não</option>
-    <option value="sim">Sim</option>
-  </select>
-  <button type="button" onclick="indicaTratamentoIctericia()">Verificar indicação</button>
-  <div class="result" id="resultado-ictericia"></div>
+<style>
+#ictericia-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+#ictericia-formulario {
+  flex: 0 1 320px;
+  background: #eefaf7;
+  padding: 24px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+}
+#ictericia-tabelas {
+  flex: 1 1 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.ictericia-tabela {
+  background: #e0f7f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+  padding: 18px 14px 10px 14px;
+  margin-bottom: 0;
+}
+.ictericia-tabela table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.96em;
+  background: none;
+}
+.ictericia-tabela th,
+.ictericia-tabela td {
+  border: 1px solid #87c7be;
+  padding: 6px 10px;
+  text-align: center;
+}
+.ictericia-tabela thead th {
+  background: #40a497;
+  color: #fff;
+  font-weight: bold;
+}
+.ictericia-tabela tbody tr:nth-child(even) {
+  background: #edf8f6;
+}
+.ictericia-tabela tbody tr:nth-child(odd) {
+  background: #f7fcfb;
+}
+.ictericia-tabela ul {
+  font-size: 0.94em;
+  margin: 12px 0 2px 10px;
+  padding-left: 18px;
+  color: #17645b;
+}
+.ictericia-tabela li {
+  margin-bottom: 5px;
+}
+</style>
+
+<section id="ictericia-layout">
+  <div id="ictericia-formulario">
+    <h2>Indicação de Fototerapia e Exsanguineotransfusão</h2>
+    <label for="idade-gestacional-bilirrubina">Idade Gestacional (semanas):</label>
+    <input type="number" id="idade-gestacional-bilirrubina" min="22" max="42" /><br /><br />
+    <label for="peso-nasc-ictericia">Peso ao nascer (g):</label>
+    <input type="number" id="peso-nasc-ictericia" min="400" max="6000" /><br /><br />
+    <label for="horas-vida">Idade pós-natal (horas):</label>
+    <input type="number" id="horas-vida" min="0" max="168" /><br /><br />
+    <label for="bilirrubina-total">Bilirrubina Total (mg/dL):</label>
+    <input type="number" id="bilirrubina-total" step="0.1" min="0" max="50" /><br /><br />
+    <label for="fatores-risco">Fatores de risco (doença hemolítica, asfixia, etc):</label>
+    <select id="fatores-risco">
+      <option value="nao">Não</option>
+      <option value="sim">Sim</option>
+    </select>
+    <button type="button" onclick="indicaTratamentoIctericia()">Verificar indicação</button>
+    <div class="result" id="resultado-ictericia"></div>
+  </div>
+
+  <div id="ictericia-tabelas">
+    <div class="ictericia-tabela">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Idade pós-natal</th>
+            <th colspan="2">Fototerapia<br>Bilirrubinemia Total (mg/dL)</th>
+            <th colspan="2">Exsanguineotransfusão<br>Bilirrubinemia Total (mg/dL)</th>
+          </tr>
+          <tr>
+            <th>35 0/7 a 37 6/7 semanas</th>
+            <th>≥ 38 0/7 semanas</th>
+            <th>35 0/7 a 37 6/7 semanas</th>
+            <th>≥ 38 0/7 semanas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>24 horas</td><td>8</td><td>10</td><td>15</td><td>18</td></tr>
+          <tr><td>36 horas</td><td>9,5</td><td>11,5</td><td>16</td><td>20</td></tr>
+          <tr><td>48 horas</td><td>11</td><td>13</td><td>18</td><td>21</td></tr>
+          <tr><td>72 horas</td><td>13</td><td>15</td><td>20</td><td>22</td></tr>
+          <tr><td>96 horas</td><td>14</td><td>16</td><td>21</td><td>23</td></tr>
+          <tr><td>5 a 7 dias</td><td>15</td><td>17</td><td>21</td><td>24</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Diminuir em 2mg/dL o nível de indicação de fototerapia se doença hemolítica (Rh, ABO, outros antígenos), deficiência de G-6-PD, asfixia, letargia, instabilidade em temperatura, sepse, acidose ou albuminemia &lt;3g/dL.</li>
+        <li>Iniciar fototerapia de alta intensidade e monitorar os níveis em intervalos específicos, nas seguintes condições: BT entre 17 e 19 mg/dL e dosar BT após 4-6 horas; BT entre 20 e 25 mg/dL e dosar BT em 3-4 horas; BT &gt;25 mg/dL e dosar BT em 2-3 horas, enquanto material de EST é preparado.</li>
+        <li>Se houver indicação de EST, iniciar imediatamente a fototerapia de alta intensidade, repetir a dosagem de BT em 2-3 horas e reavaliar a indicação de EST.</li>
+        <li>A EST deve ser realizada imediatamente se houver sinais de encefalopatia bilirrubínica ou se BT 5 mg/dL acima dos níveis referidos.</li>
+      </ul>
+    </div>
+    <div class="ictericia-tabela">
+      <table>
+        <thead>
+          <tr>
+            <th>Idade gestacional corrigida (semanas)</th>
+            <th>Fototerapia<br>Bilirrubinemia Total (mg/dL)</th>
+            <th>Exsanguineotransfusão<br>Bilirrubinemia Total (mg/dL)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>&lt; 28</td><td>5 – 6</td><td>11 – 14</td></tr>
+          <tr><td>28 0/7 – 29 6/7</td><td>6 – 8</td><td>12 – 14</td></tr>
+          <tr><td>30 0/7 – 31 6/7</td><td>8 – 10</td><td>13 – 16</td></tr>
+          <tr><td>32 0/7 – 33 6/7</td><td>10 – 12</td><td>15 – 18</td></tr>
+          <tr><td>34 0/7 – 34 6/7</td><td>10 – 12</td><td>17 – 19</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Aplicar os valores inferiores referidos para RN pré-termos nas seguintes condições: doença hemolítica (Rh, ABO, outros antígenos); deficiência de G-6-PD; albumina sérica &lt;2,5 g/dL; rápido aumento da BT; instabilidade clínica com ≥ 1 critério: pH &lt;7,15; ventilação mecânica; sepse/meningite ou apneia/bradicardia com necessidade de ventilação ou drogas vasotivas nas últimas 24 horas antes do início da fototerapia ou EST.</li>
+        <li>Indicar EST nas seguintes condições: apesar da fototerapia de alta intensidade na maior superfície corporal, a BT continua a aumentar; sempre que houver sinais de encefalopatia bilirrubínica; com BT 5 mg/dL acima dos níveis referidos.</li>
+        <li>RN ≤ 1000g ou IG ≤26 semanas: indicar fototerapia profilática até 12 horas após o nascimento com irradiação espectral padrão de 8-10 mW/cm2/nm. Se elevação da BT, aumentar a superfície corporal submetida à fototerapia, e se BT continuar aumentando, elevar a irradiação espectral. Evitar irradiação de alta intensidade em extremo baixo peso ao nascer.</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
-<section id="capacidade-gastrica">
+  <section id="capacidade-gastrica">
   <h2>Cálculo Capacidade Gástrica e Volume de Fórmula Infantil</h2>
   <label for="peso-bebe">Peso atual do bebê (kg):</label>
   <input type="number" id="peso-bebe" step="0.01" />
