@@ -198,10 +198,11 @@
 }
 #ictericia-formulario {
   flex: 0 1 320px;
-  background: #eefaf7;
+  background: rgb(185,224,229);
   padding: 24px 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px #0001;
+  color: rgb(40,90,129);
+  box-shadow: 0 2px 8px #0002;
 }
 #ictericia-tabelas {
   flex: 1 1 600px;
@@ -210,7 +211,7 @@
   gap: 40px;
 }
 .ictericia-tabela {
-  background: #e0f7f5;
+  background: rgb(185,224,229);
   border-radius: 10px;
   box-shadow: 0 2px 8px #0001;
   padding: 18px 14px 10px 14px;
@@ -219,31 +220,31 @@
 .ictericia-tabela table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.96em;
+  font-size: 0.97em;
   background: none;
 }
 .ictericia-tabela th,
 .ictericia-tabela td {
-  border: 1px solid #87c7be;
+  border: 1px solid rgb(40,90,129);
   padding: 6px 10px;
   text-align: center;
 }
 .ictericia-tabela thead th {
-  background: #40a497;
-  color: #fff;
+  background: rgb(40,90,129);
+  color: rgb(255,255,255);
   font-weight: bold;
 }
 .ictericia-tabela tbody tr:nth-child(even) {
-  background: #edf8f6;
+  background: rgb(255,255,255);
 }
 .ictericia-tabela tbody tr:nth-child(odd) {
-  background: #f7fcfb;
+  background: rgb(185,224,229);
 }
 .ictericia-tabela ul {
-  font-size: 0.94em;
+  font-size: 0.96em;
   margin: 12px 0 2px 10px;
-  padding-left: 18px;
-  color: #17645b;
+  padding-left: 20px;
+  color: rgb(40,90,129);
 }
 .ictericia-tabela li {
   margin-bottom: 5px;
@@ -252,7 +253,7 @@
 
 <section id="ictericia-layout">
   <div id="ictericia-formulario">
-    <h2>Indicação de Fototerapia e Exsanguineotransfusão</h2>
+    <h2 style="color:rgb(40,90,129)">Indicação de Fototerapia e Exsanguineotransfusão</h2>
     <label for="idade-gestacional-bilirrubina">Idade Gestacional (semanas):</label>
     <input type="number" id="idade-gestacional-bilirrubina" min="22" max="42" /><br /><br />
     <label for="peso-nasc-ictericia">Peso ao nascer (g):</label>
@@ -266,7 +267,9 @@
       <option value="nao">Não</option>
       <option value="sim">Sim</option>
     </select>
-    <button type="button" onclick="indicaTratamentoIctericia()">Verificar indicação</button>
+    <button type="button"
+      style="background:rgb(40,90,129);color:#fff;margin-top:15px;padding:8px 14px;border:none;border-radius:4px;cursor:pointer;"
+      onclick="indicaTratamentoIctericia()">Verificar indicação</button>
     <div class="result" id="resultado-ictericia"></div>
   </div>
 
