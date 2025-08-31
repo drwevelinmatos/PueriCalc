@@ -160,7 +160,8 @@
   <button type="button" onclick="calcularAlvoParentalForm()">Calcular</button>
   <div id="resultado" class="resultado"></div>
 </section>
-
+  
+<!-- CORRIGIDO: velocidade de crescimento estatura -->
 <style>
 #velocidade-crescimento-estatura-layout {
   display: flex;
@@ -242,10 +243,10 @@
   <button type="button" onclick="calculaVelocidadeCrescimento()">Calcular velocidade</button>
   <div class="result" id="resultado-velocidade-estatura">
 </div>
-</section>
-  
-  <div id="velocidade-crescimento-estatura-formulario-tabelas">
-    <table>
+
+ <div id="velocidade-crescimento-estatura-formulario-tabelas">
+    <div class="velocidade-crescimento-estatura-formulario-tabelas">
+    <table border="1" cellspacing="0" cellpadding="5">
   <thead>
     <tr>
       <th colspan="3">Velocidade de Crescimento - Estatura</th>
@@ -289,7 +290,10 @@
   </tbody>
 </table>
      </div>
+</div>
+</section>
 
+<!-- CORRIGIDO: velocidade de crescimento PC -->
 <style>
 #velocidade-crescimento-pc-layout {
   display: flex;
@@ -360,7 +364,7 @@
  <h2>Velocidade de Crescimento Perímetro Cefálico</h2>
 <section id="velocidade-crescimento-pc-layout">
 <div id="velocidade-crescimento-pc-formulario">
-  <label for="estatura-inicial">Estatura inicial (cm):</label>
+   <label for="estatura-inicial">Estatura inicial (cm):</label>
   <input type="number" id="estatura-inicial" />
   <label for="data-estatura-inicial">Data inicial:</label>
   <input type="date" id="data-estatura-inicial" />
@@ -372,10 +376,9 @@
   <div class="result" id="resultado-velocidade-estatura">
 </div>
 
-</section>
   <div id="velocidade-crescimento-pc-formulario-tabelas">
     <div class="velocidade-crescimento-pc-formulario-tabelas">
-   <table>
+   <table border="1" cellspacing="0" cellpadding="5">
   <thead>
     <tr>
       <th colspan="3">Velocidade de Crescimento - Perímetro Cefálico</th>
@@ -397,7 +400,9 @@
 </table>
      </div>
 </div>
+</section>
 
+<!-- CORRIGIDO: ictericia -->
 <style>
 #ictericia-layout {
   display: flex;
