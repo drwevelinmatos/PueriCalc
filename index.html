@@ -163,13 +163,13 @@
   
 <!-- CORRIGIDO: velocidade de crescimento estatura -->
 <style>
-#velocidade-crescimento-estatura-layout {
+#velocidade-estatura-layout {
   display: flex;
   align-items: flex-start;
   gap: 32px;
   font-family: 'Gotham Book', 'Comfortaa', Arial, sans-serif;
 }
-#velocidade-crescimento-estatura-formulario {
+#velocidade-estatura-formulario {
   flex: 0 1 320px;
   background: rgb(255,255,255);
   padding: 24px 20px;
@@ -191,48 +191,57 @@
       color: #2c3e50;
   }
 }
-#velocidade-crescimento-estatura-formulario-tabelas {
+#velocidade-estatura-tabelas {
   flex: 1 1 600px;
   display: flex;
   flex-direction: column;
   gap: 40px;
 }
-.velocidade-crescimento-estatura-formulario-tabelas {
+.velocidade-estatura-tabela {
   background: rgb(185,224,229);
   border-radius: 10px;
   box-shadow: 0 2px 8px #0001;
   padding: 18px 14px 10px 14px;
   margin-bottom: 0;
 }
-.velocidade-crescimento-estatura-formulario-tabelas {
+.velocidade-estatura-tabela table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.8em;
   background: none;
 }
-.velocidade-crescimento-estatura-formulario-tabelas th,
-.velocidade-crescimento-estatura-formulario-tabelas td {
+.velocidade-estatura-tabela th,
+.velocidade-estatura td {
   border: 1px solid rgb(40,90,129);
   padding: 6px 10px;
   text-align: center;
 }
-.velocidade-crescimento-estatura-formulario-tabelas {
+.velocidade-estatura-tabela thead th {
   background: rgb(40,90,129);
   color: rgb(255,255,255);
   font-weight: bold;
 }
-.velocidade-crescimento-estatura-formulario-tabelas tbody tr:nth-child(even) {
+.velocidade-estatura-tabela tbody tr:nth-child(even) {
   background: rgb(255,255,255);
 }
-.velocidade-crescimento-estatura-formulario-tabelas tbody tr:nth-child(odd) {
+.velocidade-estatura-tabela tbody tr:nth-child(odd) {
   background: rgb(185,224,229);
 }
+.velocidade-estatura-tabela ul {
+  font-size: 0.8em;
+  margin: 12px 0 2px 10px;
+  padding-left: 20px;
+  color: rgb(40,90,129);
+}
+.velocidade-estatura-tabela li {
+  margin-bottom: 5px;
+}
+  
 </style>
-
- <h2>Velocidade de Crescimento da Estatura</h2>
-<section id="velocidade-crescimento-estatura-layout">
-<div id="velocidade-crescimento-estatura-formulario">
-   <label for="estatura-inicial">Estatura inicial (cm):</label>
+<h2>Velocidade de Crescimento da Estatura</h2>
+<section id="velocidade-estatura-layout">
+    <div id="velocidade-estatura-formulario">
+    <label for="estatura-inicial">Estatura inicial (cm):</label>
   <input type="number" id="estatura-inicial" />
   <label for="data-estatura-inicial">Data inicial:</label>
   <input type="date" id="data-estatura-inicial" />
@@ -241,12 +250,11 @@
   <label for="data-estatura-final">Data final:</label>
   <input type="date" id="data-estatura-final" />
   <button type="button" onclick="calculaVelocidadeCrescimento()">Calcular velocidade</button>
-  <div class="result" id="resultado-velocidade-estatura">
-</div>
+  <div class="result" id="resultado-velocidade-estatura"></div>
 
- <div id="velocidade-crescimento-estatura-formulario-tabelas">
-    <div class="velocidade-crescimento-estatura-formulario-tabelas">
-    <table border="1" cellspacing="0" cellpadding="5">
+  <div id="velocidade-estatura-tabelas">
+    <div class="velocidade-estatura-tabela">
+     <table border="1" cellspacing="0" cellpadding="5">
   <thead>
     <tr>
       <th colspan="3">Velocidade de Crescimento - Estatura</th>
@@ -289,19 +297,19 @@
     </tr>
   </tbody>
 </table>
-     </div>
-</div>
+       </div>
+  </div>
 </section>
 
 <!-- CORRIGIDO: velocidade de crescimento PC -->
 <style>
-#velocidade-crescimento-pc-layout {
+#crescimento-pc-layout {
   display: flex;
   align-items: flex-start;
   gap: 32px;
   font-family: 'Gotham Book', 'Comfortaa', Arial, sans-serif;
 }
-#velocidade-crescimento-pc-formulario {
+#crescimento-pc-formulario {
   flex: 0 1 320px;
   background: rgb(255,255,255);
   padding: 24px 20px;
@@ -323,62 +331,70 @@
       color: #2c3e50;
   }
 }
-#velocidade-crescimento-pc-formulario-tabelas {
+#crescimento-pc-tabelas {
   flex: 1 1 600px;
   display: flex;
   flex-direction: column;
   gap: 40px;
 }
-.velocidade-crescimento-pc-formulario-tabelas {
+.crescimento-pc-tabela {
   background: rgb(185,224,229);
   border-radius: 10px;
   box-shadow: 0 2px 8px #0001;
   padding: 18px 14px 10px 14px;
   margin-bottom: 0;
 }
-.velocidade-crescimento-pc-formulario-tabelas {
+.crescimento-pc-tabela table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.8em;
   background: none;
 }
-.velocidade-crescimento-pc-formulario-tabelas th,
-.velocidade-crescimento-pc-formulario-tabelas td {
+.crescimento-pc-tabela th,
+.crescimento-pc-tabela td {
   border: 1px solid rgb(40,90,129);
   padding: 6px 10px;
   text-align: center;
 }
-.velocidade-crescimento-pc-formulario-tabelas {
+.crescimento-pc-tabela thead th {
   background: rgb(40,90,129);
   color: rgb(255,255,255);
   font-weight: bold;
 }
-.velocidade-crescimento-pc-formulario-tabelas tbody tr:nth-child(even) {
+.crescimento-pc-tabela tbody tr:nth-child(even) {
   background: rgb(255,255,255);
 }
-.velocidade-crescimento-pc-formulario-tabelas tbody tr:nth-child(odd) {
+.crescimento-pc-tabela tbody tr:nth-child(odd) {
   background: rgb(185,224,229);
 }
+.crescimento-pc-tabela ul {
+  font-size: 0.8em;
+  margin: 12px 0 2px 10px;
+  padding-left: 20px;
+  color: rgb(40,90,129);
+}
+.crescimento-pc-tabela li {
+  margin-bottom: 5px;
+}
+  
 </style>
+<h2>Velocidade de Crescimento do Perímetro Cefálico</h2>
+<section id="crescimento-pc-layout">
+   <div id="crescimento-pc-formulario">
+   <label for="pc-inicial">Perímetro cefálico inicial (cm):</label>
+  <input type="number" id="pc-inicial" />
+  <label for="data-pc-inicial">Data inicial:</label>
+  <input type="date" id="data-pc-inicial" />
+  <label for="pc-final">Perímetro cefálico final (cm):</label>
+  <input type="number" id="pc-final" />
+  <label for="data-pc-final">Data final:</label>
+  <input type="date" id="data-pc-final" />
+  <button type="button" onclick="calculaVelocidadeCrescimentoPC()">Calcular velocidade</button>
+  <div class="result" id="resultado-velocidade-pc"></div>
 
- <h2>Velocidade de Crescimento Perímetro Cefálico</h2>
-<section id="velocidade-crescimento-pc-layout">
-<div id="velocidade-crescimento-pc-formulario">
-   <label for="estatura-inicial">Estatura inicial (cm):</label>
-  <input type="number" id="estatura-inicial" />
-  <label for="data-estatura-inicial">Data inicial:</label>
-  <input type="date" id="data-estatura-inicial" />
-  <label for="estatura-final">Estatura final (cm):</label>
-  <input type="number" id="estatura-final" />
-  <label for="data-estatura-final">Data final:</label>
-  <input type="date" id="data-estatura-final" />
-  <button type="button" onclick="calculaVelocidadeCrescimento()">Calcular velocidade</button>
-  <div class="result" id="resultado-velocidade-estatura">
-</div>
-
-  <div id="velocidade-crescimento-pc-formulario-tabelas">
-    <div class="velocidade-crescimento-pc-formulario-tabelas">
-   <table border="1" cellspacing="0" cellpadding="5">
+  <div id="crescimento-pc-tabelas">
+    <div class="crescimento-pc-tabela">
+     <table border="1" cellspacing="0" cellpadding="5">
   <thead>
     <tr>
       <th colspan="3">Velocidade de Crescimento - Perímetro Cefálico</th>
@@ -398,8 +414,8 @@
     <tr><td>Até 18 anos</td><td>Total no período</td><td>5 cm</td></tr>
   </tbody>
 </table>
-     </div>
-</div>
+    </div>
+    </div>
 </section>
 
 <!-- CORRIGIDO: ictericia -->
