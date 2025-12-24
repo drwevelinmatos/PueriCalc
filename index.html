@@ -1,573 +1,347 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>PueriCalc Pro - Dr. Wevelin Matos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>PueriCalc Pro v14.0 | Dr. Wevelin Matos</title>
     
-    <!-- PWA & Meta Tags iOS -->
+    <!-- Bibliotecas e Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="PueriCalc">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700&display=swap" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            --primary: rgb(40, 90, 129);
-            --secondary: rgb(185, 224, 229);
+            --primary: #1a508b;
+            --secondary: #e1f1f6;
+            --accent: #3498db;
             --emergency: #d32f2f;
             --cardio: #c0392b;
-            --bg: #f8fafc;
-            --white: #ffffff;
+            --nutro: #f39c12;
+            --lab: #16a085;
+            --renal: #2980b9;
+            --check: #27ae60;
+            --bg: #f4f7f9;
             --text: #2c3e50;
-            --border: #dce4ec;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --radius: 16px;
         }
 
-        body {
-            font-family: 'Gotham Book', 'Comfortaa', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--bg);
-            color: var(--text);
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Comfortaa', cursive; }
 
-        /* Header & Navigation */
         header {
-            background: var(--white);
-            padding: 20px 0 10px 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: var(--white); padding: 45px 20px 20px; text-align: center;
+            box-shadow: var(--shadow); border-bottom: 4px solid var(--primary);
         }
-        header img { max-width: 60px; margin-bottom: 5px; }
-        header h1 { font-size: 1.2rem; margin: 0; color: var(--primary); font-family: 'Comfortaa'; }
+        .brand-title { color: var(--primary); margin: 0; font-size: 1.5rem; }
+        .brand-subtitle { font-size: 0.7rem; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px; }
 
-        nav {
-            display: flex;
-            overflow-x: auto;
-            background: var(--primary);
-            padding: 5px;
-            scrollbar-width: none;
+        /* Navigation */
+        .nav-container {
+            position: sticky; top: 0; z-index: 1000; background: var(--primary);
+            display: flex; overflow-x: auto; padding: 5px; scrollbar-width: none;
         }
-        nav::-webkit-scrollbar { display: none; }
-        nav button {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            padding: 10px 15px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            white-space: nowrap;
-            cursor: pointer;
-            font-family: 'Comfortaa';
+        .nav-container::-webkit-scrollbar { display: none; }
+        .nav-btn {
+            background: none; border: none; color: rgba(255,255,255,0.7);
+            padding: 14px 18px; font-size: 0.7rem; font-weight: 600;
+            white-space: nowrap; cursor: pointer; text-transform: uppercase;
         }
-        nav button.active { color: white; border-bottom: 2px solid white; }
+        .nav-btn.active { color: var(--white); border-bottom: 3px solid var(--white); }
 
-        /* Layout Base */
-        .container { padding: 20px; padding-bottom: 100px; }
+        /* Content */
+        .container { padding: 20px; max-width: 650px; margin: 0 auto; padding-bottom: 120px; }
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .card {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.02);
+            background: var(--white); border-radius: var(--radius);
+            padding: 22px; margin-bottom: 20px; box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.03);
         }
-
-        h2 { font-size: 1rem; color: var(--primary); margin-top: 0; border-left: 4px solid var(--primary); padding-left: 10px; font-family: 'Comfortaa'; }
-        h3 { font-size: 0.9rem; color: var(--text); margin-top: 20px; }
+        .card-header { 
+            display: flex; align-items: center; gap: 10px; margin-bottom: 15px;
+            border-left: 5px solid var(--primary); padding-left: 12px;
+        }
+        .card-header h2 { margin: 0; font-size: 1.1rem; color: var(--primary); }
 
         /* Forms */
-        .input-row { display: flex; gap: 12px; margin-bottom: 10px; }
-        .input-group { flex: 1; }
-        label { font-size: 0.7rem; font-weight: bold; color: var(--primary); display: block; margin-bottom: 4px; text-transform: uppercase; }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: #f9fbff;
-            font-size: 16px !important; /* iOS zoom fix */
-            box-sizing: border-box;
-            color: var(--text);
+        label { display: block; font-size: 0.75rem; font-weight: 700; margin-top: 12px; color: var(--primary); }
+        input, select, textarea {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid #dce4ec; background: #f9fbff; font-size: 16px;
         }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        button.main-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1rem;
-            margin-top: 15px;
-            cursor: pointer;
-            font-family: 'Comfortaa';
+        .btn-calc {
+            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            background: var(--primary); color: var(--white); font-weight: 700;
+            cursor: pointer; margin-top: 15px;
         }
-        button.main-btn:active { transform: scale(0.98); opacity: 0.9; }
+        .btn-calc:active { transform: scale(0.98); }
 
-        /* Results */
         .result-box {
-            background: var(--secondary);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: var(--primary);
-            border: 1px solid rgba(40,90,129,0.1);
-            white-space: pre-line;
+            margin-top: 15px; padding: 15px; border-radius: 12px;
+            background: var(--secondary); border: 1px solid rgba(26,80,139,0.1);
+            display: none; font-size: 0.9rem; line-height: 1.5;
         }
-        .destaque { font-weight: bold; font-size: 1.1rem; }
+        .val-hl { font-weight: 800; color: var(--primary); }
+        .chart-container { height: 300px; margin-top: 20px; }
 
-        /* Tables */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; }
-        th { background: var(--primary); color: white; padding: 8px; text-align: center; }
-        td { border: 1px solid #eee; padding: 8px; text-align: center; }
-        tr:nth-child(even) { background: #f9fbff; }
+        /* Checklist */
+        .check-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .check-item input { width: 20px; height: 20px; accent-color: var(--check); }
 
-        /* Charts */
-        .chart-wrapper { position: relative; height: 250px; width: 100%; margin-top: 15px; }
-
-        /* Footer */
-        footer { text-align: center; padding: 20px; font-size: 0.7rem; color: #94a3b8; }
+        footer { text-align: center; padding: 40px; color: #95a5a6; font-size: 0.7rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="logo.png" alt="" onerror="this.style.display='none'">
-    <h1>PueriCalc Pro</h1>
+    <h1 class="brand-title">PueriCalc Pro <span style="font-weight:300">v14.0</span></h1>
+    <p class="brand-subtitle">Dr. Wevelin Matos | Pediatria & Cardio</p>
 </header>
 
-<nav id="main-nav">
-    <button class="active" onclick="showTab('tab-neo')">NEONATO</button>
-    <button onclick="showTab('tab-cresc')">CRESCIMENTO</button>
-    <button onclick="showTab('tab-cardio')">CARDIO</button>
-    <button onclick="showTab('tab-emerg')">EMERGÊNCIA</button>
-    <button onclick="showTab('tab-hidra')">HIDRA/RENAL</button>
-    <button onclick="showTab('tab-lab')">LAB/GASO</button>
-    <button onclick="showTab('tab-check')">CHECKLIST</button>
+<nav class="nav-container">
+    <button class="nav-btn active" onclick="switchTab(event, 'neo')">Neonato</button>
+    <button class="nav-btn" onclick="switchTab(event, 'cresc')">Crescimento</button>
+    <button class="nav-btn" onclick="switchTab(event, 'cardio')">Cardio</button>
+    <button class="nav-btn" onclick="switchTab(event, 'emerg')">Emergência</button>
+    <button class="nav-btn" onclick="switchTab(event, 'hidra')">Hidra/Renal</button>
+    <button class="nav-btn" onclick="switchTab(event, 'lab')">Lab/Gaso</button>
+    <button class="nav-btn" onclick="switchTab(event, 'check')">Checklist</button>
 </nav>
 
 <div class="container">
-    <!-- ABA NEONATOLOGIA -->
-    <div id="tab-neo" class="tab-content active">
+    
+    <!-- NEONATO -->
+    <div id="neo" class="tab-content active">
         <div class="card">
-            <h2>IG e DPP</h2>
-            <label>Modo de Entrada</label>
-            <select id="neo-modo" onchange="toggleNeoModo()">
-                <option value="dum">DUM</option>
-                <option value="usg">USG 1º Trimestre</option>
-            </select>
-            <div id="neo-dum-box">
-                <label>Data da DUM</label>
-                <input type="date" id="neo-dum">
-            </div>
+            <div class="card-header"><h2>IG e DPP</h2></div>
+            <select id="neo-modo" onchange="toggleNeo()"><option value="dum">DUM</option><option value="usg">USG 1º Tri</option></select>
+            <div id="neo-dum-box"><label>Data DUM</label><input type="date" id="neo-dum"></div>
             <div id="neo-usg-box" style="display:none">
-                <label>Data da Ultrassonografia</label>
-                <input type="date" id="neo-data-usg">
-                <div class="input-row">
-                    <div class="input-group"><label>Semanas</label><input type="number" id="neo-sem-usg"></div>
-                    <div class="input-group"><label>Dias</label><input type="number" id="neo-dias-usg"></div>
+                <label>Data USG</label><input type="date" id="neo-usg-data">
+                <div class="grid-2">
+                    <div><label>Sem</label><input type="number" id="neo-usg-sem"></div>
+                    <div><label>Dias</label><input type="number" id="neo-usg-dias"></div>
                 </div>
             </div>
-            <button class="main-btn" onclick="calcNeoIG()">Calcular IG/DPP</button>
-            <div id="res-neo-ig" class="result-box" style="display:none"></div>
-        </div>
-
-        <div class="card">
-            <h2>Icterícia Neonatal</h2>
-            <div class="input-row">
-                <div class="input-group"><label>IG (Sem)</label><input type="number" id="ict-ig"></div>
-                <div class="input-group"><label>Peso (g)</label><input type="number" id="ict-peso"></div>
-            </div>
-            <div class="input-row">
-                <div class="input-group"><label>Horas Vida</label><input type="number" id="ict-horas"></div>
-                <div class="input-group"><label>BT (mg/dL)</label><input type="number" id="ict-bt" step="0.1"></div>
-            </div>
-            <label>Fatores de Risco</label>
-            <select id="ict-risco">
-                <option value="nao">Ausentes</option>
-                <option value="sim">Presentes (Hemólise, Sepse, etc)</option>
-            </select>
-            <button class="main-btn" onclick="calcIctericia()">Avaliar Conduta</button>
-            <div id="res-ict" class="result-box" style="display:none"></div>
+            <button class="btn-calc" onclick="calcNeo()">Calcular IG/DPP</button>
+            <div id="res-neo" class="result-box"></div>
         </div>
     </div>
 
-    <!-- ABA CRESCIMENTO -->
-    <div id="tab-cresc" class="tab-content">
+    <!-- CRESCIMENTO (PERCENTIS REAIS) -->
+    <div id="cresc" class="tab-content">
         <div class="card">
-            <h2>Z-Score OMS (0-24 meses)</h2>
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Sexo</label>
-                    <select id="z-sexo"><option value="masc">Masculino</option><option value="fem">Feminino</option></select>
-                </div>
-                <div class="input-group"><label>Idade (meses)</label><input type="number" id="z-idade"></div>
+            <div class="card-header"><h2>Curvas OMS (0-24m)</h2></div>
+            <div class="grid-2">
+                <div><label>Sexo</label><select id="z-sexo"><option value="M">Masc</option><option value="F">Fem</option></select></div>
+                <div><label>Idade (meses)</label><input type="number" id="z-idade"></div>
             </div>
-            <div class="input-row">
-                <div class="input-group"><label>Peso (kg)</label><input type="number" id="z-peso" step="0.1"></div>
-                <div class="input-group"><label>PC (cm)</label><input type="number" id="z-pc" step="0.1"></div>
+            <div class="grid-2">
+                <div><label>Peso (kg)</label><input type="number" id="z-peso" step="0.1"></div>
+                <div><label>PC (cm)</label><input type="number" id="z-pc" step="0.1"></div>
             </div>
-            <button class="main-btn" onclick="calcZScore()">Plotar Curvas</button>
-            <div class="chart-wrapper"><canvas id="chartPeso"></canvas></div>
-            <div class="chart-wrapper"><canvas id="chartPC"></canvas></div>
-        </div>
-
-        <div class="card">
-            <h2>Alvo Parental</h2>
-            <div class="input-row">
-                <div class="input-group"><label>Alt Pai (cm)</label><input type="number" id="alvo-pai"></div>
-                <div class="input-group"><label>Alt Mãe (cm)</label><input type="number" id="alvo-mae"></div>
-            </div>
-            <button class="main-btn" onclick="calcAlvo()">Calcular Alvo</button>
-            <div id="res-alvo" class="result-box" style="display:none"></div>
+            <button class="btn-calc" onclick="analisarCrescimento()">Plotar Percentis Reais</button>
+            <div class="chart-container"><canvas id="chartWeight"></canvas></div>
+            <div class="chart-container"><canvas id="chartPC"></canvas></div>
         </div>
     </div>
 
-    <!-- ABA CARDIOLOGIA -->
-    <div id="tab-cardio" class="tab-content">
+    <!-- CARDIO -->
+    <div id="cardio" class="tab-content">
         <div class="card">
-            <h2>Hemodinâmica e QTc</h2>
-            <div class="input-row">
-                <div class="input-group"><label>Peso (kg)</label><input type="number" id="car-peso" step="0.1"></div>
-                <div class="input-group"><label>Estatura (cm)</label><input type="number" id="car-alt" step="0.1"></div>
+            <div class="card-header" style="border-color:var(--cardio)"><h2>Hemodinâmica & QTc</h2></div>
+            <div class="grid-2">
+                <div><label>Peso (kg)</label><input type="number" id="c-peso"></div>
+                <div><label>Altura (cm)</label><input type="number" id="c-alt"></div>
             </div>
-            <button class="main-btn" onclick="calcSC()">Calcular Superfície Corporal</button>
-            <div id="res-sc" class="result-box" style="display:none"></div>
-
-            <h3 style="color:var(--cardio)">Eletrocardiografia (QTc)</h3>
-            <div class="input-row">
-                <div class="input-group"><label>QT (quadradinhos)</label><input type="number" id="qt-quad"></div>
-                <div class="input-group"><label>RR (quadradinhos)</label><input type="number" id="rr-quad"></div>
+            <button class="btn-calc" style="background:var(--cardio)" onclick="calcCardio()">Calcular SC e QTc</button>
+            <div class="grid-2" style="margin-top:10px">
+                <div><label>QT (quad)</label><input type="number" id="c-qt"></div>
+                <div><label>RR (quad)</label><input type="number" id="c-rr"></div>
             </div>
-            <button class="main-btn" style="background:var(--cardio)" onclick="calcQTc()">Analisar Bazett/Fridericia</button>
-            <div id="res-qtc" class="result-box" style="display:none"></div>
+            <div id="res-cardio" class="result-box"></div>
         </div>
     </div>
 
-    <!-- ABA EMERGÊNCIA -->
-    <div id="tab-emerg" class="tab-content">
+    <!-- EMERGÊNCIA -->
+    <div id="emerg" class="tab-content">
         <div class="card">
-            <h2 style="color:var(--emergency); border-color:var(--emergency)">PALS & SRI</h2>
-            <div class="input-row">
-                <div class="input-group"><label>Peso (kg)</label><input type="number" id="em-peso" step="0.1"></div>
-                <div class="input-group"><label>Idade (anos)</label><input type="number" id="em-idade"></div>
+            <div class="card-header" style="border-color:var(--emergency)"><h2>PALS / SRI / Sedação</h2></div>
+            <div class="grid-2">
+                <div><label>Peso (kg)</label><input type="number" id="em-peso"></div>
+                <div><label>Idade (anos)</label><input type="number" id="em-idade"></div>
             </div>
-            <button class="main-btn" style="background:var(--emergency)" onclick="calcEmerg()">Gerar Protocolo Emergência</button>
-            <div id="res-emerg" class="result-box" style="display:none"></div>
+            <button class="btn-calc" style="background:var(--emergency)" onclick="calcEmerg()">Gerar Protocolo Crítico</button>
+            <div id="res-emerg" class="result-box"></div>
         </div>
     </div>
 
-    <!-- ABA HIDRATAÇÃO / RENAL -->
-    <div id="tab-hidra" class="tab-content">
+    <!-- HIDRA / RENAL -->
+    <div id="hidra" class="tab-content">
         <div class="card">
-            <h2>Hidratação (Holliday-Segar)</h2>
-            <div class="input-row">
-                <div class="input-group"><label>Peso (kg)</label><input type="number" id="h-peso"></div>
-                <div class="input-group"><label>VIG (mg/kg/min)</label><input type="number" id="h-vig" value="4"></div>
+            <div class="card-header" style="border-color:var(--fluid)"><h2>Holliday & VIG</h2></div>
+            <div class="grid-2">
+                <div><label>Peso (kg)</label><input type="number" id="h-peso"></div>
+                <div><label>VIG Alvo</label><input type="number" id="h-vig" value="4"></div>
             </div>
-            <label>Base Eletrólitos</label>
-            <div class="input-row">
-                <div class="input-group">
-                    <select id="h-na-base"><option value="kg">mEq/kg</option><option value="L">mEq/L</option></select>
-                </div>
-                <div class="input-group"><input type="number" id="h-na" value="3" placeholder="Na+"></div>
-                <div class="input-group"><input type="number" id="h-k" value="2" placeholder="K+"></div>
-            </div>
-            <button class="main-btn" onclick="calcHidra()">Prescrever Soro Manutenção</button>
-            <div id="res-hidra" class="result-box" style="display:none"></div>
-        </div>
-
-        <div class="card">
-            <h2>Função Renal (Schwartz)</h2>
-            <div class="input-row">
-                <div class="input-group"><label>Creatinina (mg/dL)</label><input type="number" id="ren-cr" step="0.01"></div>
-                <div class="input-group"><label>Estatura (cm)</label><input type="number" id="ren-alt"></div>
-            </div>
-            <button class="main-btn" style="background:var(--renal)" onclick="calcSchwartz()">Calcular eTFG</button>
-            <div id="res-renal" class="result-box" style="display:none"></div>
+            <button class="btn-calc" onclick="calcHidra()">Prescrever Soro</button>
+            <div id="res-hidra" class="result-box"></div>
         </div>
     </div>
 
-    <!-- ABA LAB / GASO -->
-    <div id="tab-lab" class="tab-content">
+    <!-- LAB / GASO -->
+    <div id="lab" class="tab-content">
         <div class="card">
-            <h2>Conversor Laboratorial</h2>
-            <label>Analito</label>
-            <select id="lab-item" onchange="calcLab()">
-                <option value="0.2495">Cálcio (mg/dL -> mmol/L)</option>
-                <option value="88.4">Creatinina (mg/dL -> umol/L)</option>
-                <option value="17.1">Bilirrubina (mg/dL -> umol/L)</option>
-                <option value="0.0555">Glicose (mg/dL -> mmol/L)</option>
-            </select>
-            <label>Valor Convencional</label>
-            <input type="number" id="lab-val" placeholder="Digite o valor..." oninput="calcLab()">
-            <div class="result-box" style="text-align:center">SI: <span id="lab-si" class="destaque">---</span></div>
-        </div>
-
-        <div class="card">
-            <h2>Gasometria</h2>
-            <div class="input-row">
-                <div class="input-group"><label>pH</label><input type="number" id="g-ph" step="0.01"></div>
-                <div class="input-group"><label>pCO2</label><input type="number" id="g-pco2"></div>
-                <div class="input-group"><label>HCO3</label><input type="number" id="g-hco3"></div>
+            <div class="card-header" style="border-color:var(--lab)"><h2>Gasometria & Anion Gap</h2></div>
+            <div class="grid-2">
+                <div><label>pH</label><input type="number" id="g-ph" step="0.01"></div>
+                <div><label>pCO2</label><input type="number" id="g-pco2"></div>
             </div>
-            <div class="input-row">
-                <div class="input-group"><label>Na+ Sérico</label><input type="number" id="g-na"></div>
-                <div class="input-group"><label>Cl- Sérico</label><input type="number" id="g-cl"></div>
+            <div class="grid-2">
+                <div><label>HCO3</label><input type="number" id="g-hco3"></div>
+                <div><label>Na+</label><input type="number" id="g-na"></div>
             </div>
-            <button class="main-btn" onclick="calcGaso()">Analisar Equilíbrio Ácido-Base</button>
-            <div id="res-gaso" class="result-box" style="display:none"></div>
+            <button class="btn-calc" style="background:var(--lab)" onclick="calcGaso()">Analisar Equilíbrio</button>
+            <div id="res-gaso" class="result-box"></div>
         </div>
     </div>
 
-    <!-- ABA CHECKLIST -->
-    <div id="tab-check" class="tab-content">
+    <!-- CHECKLIST -->
+    <div id="check" class="tab-content">
         <div class="card">
-            <h2>Puericultura Inteligente</h2>
-            <label>Idade da Consulta</label>
-            <select id="ck-idade" onchange="renderCheck()">
-                <option value="">Selecione...</option>
-                <option value="0">RN (1ª Semana)</option>
-                <option value="2">2 Meses</option>
-                <option value="4">4 Meses</option>
-                <option value="6">6 Meses</option>
-                <option value="9">9 Meses</option>
-                <option value="12">12 Meses</option>
-                <option value="18">18 Meses</option>
-                <option value="24">24 Meses</option>
-            </select>
-            <div id="check-list-container" style="margin-top:15px;"></div>
+            <div class="card-header" style="border-color:var(--check)"><h2>Checklist Puericultura</h2></div>
+            <select id="ck-idade" onchange="renderCheck()"><option value="">Selecione...</option><option value="2">2 Meses</option><option value="6">6 Meses</option><option value="12">12 Meses</option></select>
+            <div id="check-area" style="margin-top:15px"></div>
         </div>
     </div>
+
+    <button class="btn-calc" style="background:#2c3e50" onclick="copyLog()">Copiar Resumo para Prontuário</button>
+    <textarea id="log-area" style="margin-top:15px; height:80px; font-size:0.7rem" placeholder="O resumo técnico aparecerá aqui..."></textarea>
+
 </div>
 
 <footer>
-    <p><strong>PueriCalc Pro v11.0</strong><br>Dr. Wevelin Matos | Pediatria e Nutrologia</p>
+    <p><strong>PueriCalc Pro v14.0</strong> | Dr. Wevelin Matos<br>CRM/SP 196372</p>
 </footer>
 
 <script>
-    // --- NAVEGAÇÃO ---
-    function showTab(tabId) {
+    let sessionLog = [];
+    let charts = {};
+
+    function switchTab(e, id) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        e.currentTarget.classList.add('active');
         window.scrollTo(0,0);
     }
 
-    // --- NEONATOLOGIA ---
-    function toggleNeoModo() {
+    function toggleNeo() {
         const m = document.getElementById('neo-modo').value;
         document.getElementById('neo-dum-box').style.display = m === 'dum' ? 'block' : 'none';
         document.getElementById('neo-usg-box').style.display = m === 'usg' ? 'block' : 'none';
     }
 
-    function calcNeoIG() {
+    function calcNeo() {
         const hoje = new Date();
         let dpp, ig;
         if(document.getElementById('neo-modo').value === 'dum') {
             const dum = new Date(document.getElementById('neo-dum').value);
-            if(isNaN(dum)) return alert("Data inválida");
             const diff = Math.floor((hoje - dum) / 86400000);
-            ig = `{diff%7}d`;
+            ig = `${Math.floor(diff/7)}s ${diff%7}d`;
             dpp = new Date(dum); dpp.setDate(dpp.getDate() + 280);
-        } else {
-            const dataUSG = new Date(document.getElementById('neo-data-usg').value);
-            const sem = parseInt(document.getElementById('neo-sem-usg').value) || 0;
-            const dias = parseInt(document.getElementById('neo-dias-usg').value) || 0;
-            const totalDiasUSG = (sem * 7) + dias;
-            const dumEst = new Date(dataUSG); dumEst.setDate(dumEst.getDate() - totalDiasUSG);
-            const diff = Math.floor((hoje - dumEst) / 86400000);
-            ig = `{diff%7}d`;
-            dpp = new Date(dumEst); dpp.setDate(dpp.getDate() + 280);
         }
-        const res = document.getElementById('res-neo-ig');
+        const res = document.getElementById('res-neo');
         res.style.display = 'block';
-        res.innerHTML = `IG Atual: <span class="destaque">{dpp.toLocaleDateString('pt-BR')}</span>`;
+        res.innerHTML = `IG: <span class="val-hl">${ig}</span> | DPP: <span class="val-hl">${dpp.toLocaleDateString()}</span>`;
+        sessionLog.push(`[Obstetrícia] ${ig}`);
     }
 
-    function calcIctericia() {
-        const ig = parseInt(document.getElementById('ict-ig').value);
-        const bt = parseFloat(document.getElementById('ict-bt').value);
-        const horas = parseInt(document.getElementById('ict-horas').value);
-        const res = document.getElementById('res-ict');
-        res.style.display = 'block';
-        let conduta = "Avaliação clínica necessária.";
-        if(ig >= 38 && bt >= 15 && horas >= 72) conduta = "Indicação de Fototerapia (AAP)";
-        else if(ig < 35 && bt >= (ig-20)) conduta = "Indicação de Fototerapia (Pré-termo)";
-        res.innerHTML = `Conduta: <span class="destaque">${conduta}</span>`;
-    }
-
-    // --- CRESCIMENTO ---
-    let chartP, chartPC;
-    function calcZScore() {
-        const ctxP = document.getElementById('chartPeso').getContext('2d');
-        const ctxC = document.getElementById('chartPC').getContext('2d');
-        const peso = parseFloat(document.getElementById('z-peso').value);
-        const pc = parseFloat(document.getElementById('z-pc').value);
-        const idade = parseInt(document.getElementById('z-idade').value);
-        const sexo = document.getElementById('z-sexo').value;
-
-        if(chartP) chartP.destroy();
-        if(chartPC) chartPC.destroy();
-
-        const oms = {
-            masc: { p: [3.3, 8.0, 9.6, 10.9, 12.2], pc: [34.5, 40.5, 45.8, 47.7, 49.0] },
-            fem: { p: [3.2, 7.5, 8.9, 10.2, 11.5], pc: [33.9, 39.5, 44.6, 46.5, 47.8] }
+    function analisarCrescimento() {
+        const s = document.getElementById('z-sexo').value;
+        const id = parseInt(document.getElementById('z-idade').value);
+        const p = parseFloat(document.getElementById('z-peso').value);
+        
+        const dataOMS = {
+            M: { p3: [2.4, 3.4, 4.3, 5.0, 5.6, 6.0, 6.4, 6.7, 7.0, 7.2, 7.4, 7.6, 7.7, 7.9, 8.1, 8.3, 8.4, 8.6, 8.8, 8.9, 9.1, 9.2, 9.4, 9.5, 9.7],
+                 p50: [3.3, 4.5, 5.6, 6.4, 7.0, 7.5, 7.9, 8.3, 8.6, 8.9, 9.2, 9.4, 9.6, 9.9, 10.1, 10.3, 10.5, 10.7, 10.9, 11.1, 11.3, 11.5, 11.8, 12.0, 12.2],
+                 p97: [4.4, 5.8, 7.1, 8.0, 8.7, 9.3, 9.8, 10.3, 10.7, 11.0, 11.4, 11.7, 12.0, 12.3, 12.6, 12.9, 13.2, 13.5, 13.7, 14.0, 14.3, 14.6, 14.9, 15.2, 15.5] }
         };
 
-        chartP = new Chart(ctxP, {
+        if(charts.W) charts.W.destroy();
+        charts.W = new Chart(document.getElementById('chartWeight'), {
             type: 'line',
             data: {
-                labels: [0, 6, 12, 18, 24],
+                labels: Array.from({length: 25}, (_, i) => i),
                 datasets: [
-                    { label: 'Paciente', data: [{x:idade, y:peso}], pointRadius:8, backgroundColor:'red', showLine:false },
-                    { label: 'Mediana OMS', data: oms[sexo].p, borderColor: 'green', fill: false, pointRadius: 0 }
-                ]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-
-        chartPC = new Chart(ctxC, {
-            type: 'line',
-            data: {
-                labels: [0, 6, 12, 18, 24],
-                datasets: [
-                    { label: 'Paciente PC', data: [{x:idade, y:pc}], pointRadius:8, backgroundColor:'blue', showLine:false },
-                    { label: 'Mediana OMS', data: oms[sexo].pc, borderColor: 'green', fill: false, pointRadius: 0 }
+                    { label: 'Paciente', data: [{x:id, y:p}], backgroundColor: 'red', pointRadius: 8, showLine: false },
+                    { label: 'P97', data: dataOMS.M.p97, borderColor: 'red', borderDash: [5,5], fill: false, pointRadius: 0 },
+                    { label: 'P50', data: dataOMS.M.p50, borderColor: 'green', fill: false, pointRadius: 0 },
+                    { label: 'P3', data: dataOMS.M.p3, borderColor: 'red', borderDash: [5,5], fill: false, pointRadius: 0 }
                 ]
             },
             options: { responsive: true, maintainAspectRatio: false }
         });
     }
 
-    function calcAlvo() {
-        const pai = parseFloat(document.getElementById('alvo-pai').value);
-        const mae = parseFloat(document.getElementById('alvo-mae').value);
-        const res = document.getElementById('res-alvo');
-        const masc = ((pai + mae + 13) / 2);
-        const fem = ((pai + mae - 13) / 2);
+    function calcCardio() {
+        const p = parseFloat(document.getElementById('c-peso').value);
+        const a = parseFloat(document.getElementById('c-alt').value);
+        const sc = Math.sqrt((p*a)/3600).toFixed(2);
+        
+        const qt = parseInt(document.getElementById('c-qt').value) * 0.04;
+        const rr = parseInt(document.getElementById('c-rr').value) * 0.04;
+        const qtc = (qt / Math.sqrt(rr) * 1000).toFixed(0);
+
+        const res = document.getElementById('res-cardio');
         res.style.display = 'block';
-        res.innerHTML = `Alvo Masc: <span class="destaque">{fem.toFixed(1)}cm</span>`;
+        res.innerHTML = `SC: <span class="val-hl">${sc} m²</span> | QTc (Bazett): <span class="val-hl">${qtc} ms</span>`;
+        sessionLog.push(`[Cardio] SC: ${sc} | QTc: ${qtc}ms`);
     }
 
-    // --- CARDIO ---
-    function calcSC() {
-        const p = parseFloat(document.getElementById('car-peso').value);
-        const a = parseFloat(document.getElementById('car-alt').value);
-        const sc = Math.sqrt((a * p) / 3600);
-        const res = document.getElementById('res-sc');
-        res.style.display = 'block';
-        res.innerHTML = `Superfície Corporal: <span class="destaque">${sc.toFixed(2)} m²</span>`;
-    }
-
-    function calcQTc() {
-        const qt = parseInt(document.getElementById('qt-quad').value) * 0.04;
-        const rr = parseInt(document.getElementById('rr-quad').value) * 0.04;
-        const b = qt / Math.sqrt(rr);
-        const f = qt / Math.pow(rr, 1/3);
-        const res = document.getElementById('res-qtc');
-        res.style.display = 'block';
-        res.innerHTML = `Bazett: <span class="destaque">{Math.round(f*1000)}ms</span>`;
-    }
-
-    // --- EMERGÊNCIA ---
     function calcEmerg() {
         const p = parseFloat(document.getElementById('em-peso').value);
         const i = parseFloat(document.getElementById('em-idade').value);
+        const cot = (i/4 + 3.5).toFixed(1);
+        const adr = (p * 0.1).toFixed(1);
         const res = document.getElementById('res-emerg');
         res.style.display = 'block';
-        res.innerHTML = `
-            <b>Equipamentos:</b><br>
-            COT (Cuffed): {(i/2+12).toFixed(1)} cm<br><br>
-            <b>Drogas PALS:</b><br>
-            Adrenalina (1:10k): ${(p*0.1).toFixed(1)} ml<br>
-            Amiodarona: ${(p*5).toFixed(0)} mg<br><br>
-            <b>SRI:</b><br>
-            Fentanil: {(p*2).toFixed(0)} mg
-        `;
+        res.innerHTML = `COT (Cuffed): <span class="val-hl">${cot}</span> | Adrenalina (1:10k): <span class="val-hl">${adr} ml</span><br>Fentanil SRI: ${(p*2).toFixed(0)}mcg`;
+        sessionLog.push(`[PALS] COT: ${cot} | Adr: ${adr}ml`);
     }
 
-    // --- HIDRATAÇÃO ---
     function calcHidra() {
         const p = parseFloat(document.getElementById('h-peso').value);
         const vig = parseFloat(document.getElementById('h-vig').value);
-        const na = parseFloat(document.getElementById('h-na').value);
-        const k = parseFloat(document.getElementById('h-k').value);
-        const base = document.getElementById('h-na-base').value;
-
-        let vol = p <= 10 ? p*100 : p <= 20 ? 1000+(p-10)*50 : 1500+(p-20)*20;
-        let mEqNa = base === 'kg' ? na*p : (na*vol)/1000;
-        let mEqK = base === 'kg' ? k*p : (k*vol)/1000;
-        
+        let vol = p <= 10 ? p*100 : (p <= 20 ? 1000+(p-10)*50 : 1500+(p-20)*20);
         const percG = (vig * 144 * p) / vol;
         const res = document.getElementById('res-hidra');
         res.style.display = 'block';
-        res.innerHTML = `
-            Volume: {(vol/24).toFixed(1)}ml/h)<br>
-            Glicose: ${percG.toFixed(1)}%<br>
-            NaCl 20%: {(mEqK/2.5).toFixed(1)}ml
-        `;
+        res.innerHTML = `Vol 24h: <span class="val-hl">${vol} ml</span> (${(vol/24).toFixed(1)} ml/h)<br>Conc. Glicose: <span class="val-hl">${percG.toFixed(1)}%</span>`;
+        sessionLog.push(`[Hidra] Vol: ${vol}ml | VIG: ${vig}`);
     }
 
-    function calcSchwartz() {
-        const cr = parseFloat(document.getElementById('ren-cr').value);
-        const alt = parseFloat(document.getElementById('ren-alt').value);
-        const tfg = (0.413 * alt) / cr;
-        const res = document.getElementById('res-renal');
-        res.style.display = 'block';
-        res.innerHTML = `eTFG: <span class="destaque">${tfg.toFixed(1)} ml/min/1.73m²</span>`;
-    }
-
-    // --- LAB / GASO ---
-    function calcLab() {
-        const f = parseFloat(document.getElementById('lab-item').value);
-        const v = parseFloat(document.getElementById('lab-val').value);
-        document.getElementById('lab-si').innerText = isNaN(v) ? "---" : (v * f).toFixed(2);
-    }
-
-    function calcGaso() {
-        const ph = parseFloat(document.getElementById('g-ph').value);
-        const hco3 = parseFloat(document.getElementById('g-hco3').value);
-        const na = parseFloat(document.getElementById('g-na').value);
-        const cl = parseFloat(document.getElementById('g-cl').value);
-        const ag = na - (cl + hco3);
-        const res = document.getElementById('res-gaso');
-        res.style.display = 'block';
-        res.innerHTML = `Status: {ag.toFixed(1)}</span>`;
-    }
-
-    // --- CHECKLIST ---
     function renderCheck() {
         const i = document.getElementById('ck-idade').value;
-        const container = document.getElementById('check-list-container');
-        const db = {
-            "2": ["Sorriso Social", "Sustentação parcial cabeça", "Vacinas: Penta/Pneumo/Voro", "Vit D (400UI)"],
-            "6": ["Senta com apoio", "Início Introdução Alimentar", "Ferro Profilático", "Vacinas: Penta/VIP"],
-            "12": ["Primeiras palavras", "Anda com apoio", "Transição dieta família", "Vacina: Tríplice Viral"]
-        };
-        container.innerHTML = (db[i] || []).map(item => `
-            <div style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #eee;">
-                <input type="checkbox"> <span style="font-size:0.85rem">${item}</span>
-            </div>
-        `).join('');
+        const area = document.getElementById('check-area');
+        const db = { "2": ["Sorriso Social", "Vitamina D", "Vacinas 2m"], "6": ["Senta apoio", "Início I.A.", "Ferro Profil."] };
+        area.innerHTML = (db[i] || []).map(t => `<div class="check-item"><input type="checkbox"><span>${t}</span></div>`).join('');
+    }
+
+    function copyLog() {
+        document.getElementById('log-area').value = sessionLog.join(' | ');
     }
 </script>
-
 </body>
 </html>
