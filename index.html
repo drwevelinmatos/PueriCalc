@@ -192,30 +192,30 @@
       </div>
 
       <!-- 3) Avaliação de peso para IG (PIG/AIG/GIG) (inserir) -->
-      <div class="card">
-        <div class="card-header"><h2>Peso para Idade Gestacional (PIG / AIG / GIG)</h2></div>
+     <div class="card">
+  <div class="card-header"><h2>Peso para Idade Gestacional (Lubchenco — unissexo)</h2></div>
 
-        <div class="grid-2">
-          <div>
-            <label>IG ao nascer (semanas)</label>
-            <input type="number" id="neo-pig-sem" min="20" step="1">
-          </div>
-          <div>
-            <label>IG ao nascer (dias)</label>
-            <input type="number" id="neo-pig-dias" min="0" max="6" step="1">
-          </div>
-        </div>
+  <div class="grid-2">
+    <div>
+      <label>IG ao nascer (semanas)</label>
+      <input type="number" id="neo-lub-ig-sem" min="24" max="44" step="1">
+    </div>
+    <div>
+      <label>IG ao nascer (dias)</label>
+      <input type="number" id="neo-lub-ig-dias" min="0" max="6" step="1">
+    </div>
+  </div>
 
-        <label>Peso ao nascer (g)</label>
-        <input type="number" id="neo-pig-peso" min="200" step="1">
+  <label>Peso ao nascer (g)</label>
+  <input type="number" id="neo-lub-peso" min="200" step="1">
 
-        <button class="calc-btn" onclick="calcClassificacaoPIG()">Classificar (PIG/AIG/GIG)</button>
-        <div id="res-neo-pig" class="result-box"></div>
+  <button class="calc-btn" onclick="calcLubchencoPIG()">Classificar (PIG/AIG/GIG)</button>
+  <div id="res-neo-lub" class="result-box"></div>
 
-        <div class="muted">
-          ⚠️ Tabela **exemplo** (p10/p90) usada como placeholder. Para ficar correto, substitua em <span class="destaque">TABLES_PESO_IG</span>.
-        </div>
-      </div>
+  <div class="muted warn">
+    ATUALIZAR_CONFORME_LUBCHENCO: cole a tabela P10/P90 por semana em <span class="destaque">LUBCHENCO_UNISEX_P10_P90</span>.
+  </div>
+</div>
 
       <!-- 4) Icterícia neonatal (ajustar p/ SBP) -->
       <div class="card">
@@ -747,56 +747,76 @@
       showResult('res-neo-igcorr', `IG corrigida: ${wd.w} semanas e ${wd.d} dias\nTempo pós-natal considerado: ${posDays} dia(s)`);
     }
 
-    // Placeholder de tabela p10/p90 por semanas (exemplo). Substituir por tabela real.
-    const TABLES_PESO_IG = {
-      // ATUALIZAR_CONFORME_SBP/INTERGROWTH/FENTON (conforme sua decisão)
-      // Estrutura: semana: { p10: valorEmG, p90: valorEmG }
-      24: { p10: 500, p90: 800 },
-      25: { p10: 550, p90: 850 },
-      26: { p10: 600, p90: 950 },
-      27: { p10: 700, p90: 1050 },
-      28: { p10: 800, p90: 1200 },
-      29: { p10: 900, p90: 1350 },
-      30: { p10: 1000, p90: 1500 },
-      31: { p10: 1150, p90: 1700 },
-      32: { p10: 1300, p90: 1950 },
-      33: { p10: 1450, p90: 2150 },
-      34: { p10: 1650, p90: 2400 },
-      35: { p10: 1850, p90: 2650 },
-      36: { p10: 2050, p90: 2900 },
-      37: { p10: 2250, p90: 3150 },
-      38: { p10: 2450, p90: 3350 },
-      39: { p10: 2650, p90: 3600 },
-      40: { p10: 2850, p90: 3850 },
-      41: { p10: 3050, p90: 4100 },
-      42: { p10: 3250, p90: 4400 }
-    };
+    // =========================
+// LUBCHENCO (unissexo) - P10/P90
+// =========================
 
-    function calcClassificacaoPIG() {
-      const sem = Number(document.getElementById('neo-pig-sem').value);
-      const dias = Number(document.getElementById('neo-pig-dias').value);
-      const peso = Number(document.getElementById('neo-pig-peso').value);
+// ATUALIZAR_CONFORME_LUBCHENCO
+// Estrutura esperada: semana: { p10: <g>, p90: <g> }
+// Exemplo de preenchimento (NÃO REAL):
+// const LUBCHENCO_UNISEX_P10_P90 = { 24:{p10:500,p90:800}, 25:{p10:560,p90:900}, ... };
 
-      if (!Number.isFinite(sem) || sem <= 0) return showResult('res-neo-pig', 'Informe IG (semanas).');
-      if (!Number.isFinite(dias) || dias < 0 || dias > 6) return showResult('res-neo-pig', 'Dias deve estar entre 0 e 6.');
-      if (!Number.isFinite(peso) || peso <= 0) return showResult('res-neo-pig', 'Informe peso ao nascer (g).');
+const LUBCHENCO_UNISEX_P10_P90 = {
+  // COLE AQUI OS VALORES OFICIAIS/QUE VOCÊ USA
+};
 
-      // Arredonda por semana para referência (placeholder). Se você quiser usar semanas+dias com interpolação, eu implemento.
-      const ref = TABLES_PESO_IG[sem];
-      if (!ref) return showResult('res-neo-pig', 'Tabela não disponível para esta IG. Atualize TABLES_PESO_IG.');
+function getLubchencoThresholdsInterpolated(igSem, igDias) {
+  if (!Number.isFinite(igSem) || igSem <= 0) return null;
+  if (!Number.isFinite(igDias) || igDias < 0 || igDias > 6) return null;
 
-      let cls = 'AIG';
-      if (peso < ref.p10) cls = 'PIG';
-      else if (peso > ref.p90) cls = 'GIG';
+  const t0 = LUBCHENCO_UNISEX_P10_P90[igSem];
+  if (!t0) return null;
 
-      const msg =
-        `Classificação: ${cls}\n` +
-        `Referência (placeholder) para ${sem} semanas:\n` +
-        `P10 ~ ${ref.p10} g | P90 ~ ${ref.p90} g\n` +
-        `Peso informado: ${peso} g`;
+  // Se dias = 0 ou não houver próxima semana, retorna a própria semana
+  if (igDias === 0) return { p10: t0.p10, p90: t0.p90 };
 
-      showResult('res-neo-pig', msg);
-    }
+  const t1 = LUBCHENCO_UNISEX_P10_P90[igSem + 1];
+  if (!t1) return { p10: t0.p10, p90: t0.p90 };
+
+  // Interpolação linear simples entre semanas para suportar semanas+dias
+  const frac = igDias / 7;
+  const p10 = t0.p10 + (t1.p10 - t0.p10) * frac;
+  const p90 = t0.p90 + (t1.p90 - t0.p90) * frac;
+
+  return { p10, p90 };
+}
+
+function classificarPIG_AIG_GIG(pesoG, thr) {
+  if (pesoG < thr.p10) return "PIG";
+  if (pesoG > thr.p90) return "GIG";
+  return "AIG";
+}
+
+function calcLubchencoPIG() {
+  const igSem = Number(document.getElementById('neo-lub-ig-sem').value);
+  const igDias = Number(document.getElementById('neo-lub-ig-dias').value);
+  const peso = Number(document.getElementById('neo-lub-peso').value);
+
+  if (!Number.isFinite(igSem) || igSem <= 0) return showResult('res-neo-lub', 'Informe IG (semanas).');
+  if (!Number.isFinite(igDias) || igDias < 0 || igDias > 6) return showResult('res-neo-lub', 'Dias deve estar entre 0 e 6.');
+  if (!Number.isFinite(peso) || peso <= 0) return showResult('res-neo-lub', 'Informe peso ao nascer (g).');
+
+  const thr = getLubchencoThresholdsInterpolated(igSem, igDias);
+  if (!thr) {
+    return showResult(
+      'res-neo-lub',
+      `Tabela Lubchenco não encontrada para IG ${igSem} sem.\n` +
+      `ATUALIZAR_CONFORME_LUBCHENCO: preencha LUBCHENCO_UNISEX_P10_P90 (semanas disponíveis).`
+    );
+  }
+
+  const cls = classificarPIG_AIG_GIG(peso, thr);
+
+  const msg =
+    `Lubchenco (unissexo) — cortes P10/P90\n` +
+    `IG: ${igSem} sem + ${igDias} dia(s)\n` +
+    `Peso: ${peso} g\n\n` +
+    `P10 (interp.): ${thr.p10.toFixed(0)} g\n` +
+    `P90 (interp.): ${thr.p90.toFixed(0)} g\n\n` +
+    `Classificação: ${cls}`;
+
+  showResult('res-neo-lub', msg);
+}
 
     // Diretrizes de icterícia (placeholder)
     const GUIDELINES_ICT_SBP = {
