@@ -1,516 +1,1458 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>PueriCalc Pro | Dr. Wevelin Matos</title>
-    
-    <!-- Bibliotecas e Fontes -->
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadoras Pediátricas</title>
 
-    <!-- PWA Meta Tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Bibliotecas e Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <style>
-        :root {
-            --primary: rgb(40,90,129);
-            --secondary: rgb(185,224,229);
-            --emergency: #d32f2f;
-            --cardio: #c0392b;
-            --lab: #16a085;
-            --renal: #2980b9;
-            --check: #27ae60;
-            --bg: #f4f7f9;
-            --text: #2c3e50;
-            --white: #ffffff;
-            --shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
+  <!-- PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', 'Arial', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        h1, h2, h3 { font-family: 'Comfortaa', cursive; text-align: center; color: var(--primary); }
+  <style>
+    :root {
+      --primary: rgb(40,90,129);
+      --secondary: rgb(185,224,229);
+      --emergency: #d32f2f;
+      --cardio: #c0392b;
+      --lab: #16a085;
+      --renal: #2980b9;
+      --check: #27ae60;
+      --bg: #f4f7f9;
+      --text: #2c3e50;
+      --white: #ffffff;
+      --shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
 
-        header {
-            background: var(--white); padding: 40px 20px 20px; text-align: center;
-            box-shadow: var(--shadow); border-bottom: 3px solid var(--primary);
-        }
-        header img { max-width: 80px; margin-bottom: 10px; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Inter', 'Arial', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+    h1, h2, h3 { font-family: 'Comfortaa', cursive; text-align: center; color: var(--primary); }
 
-        /* Navegação por Abas */
-        nav {
-            position: sticky; top: 0; z-index: 1000; background: var(--primary);
-            display: flex; overflow-x: auto; padding: 5px; scrollbar-width: none;
-        }
-        nav::-webkit-scrollbar { display: none; }
-        .nav-btn {
-            background: none; border: none; color: rgba(255,255,255,0.7);
-            padding: 12px 18px; font-size: 0.75rem; font-weight: 600;
-            white-space: nowrap; cursor: pointer; text-transform: uppercase;
-        }
-        .nav-btn.active { color: var(--white); border-bottom: 3px solid var(--white); }
+    header {
+      background: var(--white); padding: 28px 20px 16px; text-align: center;
+      box-shadow: var(--shadow); border-bottom: 3px solid var(--primary);
+    }
 
-        /* Container e Cards */
-        .container { padding: 20px; max-width: 700px; margin: 0 auto; padding-bottom: 100px; }
-        .tab-content { display: none; animation: fadeIn 0.3s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    nav {
+      position: sticky; top: 0; z-index: 1000; background: var(--primary);
+      display: flex; overflow-x: auto; padding: 5px; scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar { display: none; }
+    .nav-btn {
+      background: none; border: none; color: rgba(255,255,255,0.7);
+      padding: 12px 18px; font-size: 0.75rem; font-weight: 700;
+      white-space: nowrap; cursor: pointer; text-transform: uppercase;
+    }
+    .nav-btn.active { color: var(--white); border-bottom: 3px solid var(--white); }
 
-        .card {
-            background: var(--white); border-radius: 15px; padding: 20px;
-            margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.03);
-        }
-        .card-header { 
-            border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 15px; text-align: left;
-        }
-        .card-header h2 { text-align: left; margin: 0; font-size: 1.1rem; }
+    .container { padding: 18px; max-width: 780px; margin: 0 auto; padding-bottom: 110px; }
+    .tab-content { display: none; animation: fadeIn 0.25s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Formulários */
-        label { display: block; font-size: 0.8rem; font-weight: 700; margin-top: 12px; color: var(--primary); }
-        input, select, textarea {
-            width: 100%; padding: 12px; border-radius: 8px;
-            border: 1px solid #dce4ec; background: rgb(185,224,229); font-size: 16px; color: var(--text);
-        }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .card {
+      background: var(--white); border-radius: 15px; padding: 18px;
+      margin-bottom: 18px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.03);
+    }
+    .card-header {
+      border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 12px; text-align: left;
+    }
+    .card-header h2 { text-align: left; margin: 0; font-size: 1.05rem; }
 
-        button.calc-btn {
-            width: 100%; padding: 15px; border-radius: 10px; border: none;
-            background: var(--primary); color: white; font-weight: 700;
-            cursor: pointer; margin-top: 15px; font-family: 'Comfortaa';
-        }
-        button.calc-btn:active { transform: scale(0.98); opacity: 0.9; }
+    label { display: block; font-size: 0.8rem; font-weight: 800; margin-top: 10px; color: var(--primary); }
+    input, select, textarea {
+      width: 100%; padding: 12px; border-radius: 8px;
+      border: 1px solid #dce4ec; background: rgb(185,224,229); font-size: 16px; color: var(--text);
+    }
 
-        /* Resultados e Tabelas */
-        .result-box {
-            margin-top: 15px; padding: 15px; border-radius: 10px;
-            background: var(--secondary); border: 1px solid rgba(40,90,129,0.2);
-            display: none; font-size: 0.9rem; line-height: 1.6; white-space: pre-line;
-        }
-        .destaque { font-weight: 800; color: var(--primary); }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; }
-        th { background: var(--primary); color: white; padding: 8px; }
-        td { border: 1px solid #eee; padding: 8px; text-align: center; }
-        tr:nth-child(even) { background: #f9f9f9; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 
-        .chart-container { height: 300px; margin-top: 20px; }
-        
-        footer { text-align: center; padding: 40px; color: #7f8c8d; font-size: 0.75rem; border-top: 1px solid #eee; }
-    </style>
+    button.calc-btn {
+      width: 100%; padding: 14px; border-radius: 10px; border: none;
+      background: var(--primary); color: white; font-weight: 800;
+      cursor: pointer; margin-top: 14px; font-family: 'Comfortaa';
+    }
+    button.calc-btn:active { transform: scale(0.98); opacity: 0.92; }
+
+    .result-box {
+      margin-top: 14px; padding: 14px; border-radius: 10px;
+      background: var(--secondary); border: 1px solid rgba(40,90,129,0.2);
+      display: none; font-size: 0.9rem; line-height: 1.6; white-space: pre-line;
+    }
+    .destaque { font-weight: 900; color: var(--primary); }
+    .muted { color: #6b7b87; font-size: 0.78rem; margin-top: 8px; line-height: 1.3; }
+    .warn { color: #8a2b2b; font-weight: 800; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.8rem; }
+    th { background: var(--primary); color: white; padding: 8px; }
+    td { border: 1px solid #eee; padding: 8px; text-align: center; }
+    tr:nth-child(even) { background: #f9f9f9; }
+
+    footer { text-align: center; padding: 30px 18px; color: #7f8c8d; font-size: 0.75rem; border-top: 1px solid #eee; }
+  </style>
 </head>
+
 <body>
+  <header>
+    <h1>Calculadoras Pediátricas</h1>
+    <div class="muted">Neonato • Crescimento • Cardio • Emergência • Hidratação • Laboratórios • Checklist</div>
+  </header>
 
-<header>
-    <img src="logo.png" alt="Dr. Wevelin Matos" onerror="this.style.display='none'">
-    <h1 style="margin:0">PueriCalc Pro</h1>
-    <p style="margin:0; font-size: 0.8rem; color: #7f8c8d;">DR. WEVELIN MATOS | CRM/SP 196372</p>
-</header>
+  <nav>
+    <button class="nav-btn active" onclick="openTab('tab-neo', this)">Neonato</button>
+    <button class="nav-btn" onclick="openTab('tab-cresc', this)">Crescimento</button>
+    <button class="nav-btn" onclick="openTab('tab-cardio', this)">Cardio</button>
+    <button class="nav-btn" onclick="openTab('tab-emerg', this)">Emergência</button>
+    <button class="nav-btn" onclick="openTab('tab-hidra', this)">Hidratação</button>
+    <button class="nav-btn" onclick="openTab('tab-lab', this)">Laboratórios</button>
+    <button class="nav-btn" onclick="openTab('tab-check', this)">Checklist</button>
+  </nav>
 
-<nav>
-    <button class="nav-btn active" onclick="switchTab(event, 'tab-neo')">Neonato</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-cresc')">Crescimento</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-cardio')">Cardio</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-emerg')">Emergência</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-hidra')">Hidra/Renal</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-lab')">Lab/Gaso</button>
-    <button class="nav-btn" onclick="switchTab(event, 'tab-check')">Checklist</button>
-</nav>
+  <div class="container">
 
-<div class="container">
-
-    <!-- ABA NEONATOLOGIA -->
+    <!-- ========================= -->
+    <!-- ABA NEONATOLOGIA (ORDEM) -->
+    <!-- ========================= -->
     <div id="tab-neo" class="tab-content active">
-        <div class="card">
-            <div class="card-header"><h2>Idade Gestacional e DPP</h2></div>
-            <label>Modo de Entrada</label>
-            <select id="neo-modo" onchange="toggleNeoInput()">
-                <option value="dum">DUM (Data Última Menstruação)</option>
-                <option value="usg">USG 1º Trimestre</option>
-            </select>
-            <div id="box-dum">
-                <label>Data da DUM</label><input type="date" id="neo-dum">
-            </div>
-            <div id="box-usg" style="display:none">
-                <label>Data do USG</label><input type="date" id="neo-usg-data">
-                <div class="grid-2">
-                    <div><label>Semanas</label><input type="number" id="neo-usg-sem"></div>
-                    <div><label>Dias</label><input type="number" id="neo-usg-dias"></div>
-                </div>
-            </div>
-            <button class="calc-btn" onclick="calcNeoIG()">Calcular IG e DPP</button>
-            <div id="res-neo-ig" class="result-box"></div>
+
+      <!-- 1) Idade Gestacional e DPP (ok) -->
+      <div class="card">
+        <div class="card-header"><h2>Idade Gestacional e DPP</h2></div>
+
+        <label>Modo de Entrada</label>
+        <select id="neo-modo" onchange="toggleNeoInput()">
+          <option value="dum">DUM (Data Última Menstruação)</option>
+          <option value="usg">USG 1º Trimestre</option>
+        </select>
+
+        <div id="box-dum">
+          <label>Data da DUM</label>
+          <input type="date" id="neo-dum">
         </div>
 
-        <div class="card">
-            <div class="card-header"><h2>Icterícia Neonatal</h2></div>
-            <div class="grid-2">
-                <div><label>IG (sem)</label><input type="number" id="ict-ig"></div>
-                <div><label>Horas Vida</label><input type="number" id="ict-horas"></div>
+        <div id="box-usg" style="display:none">
+          <label>Data do USG</label>
+          <input type="date" id="neo-usg-data">
+          <div class="grid-2">
+            <div>
+              <label>Semanas no USG</label>
+              <input type="number" id="neo-usg-sem" min="0" step="1">
             </div>
-            <label>Bilirrubina Total (mg/dL)</label>
-            <input type="number" id="ict-bt" step="0.1">
-            <label>Fatores de Risco</label>
-            <select id="ict-risco"><option value="nao">Não</option><option value="sim">Sim</option></select>
-            <button class="calc-btn" onclick="calcIctericia()">Avaliar Conduta</button>
-            <div id="res-ict" class="result-box"></div>
+            <div>
+              <label>Dias no USG</label>
+              <input type="number" id="neo-usg-dias" min="0" max="6" step="1">
+            </div>
+          </div>
         </div>
+
+        <label>Data para cálculo (ex.: data do parto)</label>
+        <input type="date" id="neo-ig-calc">
+
+        <button class="calc-btn" onclick="calcNeoIG()">Calcular IG e DPP</button>
+        <div id="res-neo-ig" class="result-box"></div>
+      </div>
+
+      <!-- 2) IG Corrigida Pós-Nascimento (inserir) -->
+      <div class="card">
+        <div class="card-header"><h2>Idade Gestacional Corrigida Pós-Nascimento</h2></div>
+
+        <div class="grid-2">
+          <div>
+            <label>IG ao nascimento (semanas)</label>
+            <input type="number" id="neo-ig-nasc-sem" min="0" step="1">
+          </div>
+          <div>
+            <label>IG ao nascimento (dias)</label>
+            <input type="number" id="neo-ig-nasc-dias" min="0" max="6" step="1">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label>Data de nascimento</label>
+            <input type="date" id="neo-data-nasc">
+          </div>
+          <div>
+            <label>Data para cálculo</label>
+            <input type="date" id="neo-data-posnatal">
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcIGCorrigidaPosNatal()">Calcular Corrigida Pós-Natal</button>
+        <div id="res-neo-igcorr" class="result-box"></div>
+
+        <div class="muted">
+          Lógica: soma o tempo pós-natal (dias) à IG ao nascimento e retorna <span class="destaque">semanas + dias</span>.
+        </div>
+      </div>
+
+      <!-- 3) Avaliação de peso para IG (PIG/AIG/GIG) (inserir) -->
+      <div class="card">
+        <div class="card-header"><h2>Peso para Idade Gestacional (PIG / AIG / GIG)</h2></div>
+
+        <div class="grid-2">
+          <div>
+            <label>IG ao nascer (semanas)</label>
+            <input type="number" id="neo-pig-sem" min="20" step="1">
+          </div>
+          <div>
+            <label>IG ao nascer (dias)</label>
+            <input type="number" id="neo-pig-dias" min="0" max="6" step="1">
+          </div>
+        </div>
+
+        <label>Peso ao nascer (g)</label>
+        <input type="number" id="neo-pig-peso" min="200" step="1">
+
+        <button class="calc-btn" onclick="calcClassificacaoPIG()">Classificar (PIG/AIG/GIG)</button>
+        <div id="res-neo-pig" class="result-box"></div>
+
+        <div class="muted">
+          ⚠️ Tabela **exemplo** (p10/p90) usada como placeholder. Para ficar correto, substitua em <span class="destaque">TABLES_PESO_IG</span>.
+        </div>
+      </div>
+
+      <!-- 4) Icterícia neonatal (ajustar p/ SBP) -->
+      <div class="card">
+        <div class="card-header"><h2>Icterícia Neonatal (parâmetros SBP)</h2></div>
+
+        <div class="grid-2">
+          <div><label>IG (semanas)</label><input type="number" id="ict-ig" min="24" step="1"></div>
+          <div><label>Horas de vida</label><input type="number" id="ict-horas" min="0" step="1"></div>
+        </div>
+
+        <label>Bilirrubina Total (mg/dL)</label>
+        <input type="number" id="ict-bt" step="0.1" min="0">
+
+        <label>Fatores de risco (hemólise, sepse, prematuridade etc.)</label>
+        <select id="ict-risco">
+          <option value="nao">Não</option>
+          <option value="sim">Sim</option>
+        </select>
+
+        <button class="calc-btn" onclick="calcIctericiaSBP()">Avaliar Conduta</button>
+        <div id="res-ict" class="result-box"></div>
+
+        <div class="muted warn">
+          ATUALIZAR_CONFORME_SBP: este bloco está pronto para receber os limiares/tabelas SBP (fototerapia/exsanguíneo) por IG e horas de vida.
+        </div>
+      </div>
+
     </div>
 
-    <!-- ABA CRESCIMENTO -->
+    <!-- ========================= -->
+    <!-- ABA CRESCIMENTO (ORDEM)  -->
+    <!-- ========================= -->
     <div id="tab-cresc" class="tab-content">
-        <div class="card">
-            <div class="card-header"><h2>Z-Score OMS (Peso/PC)</h2></div>
-            <div class="grid-2">
-                <div><label>Sexo</label><select id="z-sexo"><option value="M">Masc</option><option value="F">Fem</option></select></div>
-                <div><label>Idade (meses)</label><input type="number" id="z-idade"></div>
-            </div>
-            <div class="grid-2">
-                <div><label>Peso (kg)</label><input type="number" id="z-peso" step="0.1"></div>
-                <div><label>PC (cm)</label><input type="number" id="z-pc" step="0.1"></div>
-            </div>
-            <button class="calc-btn" onclick="analisarCrescimento()">Plotar Curvas OMS</button>
-            <div class="chart-container"><canvas id="chartWeight"></canvas></div>
-            <div class="chart-container"><canvas id="chartPC"></canvas></div>
+
+      <!-- 1) Bloco único: velocidades (PC, peso/dia, estatura) -->
+      <div class="card">
+        <div class="card-header"><h2>Velocidades (PC, Peso, Estatura) — bloco único</h2></div>
+
+        <div class="grid-2">
+          <div><label>Data inicial</label><input type="date" id="cr-data-i"></div>
+          <div><label>Data final</label><input type="date" id="cr-data-f"></div>
         </div>
 
-        <div class="card">
-            <div class="card-header"><h2>Ganho de Peso e Velocidade</h2></div>
-            <label>Peso Inicial (g)</label><input type="number" id="gv-p1">
-            <label>Data Inicial</label><input type="date" id="gv-d1">
-            <label>Peso Final (g)</label><input type="number" id="gv-p2">
-            <label>Data Final</label><input type="date" id="gv-d2">
-            <button class="calc-btn" onclick="calcGanhoVelocidade()">Analisar Ganho</button>
-            <div id="res-ganho" class="result-box"></div>
-            <table>
-                <thead><tr><th>Idade</th><th>Referência</th></tr></thead>
-                <tbody>
-                    <tr><td>0-3 meses</td><td>20-30 g/dia</td></tr>
-                    <tr><td>4-6 meses</td><td>20 g/dia</td></tr>
-                    <tr><td>7-9 meses</td><td>15 g/dia</td></tr>
-                    <tr><td>10-12 meses</td><td>10 g/dia</td></tr>
-                </tbody>
-            </table>
+        <div class="grid-3">
+          <div>
+            <label>PC inicial (cm)</label>
+            <input type="number" id="cr-pc-i" step="0.1">
+          </div>
+          <div>
+            <label>PC final (cm)</label>
+            <input type="number" id="cr-pc-f" step="0.1">
+          </div>
+          <div>
+            <label>Idade (meses) (p/ referência)</label>
+            <input type="number" id="cr-idade-meses" step="0.1" min="0">
+          </div>
         </div>
+
+        <div class="grid-2">
+          <div>
+            <label>Peso inicial</label>
+            <input type="number" id="cr-peso-i" step="1">
+          </div>
+          <div>
+            <label>Peso final</label>
+            <input type="number" id="cr-peso-f" step="1">
+          </div>
+        </div>
+
+        <label>Unidade do peso</label>
+        <select id="cr-peso-unid">
+          <option value="g">g</option>
+          <option value="kg">kg</option>
+        </select>
+
+        <div class="grid-2">
+          <div>
+            <label>Estatura inicial (cm)</label>
+            <input type="number" id="cr-alt-i" step="0.1">
+          </div>
+          <div>
+            <label>Estatura final (cm)</label>
+            <input type="number" id="cr-alt-f" step="0.1">
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcVelocidadesCrescimento()">Calcular velocidades</button>
+
+        <div id="res-cr-peso" class="result-box"></div>
+        <div id="res-cr-pc" class="result-box"></div>
+        <div id="res-cr-alt" class="result-box"></div>
+
+        <div id="ref-cr" class="result-box"></div>
+      </div>
+
+      <!-- 2) Alvo parental + idade óssea + análise -->
+      <div class="card">
+        <div class="card-header"><h2>Alvo parental + Idade óssea + Análise integrada</h2></div>
+
+        <div class="grid-2">
+          <div><label>Altura do pai (cm)</label><input type="number" id="ap-pai" step="0.1"></div>
+          <div><label>Altura da mãe (cm)</label><input type="number" id="ap-mae" step="0.1"></div>
+        </div>
+
+        <label>Sexo da criança</label>
+        <select id="ap-sexo">
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
+
+        <div class="grid-2">
+          <div><label>Altura atual (cm)</label><input type="number" id="ap-alt-atual" step="0.1"></div>
+          <div><label>Idade cronológica (anos)</label><input type="number" id="ap-idade" step="0.1"></div>
+        </div>
+
+        <label>Idade óssea (anos) (entrada manual)</label>
+        <input type="number" id="ap-io" step="0.1">
+
+        <button class="calc-btn" onclick="calcAlvoParentalEAnalise()">Calcular e analisar</button>
+        <div id="res-ap" class="result-box"></div>
+
+        <div class="muted">
+          ⚠️ Idade óssea aqui é **input clínico** (ex.: Greulich & Pyle). A interpretação avançada fica como placeholder para você definir regra.
+        </div>
+      </div>
+
     </div>
 
-    <!-- ABA CARDIOLOGIA -->
+    <!-- ========================= -->
+    <!-- ABA CARDIO (ORDEM)       -->
+    <!-- ========================= -->
     <div id="tab-cardio" class="tab-content">
-        <div class="card">
-            <div class="card-header" style="border-color:var(--cardio)"><h2>Alvo Parental e SC</h2></div>
-            <div class="grid-2">
-                <div><label>Alt Pai (cm)</label><input type="number" id="c-pai"></div>
-                <div><label>Alt Mãe (cm)</label><input type="number" id="c-mae"></div>
-            </div>
-            <label>Sexo da Criança</label>
-            <select id="c-sexo"><option value="M">Masc</option><option value="F">Fem</option></select>
-            <button class="calc-btn" style="background:var(--cardio)" onclick="calcAlvoSC()">Calcular Alvo e SC</button>
-            <div id="res-cardio" class="result-box"></div>
+
+      <!-- 1) Avaliação de ECG -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--cardio)"><h2>Avaliação de ECG</h2></div>
+
+        <p class="muted">Use quadradinhos: 1mm = 0,04s (25 mm/s). Se preferir, informe RR em quadradinhos.</p>
+
+        <div class="grid-2">
+          <div><label>QT (quadradinhos)</label><input type="number" id="ecg-qt-q" step="1" min="1"></div>
+          <div><label>RR (quadradinhos)</label><input type="number" id="ecg-rr-q" step="1" min="1"></div>
         </div>
 
-        <div class="card">
-            <div class="card-header" style="border-color:var(--cardio)"><h2>Intervalo QTc (Bazett/Fridericia)</h2></div>
-            <p style="font-size:0.7rem; color:#7f8c8d; margin-top:-10px">Insira o número de quadradinhos (1mm = 0.04s)</p>
-            <div class="grid-2">
-                <div><label>QT (quad)</label><input type="number" id="qt-q"></div>
-                <div><label>RR (quad)</label><input type="number" id="rr-q"></div>
-            </div>
-            <button class="calc-btn" style="background:var(--cardio)" onclick="calcQTc()">Analisar QTc</button>
-            <div id="res-qtc" class="result-box"></div>
+        <button class="calc-btn" style="background:var(--cardio)" onclick="calcECG()">Analisar ECG (QTc + FC)</button>
+        <div id="res-ecg" class="result-box"></div>
+
+        <div class="muted warn">
+          Intervalos/eixo por idade: placeholder (não inserir tabela sem fonte). Estrutura pronta para você preencher.
         </div>
+      </div>
+
+      <!-- 2) Classificação PA pediatria e adulto -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--cardio)"><h2>Classificação de Pressão Arterial (Pediatria e Adulto)</h2></div>
+
+        <div class="grid-2">
+          <div><label>PAS (mmHg)</label><input type="number" id="pa-pas" step="1"></div>
+          <div><label>PAD (mmHg)</label><input type="number" id="pa-pad" step="1"></div>
+        </div>
+
+        <div class="grid-2">
+          <div><label>Idade (anos)</label><input type="number" id="pa-idade" step="0.1"></div>
+          <div>
+            <label>Sexo</label>
+            <select id="pa-sexo">
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Estatura (cm) ou Percentil de estatura (se você já tiver)</label>
+        <input type="number" id="pa-estatura" step="0.1">
+
+        <button class="calc-btn" style="background:var(--cardio)" onclick="classificarPA()">Classificar PA</button>
+        <div id="res-pa" class="result-box"></div>
+
+        <div class="muted warn">
+          Pediatria (SBP): precisa de **tabela percentílica por idade/sexo/estatura**. O código está preparado para plugar.
+        </div>
+      </div>
+
     </div>
 
-    <!-- ABA EMERGÊNCIA -->
+    <!-- ========================= -->
+    <!-- ABA EMERGÊNCIA (ORDEM)   -->
+    <!-- ========================= -->
     <div id="tab-emerg" class="tab-content">
-        <div class="card">
-            <div class="card-header" style="border-color:var(--emergency)"><h2>PALS, SRI e Sedação</h2></div>
-            <div class="grid-2">
-                <div><label>Peso (kg)</label><input type="number" id="em-peso"></div>
-                <div><label>Idade (anos)</label><input type="number" id="em-idade"></div>
-            </div>
-            <button class="calc-btn" style="background:var(--emergency)" onclick="calcEmergencia()">Gerar Protocolo</button>
-            <div id="res-emerg" class="result-box"></div>
+
+      <div class="card">
+        <div class="card-header" style="border-color:var(--emergency)"><h2>Dados do paciente (base)</h2></div>
+        <div class="grid-2">
+          <div><label>Peso (kg)</label><input type="number" id="em-peso" step="0.1" min="0"></div>
+          <div><label>Idade (anos)</label><input type="number" id="em-idade" step="0.1" min="0"></div>
         </div>
+        <div class="muted">Os subitens abaixo usam este peso/idade como fonte única (reduz erro operacional).</div>
+      </div>
+
+      <!-- 4.1 PCR e pós PCR -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--emergency)"><h2>4.1 PCR e Pós-PCR</h2></div>
+
+        <label>Subitem</label>
+        <select id="em-41">
+          <option value="rcp">Ressuscitação Cardiopulmonar</option>
+          <option value="sri">Sequência Rápida de Intubação</option>
+          <option value="tubo">Tamanho do tubo e posição de fixação</option>
+        </select>
+
+        <button class="calc-btn" style="background:var(--emergency)" onclick="calcEmerg41()">Gerar</button>
+        <div id="res-em-41" class="result-box"></div>
+
+        <div class="muted warn">Doses e limites: prontos para você ajustar conforme protocolo institucional/AHA/SBP (sem inventar).</div>
+      </div>
+
+      <!-- 4.2 Sedação e analgesia -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--emergency)"><h2>4.2 Sedação e analgesia</h2></div>
+
+        <label>Subitem</label>
+        <select id="em-42">
+          <option value="proced">Para procedimentos</option>
+          <option value="cont">Contínua</option>
+        </select>
+
+        <button class="calc-btn" style="background:var(--emergency)" onclick="calcEmerg42()">Gerar</button>
+        <div id="res-em-42" class="result-box"></div>
+      </div>
+
+      <!-- 4.3 Urgências neurológicas -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--emergency)"><h2>4.3 Urgências neurológicas</h2></div>
+
+        <label>Subitem</label>
+        <select id="em-43">
+          <option value="crise">Crise convulsiva</option>
+          <option value="status">Status convulsivo</option>
+          <option value="hic">Hipertensão intracraniana</option>
+        </select>
+
+        <button class="calc-btn" style="background:var(--emergency)" onclick="calcEmerg43()">Gerar</button>
+        <div id="res-em-43" class="result-box"></div>
+      </div>
+
+      <!-- 4.4 Distúrbio de ritmos -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--emergency)"><h2>4.4 Distúrbio de ritmos</h2></div>
+
+        <label>Subitem</label>
+        <select id="em-44">
+          <option value="chocaveis">Chocáveis (tipos de ritmo e dose)</option>
+          <option value="nao">Não chocáveis (tipos, medicamentos e doses)</option>
+        </select>
+
+        <button class="calc-btn" style="background:var(--emergency)" onclick="calcEmerg44()">Gerar</button>
+        <div id="res-em-44" class="result-box"></div>
+      </div>
+
+      <!-- 4.5 Choques -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--emergency)"><h2>4.5 Choques (tipos, medicamentos e doses)</h2></div>
+
+        <label>Tipo de choque</label>
+        <select id="em-45">
+          <option value="hipov">Hipovolêmico</option>
+          <option value="sept">Séptico</option>
+          <option value="ana">Anafilático</option>
+          <option value="card">Cardiogênico</option>
+        </select>
+
+        <button class="calc-btn" style="background:var(--emergency)" onclick="calcEmerg45()">Gerar</button>
+        <div id="res-em-45" class="result-box"></div>
+      </div>
     </div>
 
-    <!-- ABA HIDRA / RENAL -->
+    <!-- ========================= -->
+    <!-- ABA HIDRATAÇÃO (ORDEM)   -->
+    <!-- ========================= -->
     <div id="tab-hidra" class="tab-content">
-        <div class="card">
-            <div class="card-header" style="border-color:var(--renal)"><h2>Holliday-Segar e VIG</h2></div>
-            <div class="grid-2">
-                <div><label>Peso (kg)</label><input type="number" id="h-peso"></div>
-                <div><label>VIG Alvo</label><input type="number" id="h-vig" value="4"></div>
-            </div>
-            <label>Eletrólitos (mEq/kg ou L)</label>
-            <div class="grid-2">
-                <input type="number" id="h-na" value="3" placeholder="Na+">
-                <select id="h-base"><option value="kg">mEq/kg</option><option value="L">mEq/L</option></select>
-            </div>
-            <button class="calc-btn" style="background:var(--renal)" onclick="calcHidra()">Prescrever Soro</button>
-            <div id="res-hidra" class="result-box"></div>
+
+      <!-- Holliday-Segar -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--renal)"><h2>Holliday-Segar (com eletrólitos)</h2></div>
+
+        <label>Peso (kg)</label>
+        <input type="number" id="hs-peso" step="0.1" min="0">
+
+        <label>Modo eletrólitos</label>
+        <select id="hs-modo">
+          <option value="meqkg">mEq/kg/dia</option>
+          <option value="meql">mEq/L (solução final)</option>
+        </select>
+
+        <div class="grid-2">
+          <div><label>Na+</label><input type="number" id="hs-na" step="0.1"></div>
+          <div><label>K+</label><input type="number" id="hs-k" step="0.1"></div>
+        </div>
+        <div class="grid-2">
+          <div><label>Cl-</label><input type="number" id="hs-cl" step="0.1"></div>
+          <div><label>Glicose (g/L ou g/kg/dia)</label><input type="number" id="hs-glic" step="0.1"></div>
         </div>
 
-        <div class="card">
-            <div class="card-header" style="border-color:var(--renal)"><h2>Clearance de Schwartz</h2></div>
-            <div class="grid-2">
-                <div><label>Creatinina</label><input type="number" id="ren-cr" step="0.01"></div>
-                <div><label>Estatura (cm)</label><input type="number" id="ren-alt"></div>
-            </div>
-            <button class="calc-btn" style="background:var(--renal)" onclick="calcSchwartz()">Calcular eTFG</button>
-            <div id="res-renal" class="result-box"></div>
+        <button class="calc-btn" style="background:var(--renal)" onclick="calcHollidaySegar()">Calcular manutenção</button>
+        <div id="res-hs" class="result-box"></div>
+      </div>
+
+      <!-- VIG -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--renal)"><h2>VIG (com eletrólitos)</h2></div>
+
+        <div class="grid-2">
+          <div><label>Peso (kg)</label><input type="number" id="vig-peso" step="0.1" min="0"></div>
+          <div><label>VIG alvo (mL/kg/h)</label><input type="number" id="vig-alvo" step="0.1" value="4"></div>
         </div>
+
+        <div class="grid-2">
+          <div><label>Na+ (mEq/L)</label><input type="number" id="vig-na" step="0.1"></div>
+          <div><label>K+ (mEq/L)</label><input type="number" id="vig-k" step="0.1"></div>
+        </div>
+        <div class="grid-2">
+          <div><label>Cl- (mEq/L)</label><input type="number" id="vig-cl" step="0.1"></div>
+          <div><label>Glicose (g/L)</label><input type="number" id="vig-glic" step="0.1"></div>
+        </div>
+
+        <button class="calc-btn" style="background:var(--renal)" onclick="calcVIG()">Calcular VIG</button>
+        <div id="res-vig" class="result-box"></div>
+      </div>
+
+      <!-- Schwartz (ok) -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--renal)"><h2>Clearance de Schwartz (eTFG)</h2></div>
+        <div class="grid-2">
+          <div><label>Creatinina (mg/dL)</label><input type="number" id="ren-cr" step="0.01"></div>
+          <div><label>Estatura (cm)</label><input type="number" id="ren-alt" step="0.1"></div>
+        </div>
+        <button class="calc-btn" style="background:var(--renal)" onclick="calcSchwartz()">Calcular eTFG</button>
+        <div id="res-renal" class="result-box"></div>
+      </div>
     </div>
 
-    <!-- ABA LAB / GASO -->
+    <!-- ========================= -->
+    <!-- ABA LABORATÓRIOS (ORDEM) -->
+    <!-- ========================= -->
     <div id="tab-lab" class="tab-content">
-        <div class="card">
-            <div class="card-header" style="border-color:var(--lab)"><h2>Gasometria e Anion Gap</h2></div>
-            <div class="grid-2">
-                <div><label>pH</label><input type="number" id="g-ph" step="0.01"></div>
-                <div><label>pCO2</label><input type="number" id="g-pco2"></div>
-            </div>
-            <div class="grid-2">
-                <div><label>HCO3</label><input type="number" id="g-hco3"></div>
-                <div><label>Na+ (Sérico)</label><input type="number" id="g-na"></div>
-            </div>
-            <button class="calc-btn" style="background:var(--lab)" onclick="calcGaso()">Analisar Equilíbrio</button>
-            <div id="res-gaso" class="result-box"></div>
+
+      <!-- Gasometria com conduta -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--lab)"><h2>Gasometria (análise + conduta)</h2></div>
+
+        <div class="grid-2">
+          <div><label>pH</label><input type="number" id="g-ph" step="0.01"></div>
+          <div><label>pCO2 (mmHg)</label><input type="number" id="g-pco2" step="0.1"></div>
         </div>
 
-        <div class="card">
-            <div class="card-header" style="border-color:var(--lab)"><h2>Conversor de Unidades</h2></div>
-            <select id="lab-conv">
-                <option value="0.2495">Cálcio (mg/dL -> mmol/L)</option>
-                <option value="88.4">Creatinina (mg/dL -> umol/L)</option>
-                <option value="17.1">Bilirrubina (mg/dL -> umol/L)</option>
-            </select>
-            <input type="number" id="lab-val" placeholder="Valor convencional" style="margin-top:10px">
-            <button class="calc-btn" style="background:var(--lab)" onclick="convertLab()">Converter</button>
-            <div id="res-lab" class="result-box"></div>
+        <div class="grid-2">
+          <div><label>HCO3- (mEq/L)</label><input type="number" id="g-hco3" step="0.1"></div>
+          <div><label>Na+ (mEq/L)</label><input type="number" id="g-na" step="0.1"></div>
         </div>
+
+        <div class="grid-2">
+          <div><label>Cl- (mEq/L)</label><input type="number" id="g-cl" step="0.1"></div>
+          <div><label>Albumina (g/dL) (opcional)</label><input type="number" id="g-alb" step="0.1"></div>
+        </div>
+
+        <button class="calc-btn" style="background:var(--lab)" onclick="calcGasoConduta()">Analisar</button>
+        <div id="res-gaso" class="result-box"></div>
+
+        <div class="muted warn">Condutas são orientativas. Ajuste conforme contexto clínico e protocolos locais.</div>
+      </div>
+
+      <!-- Conversão de unidades (ok) -->
+      <div class="card">
+        <div class="card-header" style="border-color:var(--lab)"><h2>Conversor de Unidades</h2></div>
+        <select id="lab-conv">
+          <option value="0.2495">Cálcio (mg/dL -> mmol/L)</option>
+          <option value="88.4">Creatinina (mg/dL -> umol/L)</option>
+          <option value="17.1">Bilirrubina (mg/dL -> umol/L)</option>
+        </select>
+        <input type="number" id="lab-val" placeholder="Valor convencional" style="margin-top:10px">
+        <button class="calc-btn" style="background:var(--lab)" onclick="convertLab()">Converter</button>
+        <div id="res-lab" class="result-box"></div>
+      </div>
     </div>
 
-    <!-- ABA CHECKLIST -->
+    <!-- ========================= -->
+    <!-- ABA CHECKLIST            -->
+    <!-- ========================= -->
     <div id="tab-check" class="tab-content">
-        <div class="card">
-            <div class="card-header" style="border-color:var(--check)"><h2>Puericultura Inteligente</h2></div>
-            <label>Idade da Consulta</label>
-            <select id="ck-idade" onchange="renderCheck()">
-                <option value="">Selecione...</option>
-                <option value="2">2 Meses</option>
-                <option value="6">6 Meses</option>
-                <option value="12">12 Meses</option>
-            </select>
-            <div id="check-area" style="margin-top:15px"></div>
-        </div>
+      <div class="card">
+        <div class="card-header" style="border-color:var(--check)"><h2>Puericultura Inteligente</h2></div>
+        <label>Idade da Consulta</label>
+        <select id="ck-idade" onchange="renderCheck()">
+          <option value="">Selecione...</option>
+          <option value="2">2 Meses</option>
+          <option value="6">6 Meses</option>
+          <option value="12">12 Meses</option>
+        </select>
+        <div id="check-area" style="margin-top:15px"></div>
+      </div>
     </div>
 
     <!-- BIBLIOGRAFIA -->
     <div class="card">
-        <h3 style="font-size:0.9rem">Bibliografia de Referência</h3>
-        <ul style="font-size:0.7rem; color:#7f8c8d; padding-left:15px">
-            <li>SBP - Tratado de Pediatria (2022)</li>
-            <li>OMS - Growth Standards (2006)</li>
-            <li>AHA - PALS Guidelines (2020)</li>
-            <li>Schwartz GJ, et al. J Am Soc Nephrol (2009)</li>
-        </ul>
+      <h3 style="font-size:0.9rem">Bibliografia de Referência</h3>
+      <ul style="font-size:0.75rem; color:#7f8c8d; padding-left:15px">
+        <li>SBP - Diretrizes (inserir versão/ano conforme uso)</li>
+        <li>OMS - Growth Standards (2006)</li>
+        <li>AHA - PALS Guidelines (ajustar versão conforme protocolo)</li>
+        <li>Schwartz GJ, et al. (2009)</li>
+      </ul>
     </div>
 
-</div>
+  </div>
 
-<footer>
-    <p><strong>PueriCalc Pro v15.0</strong> | Dr. Wevelin Matos<br>
-    Pediatria e Cardiologia Pediátrica<br>
-    Ribeirão Preto - SP</p>
-</footer>
+  <footer>Versão de trabalho • Estruturas prontas para atualização conforme SBP/SBC • Offline-friendly</footer>
 
-<script>
-    // --- NAVEGAÇÃO ---
-    function switchTab(evt, tabId) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        evt.currentTarget.classList.add('active');
-        window.scrollTo(0,0);
+  <script>
+    // =========================
+    // UTILITÁRIOS
+    // =========================
+    function openTab(tabId, btnEl) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function showResult(elId, text) {
+      const el = document.getElementById(elId);
+      el.style.display = 'block';
+      el.textContent = text;
+    }
+
+    function showResultHTML(elId, text) {
+      const el = document.getElementById(elId);
+      el.style.display = 'block';
+      el.innerHTML = text;
+    }
+
+    function parseDate(v) {
+      if (!v) return null;
+      const d = new Date(v + "T00:00:00");
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    function diffDays(d1, d2) {
+      return Math.floor((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    }
+
+    function weeksDaysFromTotalDays(totalDays) {
+      const w = Math.floor(totalDays / 7);
+      const d = totalDays % 7;
+      return { w, d };
+    }
+
+    function clamp(n, min, max) { return Math.min(Math.max(n, min), max); }
+
+    // =========================
+    // 1) NEONATO
+    // =========================
     function toggleNeoInput() {
-        const m = document.getElementById('neo-modo').value;
-        document.getElementById('box-dum').style.display = m === 'dum' ? 'block' : 'none';
-        document.getElementById('box-usg').style.display = m === 'usg' ? 'block' : 'none';
+      const modo = document.getElementById('neo-modo').value;
+      document.getElementById('box-dum').style.display = (modo === 'dum') ? 'block' : 'none';
+      document.getElementById('box-usg').style.display = (modo === 'usg') ? 'block' : 'none';
     }
 
-    // --- CÁLCULOS NEONATO ---
     function calcNeoIG() {
-        const hoje = new Date();
-        let dpp, ig;
-        if(document.getElementById('neo-modo').value === 'dum') {
-            const dum = new Date(document.getElementById('neo-dum').value);
-            if(isNaN(dum)) return alert("Data inválida");
-            const diff = Math.floor((hoje - dum) / 86400000);
-            ig = `${Math.floor(diff/7)}s ${diff%7}d`;
-            dpp = new Date(dum); dpp.setDate(dpp.getDate() + 280);
-        } else {
-            const dUsg = new Date(document.getElementById('neo-usg-data').value);
-            const s = parseInt(document.getElementById('neo-usg-sem').value) || 0;
-            const d = parseInt(document.getElementById('neo-usg-dias').value) || 0;
-            const totalD = (s * 7) + d;
-            const concepcao = new Date(dUsg); concepcao.setDate(concepcao.getDate() - totalD);
-            dpp = new Date(concepcao); dpp.setDate(dpp.getDate() + 280);
-            const diff = Math.floor((hoje - concepcao) / 86400000);
-            ig = `${Math.floor(diff/7)}s ${diff%7}d`;
+      const modo = document.getElementById('neo-modo').value;
+      const dataCalc = parseDate(document.getElementById('neo-ig-calc').value);
+      if (!dataCalc) return showResult('res-neo-ig', 'Informe a data para cálculo.');
+
+      let dpp = null;
+      let igDias = null;
+
+      if (modo === 'dum') {
+        const dum = parseDate(document.getElementById('neo-dum').value);
+        if (!dum) return showResult('res-neo-ig', 'Informe a data da DUM.');
+
+        igDias = diffDays(dum, dataCalc);
+        dpp = new Date(dum.getTime());
+        dpp.setDate(dpp.getDate() + 280);
+      } else {
+        const usgData = parseDate(document.getElementById('neo-usg-data').value);
+        const sem = Number(document.getElementById('neo-usg-sem').value);
+        const dias = Number(document.getElementById('neo-usg-dias').value);
+
+        if (!usgData) return showResult('res-neo-ig', 'Informe a data do USG.');
+        if (!Number.isFinite(sem) || sem < 0) return showResult('res-neo-ig', 'Informe semanas do USG.');
+        if (!Number.isFinite(dias) || dias < 0 || dias > 6) return showResult('res-neo-ig', 'Dias do USG deve estar entre 0 e 6.');
+
+        // DUM estimada = dataUSG - (sem*7 + dias)
+        const gestDaysAtUSG = (sem * 7) + dias;
+        const dumEst = new Date(usgData.getTime());
+        dumEst.setDate(dumEst.getDate() - gestDaysAtUSG);
+
+        igDias = diffDays(dumEst, dataCalc);
+        dpp = new Date(dumEst.getTime());
+        dpp.setDate(dpp.getDate() + 280);
+      }
+
+      if (igDias < 0) return showResult('res-neo-ig', 'A data para cálculo é anterior ao início da gestação estimado.');
+
+      const wd = weeksDaysFromTotalDays(igDias);
+      const msg =
+        `IG na data informada: ${wd.w} semanas e ${wd.d} dias\n` +
+        `DPP estimada: ${dpp.toLocaleDateString('pt-BR')}`;
+      showResult('res-neo-ig', msg);
+    }
+
+    function calcIGCorrigidaPosNatal() {
+      const sem = Number(document.getElementById('neo-ig-nasc-sem').value);
+      const dias = Number(document.getElementById('neo-ig-nasc-dias').value);
+      const dn = parseDate(document.getElementById('neo-data-nasc').value);
+      const dc = parseDate(document.getElementById('neo-data-posnatal').value);
+
+      if (!Number.isFinite(sem) || sem < 0) return showResult('res-neo-igcorr', 'Informe IG ao nascimento (semanas).');
+      if (!Number.isFinite(dias) || dias < 0 || dias > 6) return showResult('res-neo-igcorr', 'Dias ao nascimento deve estar entre 0 e 6.');
+      if (!dn) return showResult('res-neo-igcorr', 'Informe a data de nascimento.');
+      if (!dc) return showResult('res-neo-igcorr', 'Informe a data para cálculo.');
+
+      const posDays = diffDays(dn, dc);
+      if (posDays < 0) return showResult('res-neo-igcorr', 'Data para cálculo não pode ser anterior ao nascimento.');
+
+      const igTotalDays = (sem * 7) + dias + posDays;
+      const wd = weeksDaysFromTotalDays(igTotalDays);
+
+      showResult('res-neo-igcorr', `IG corrigida: ${wd.w} semanas e ${wd.d} dias\nTempo pós-natal considerado: ${posDays} dia(s)`);
+    }
+
+    // Placeholder de tabela p10/p90 por semanas (exemplo). Substituir por tabela real.
+    const TABLES_PESO_IG = {
+      // ATUALIZAR_CONFORME_SBP/INTERGROWTH/FENTON (conforme sua decisão)
+      // Estrutura: semana: { p10: valorEmG, p90: valorEmG }
+      24: { p10: 500, p90: 800 },
+      25: { p10: 550, p90: 850 },
+      26: { p10: 600, p90: 950 },
+      27: { p10: 700, p90: 1050 },
+      28: { p10: 800, p90: 1200 },
+      29: { p10: 900, p90: 1350 },
+      30: { p10: 1000, p90: 1500 },
+      31: { p10: 1150, p90: 1700 },
+      32: { p10: 1300, p90: 1950 },
+      33: { p10: 1450, p90: 2150 },
+      34: { p10: 1650, p90: 2400 },
+      35: { p10: 1850, p90: 2650 },
+      36: { p10: 2050, p90: 2900 },
+      37: { p10: 2250, p90: 3150 },
+      38: { p10: 2450, p90: 3350 },
+      39: { p10: 2650, p90: 3600 },
+      40: { p10: 2850, p90: 3850 },
+      41: { p10: 3050, p90: 4100 },
+      42: { p10: 3250, p90: 4400 }
+    };
+
+    function calcClassificacaoPIG() {
+      const sem = Number(document.getElementById('neo-pig-sem').value);
+      const dias = Number(document.getElementById('neo-pig-dias').value);
+      const peso = Number(document.getElementById('neo-pig-peso').value);
+
+      if (!Number.isFinite(sem) || sem <= 0) return showResult('res-neo-pig', 'Informe IG (semanas).');
+      if (!Number.isFinite(dias) || dias < 0 || dias > 6) return showResult('res-neo-pig', 'Dias deve estar entre 0 e 6.');
+      if (!Number.isFinite(peso) || peso <= 0) return showResult('res-neo-pig', 'Informe peso ao nascer (g).');
+
+      // Arredonda por semana para referência (placeholder). Se você quiser usar semanas+dias com interpolação, eu implemento.
+      const ref = TABLES_PESO_IG[sem];
+      if (!ref) return showResult('res-neo-pig', 'Tabela não disponível para esta IG. Atualize TABLES_PESO_IG.');
+
+      let cls = 'AIG';
+      if (peso < ref.p10) cls = 'PIG';
+      else if (peso > ref.p90) cls = 'GIG';
+
+      const msg =
+        `Classificação: ${cls}\n` +
+        `Referência (placeholder) para ${sem} semanas:\n` +
+        `P10 ~ ${ref.p10} g | P90 ~ ${ref.p90} g\n` +
+        `Peso informado: ${peso} g`;
+
+      showResult('res-neo-pig', msg);
+    }
+
+    // Diretrizes de icterícia (placeholder)
+    const GUIDELINES_ICT_SBP = {
+      // ATUALIZAR_CONFORME_SBP
+      // Estrutura sugerida: por categoria (>=38 sem; 35-37; <35) e faixas de hora.
+      // Exemplo (NÃO OFICIAL):
+      categories: [
+        { name: '>=38', minGA: 38, maxGA: 99, riskAdjust: 1.0,
+          thresholds: [
+            { minH: 0, maxH: 23, photo: 10, exch: 20 },
+            { minH: 24, maxH: 47, photo: 12, exch: 22 },
+            { minH: 48, maxH: 71, photo: 15, exch: 25 },
+            { minH: 72, maxH: 999, photo: 17, exch: 28 }
+          ]
+        },
+        { name: '35-37', minGA: 35, maxGA: 37, riskAdjust: 0.9,
+          thresholds: [
+            { minH: 0, maxH: 23, photo: 8, exch: 18 },
+            { minH: 24, maxH: 47, photo: 10, exch: 20 },
+            { minH: 48, maxH: 71, photo: 13, exch: 23 },
+            { minH: 72, maxH: 999, photo: 15, exch: 26 }
+          ]
+        },
+        { name: '<35', minGA: 0, maxGA: 34, riskAdjust: 0.8,
+          thresholds: [
+            { minH: 0, maxH: 23, photo: 6, exch: 16 },
+            { minH: 24, maxH: 47, photo: 8, exch: 18 },
+            { minH: 48, maxH: 71, photo: 10, exch: 20 },
+            { minH: 72, maxH: 999, photo: 12, exch: 22 }
+          ]
         }
-        const res = document.getElementById('res-neo-ig');
-        res.style.display = 'block';
-        res.innerHTML = `IG Hoje: <span class="destaque">${ig}</span>\nDPP (40s): <span class="destaque">${dpp.toLocaleDateString('pt-BR')}</span>`;
+      ],
+      riskFactorDelta: 1.5 // Exemplo: “com risco” desloca limiar em -1.5 mg/dL (NÃO OFICIAL)
+    };
+
+    function calcIctericiaSBP() {
+      const ig = Number(document.getElementById('ict-ig').value);
+      const horas = Number(document.getElementById('ict-horas').value);
+      const bt = Number(document.getElementById('ict-bt').value);
+      const risco = document.getElementById('ict-risco').value === 'sim';
+
+      if (!Number.isFinite(ig) || ig <= 0) return showResult('res-ict', 'Informe IG (semanas).');
+      if (!Number.isFinite(horas) || horas < 0) return showResult('res-ict', 'Informe horas de vida.');
+      if (!Number.isFinite(bt) || bt < 0) return showResult('res-ict', 'Informe BT (mg/dL).');
+
+      const cat = GUIDELINES_ICT_SBP.categories.find(c => ig >= c.minGA && ig <= c.maxGA);
+      if (!cat) return showResult('res-ict', 'Não foi possível determinar categoria por IG.');
+
+      const row = cat.thresholds.find(t => horas >= t.minH && horas <= t.maxH);
+      if (!row) return showResult('res-ict', 'Não foi possível determinar faixa de horas de vida.');
+
+      // Ajuste por fator de risco (placeholder)
+      const photoThr = risco ? (row.photo - GUIDELINES_ICT_SBP.riskFactorDelta) : row.photo;
+      const exchThr = risco ? (row.exch - GUIDELINES_ICT_SBP.riskFactorDelta) : row.exch;
+
+      let conduta = 'Acompanhar / repetir BT conforme risco clínico.';
+      if (bt >= exchThr) conduta = 'Considerar EXSANGUÍNEOTRANSFUSÃO (avaliar urgente).';
+      else if (bt >= photoThr) conduta = 'Iniciar FOTOTERAPIA (ou intensificar).';
+
+      const msg =
+        `Categoria IG: ${cat.name} (placeholder)\n` +
+        `Faixa horas: ${row.minH}-${row.maxH}\n` +
+        `BT informada: ${bt.toFixed(1)} mg/dL | Risco: ${risco ? 'Sim' : 'Não'}\n\n` +
+        `Limiar fototerapia (placeholder): ${photoThr.toFixed(1)} mg/dL\n` +
+        `Limiar exsanguíneo (placeholder): ${exchThr.toFixed(1)} mg/dL\n\n` +
+        `Conduta sugerida: ${conduta}\n\n` +
+        `ATUALIZAR_CONFORME_SBP: substitua GUIDELINES_ICT_SBP pelos limiares oficiais da SBP.`;
+
+      showResult('res-ict', msg);
     }
 
-    function calcIctericia() {
-        const ig = parseInt(document.getElementById('ict-ig').value);
-        const h = parseInt(document.getElementById('ict-horas').value);
-        const bt = parseFloat(document.getElementById('ict-bt').value);
-        const risco = document.getElementById('ict-risco').value === 'sim';
-        let conduta = "Observação Clínica";
+    // =========================
+    // 2) CRESCIMENTO
+    // =========================
+    const REF_CRESC = {
+      // ATUALIZAR_CONFORME_REFERÊNCIA: placeholders por faixa etária
+      peso_g_dia: [
+        { minM: 0, maxM: 3, ref: '20–30 g/dia (placeholder)' },
+        { minM: 4, maxM: 6, ref: '20 g/dia (placeholder)' },
+        { minM: 7, maxM: 9, ref: '15 g/dia (placeholder)' },
+        { minM: 10, maxM: 12, ref: '10 g/dia (placeholder)' }
+      ],
+      pc_cm_mes: [
+        { minM: 0, maxM: 3, ref: '≈ 2 cm/mês (placeholder)' },
+        { minM: 4, maxM: 6, ref: '≈ 1 cm/mês (placeholder)' },
+        { minM: 7, maxM: 12, ref: '≈ 0,5 cm/mês (placeholder)' }
+      ],
+      alt_cm_ano: [
+        { minM: 0, maxM: 12, ref: '≈ 25 cm/ano (placeholder)' },
+        { minM: 12, maxM: 24, ref: '≈ 12 cm/ano (placeholder)' },
+        { minM: 24, maxM: 48, ref: '≈ 7–8 cm/ano (placeholder)' }
+      ]
+    };
 
-        if(ig >= 38) {
-            if(h >= 24 && bt >= 10) conduta = "Fototerapia Indicada";
-            if(bt >= 20) conduta = "Considerar Exsanguineotransfusão";
-        } else {
-            if(bt >= (ig - 20)) conduta = "Fototerapia Indicada (Pré-termo)";
-        }
-        const res = document.getElementById('res-ict');
-        res.style.display = 'block';
-        res.innerHTML = `Conduta: <span class="destaque">${conduta}</span>`;
+    function pickRef(arr, idadeMeses) {
+      const it = arr.find(x => idadeMeses >= x.minM && idadeMeses <= x.maxM);
+      return it ? it.ref : 'Sem referência configurada para esta idade.';
     }
 
-    // --- CRESCIMENTO ---
-    let chartW, chartP;
-    function analisarCrescimento() {
-        const s = document.getElementById('z-sexo').value;
-        const id = parseInt(document.getElementById('z-idade').value);
-        const p = parseFloat(document.getElementById('z-peso').value);
-        const pc = parseFloat(document.getElementById('z-pc').value);
-        
-        const dataOMS = {
-            M: { p3: [2.4, 5.0, 7.7, 9.4, 10.2], p50: [3.3, 6.4, 9.6, 11.5, 12.2], p97: [4.4, 8.0, 12.0, 14.6, 15.5] },
-            F: { p3: [2.3, 4.5, 7.0, 8.4, 9.4], p50: [3.2, 5.8, 8.9, 10.9, 11.5], p97: [4.2, 7.5, 11.5, 14.2, 15.1] }
-        };
+    function calcVelocidadesCrescimento() {
+      const di = parseDate(document.getElementById('cr-data-i').value);
+      const df = parseDate(document.getElementById('cr-data-f').value);
+      const pc1 = Number(document.getElementById('cr-pc-i').value);
+      const pc2 = Number(document.getElementById('cr-pc-f').value);
+      const p1 = Number(document.getElementById('cr-peso-i').value);
+      const p2 = Number(document.getElementById('cr-peso-f').value);
+      const alt1 = Number(document.getElementById('cr-alt-i').value);
+      const alt2 = Number(document.getElementById('cr-alt-f').value);
+      const un = document.getElementById('cr-peso-unid').value;
+      const idadeM = Number(document.getElementById('cr-idade-meses').value);
 
-        if(chartW) chartW.destroy();
-        chartW = new Chart(document.getElementById('chartWeight'), {
-            type: 'line',
-            data: {
-                labels: [0, 3, 12, 21, 24],
-                datasets: [
-                    { label: 'Paciente', data: [{x:id, y:p}], backgroundColor: 'red', pointRadius: 8, showLine: false },
-                    { label: 'P50', data: dataOMS[s].p50, borderColor: 'green', fill: false, pointRadius: 0 },
-                    { label: 'Limites (P3/P97)', data: dataOMS[s].p97, borderColor: 'orange', borderDash: [5,5], fill: false, pointRadius: 0 },
-                    { label: '', data: dataOMS[s].p3, borderColor: 'orange', borderDash: [5,5], fill: false, pointRadius: 0 }
-                ]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
+      if (!di || !df) return showResult('res-cr-peso', 'Informe as datas inicial e final.');
+      const days = diffDays(di, df);
+      if (days <= 0) return showResult('res-cr-peso', 'A data final deve ser maior que a inicial.');
+
+      // PESO -> g
+      if (!Number.isFinite(p1) || !Number.isFinite(p2)) return showResult('res-cr-peso', 'Informe pesos inicial e final.');
+      let p1g = (un === 'kg') ? p1 * 1000 : p1;
+      let p2g = (un === 'kg') ? p2 * 1000 : p2;
+      const ganhoGdia = (p2g - p1g) / days;
+
+      // PC
+      if (!Number.isFinite(pc1) || !Number.isFinite(pc2)) return showResult('res-cr-pc', 'Informe PC inicial e final.');
+      const months = days / 30.4375;
+      const pcCmMes = (pc2 - pc1) / months;
+      const pcCmSemana = (pc2 - pc1) / (days / 7);
+      const pcCmAno = (pc2 - pc1) / (days / 365.25);
+
+      // ALTURA
+      if (!Number.isFinite(alt1) || !Number.isFinite(alt2)) return showResult('res-cr-alt', 'Informe estatura inicial e final.');
+      const altCmAno = (alt2 - alt1) / (days / 365.25);
+
+      showResult('res-cr-peso',
+        `Ganho ponderal: ${ganhoGdia.toFixed(1)} g/dia\n` +
+        `ΔPeso total: ${(p2g - p1g).toFixed(0)} g em ${days} dia(s)`
+      );
+
+      showResult('res-cr-pc',
+        `Velocidade de PC:\n` +
+        `${pcCmMes.toFixed(2)} cm/mês\n` +
+        `${pcCmSemana.toFixed(2)} cm/semana\n` +
+        `${pcCmAno.toFixed(2)} cm/ano\n` +
+        `ΔPC total: ${(pc2 - pc1).toFixed(2)} cm`
+      );
+
+      showResult('res-cr-alt',
+        `Velocidade de estatura:\n` +
+        `${altCmAno.toFixed(2)} cm/ano\n` +
+        `ΔEstatura total: ${(alt2 - alt1).toFixed(2)} cm`
+      );
+
+      const idadeRef = Number.isFinite(idadeM) ? idadeM : null;
+      const refPeso = (idadeRef !== null) ? pickRef(REF_CRESC.peso_g_dia, idadeRef) : 'Informe idade (meses) para referência.';
+      const refPC = (idadeRef !== null) ? pickRef(REF_CRESC.pc_cm_mes, idadeRef) : 'Informe idade (meses) para referência.';
+      const refAlt = (idadeRef !== null) ? pickRef(REF_CRESC.alt_cm_ano, idadeRef) : 'Informe idade (meses) para referência.';
+
+      showResult('ref-cr',
+        `Referências (placeholders):\n` +
+        `Peso (g/dia): ${refPeso}\n` +
+        `PC (cm/mês): ${refPC}\n` +
+        `Estatura (cm/ano): ${refAlt}\n\n` +
+        `ATUALIZAR_CONFORME_REFERÊNCIA: edite REF_CRESC.`
+      );
     }
 
-    function calcGanhoVelocidade() {
-        const p1 = parseFloat(document.getElementById('gv-p1').value);
-        const p2 = parseFloat(document.getElementById('gv-p2').value);
-        const d1 = new Date(document.getElementById('gv-d1').value);
-        const d2 = new Date(document.getElementById('gv-d2').value);
-        const diff = (d2 - d1) / 86400000;
-        const ganho = (p2 - p1) / diff;
-        const res = document.getElementById('res-ganho');
-        res.style.display = 'block';
-        res.innerHTML = `Ganho Diário: <span class="destaque">${ganho.toFixed(2)} g/dia</span>\nPeríodo: ${diff} dias`;
+    function calcAlvoParentalEAnalise() {
+      const pai = Number(document.getElementById('ap-pai').value);
+      const mae = Number(document.getElementById('ap-mae').value);
+      const sexo = document.getElementById('ap-sexo').value;
+      const altAtual = Number(document.getElementById('ap-alt-atual').value);
+      const idade = Number(document.getElementById('ap-idade').value);
+      const io = Number(document.getElementById('ap-io').value);
+
+      if (!Number.isFinite(pai) || pai <= 0) return showResult('res-ap', 'Informe altura do pai.');
+      if (!Number.isFinite(mae) || mae <= 0) return showResult('res-ap', 'Informe altura da mãe.');
+      if (!Number.isFinite(altAtual) || altAtual <= 0) return showResult('res-ap', 'Informe altura atual.');
+      if (!Number.isFinite(idade) || idade < 0) return showResult('res-ap', 'Informe idade cronológica.');
+
+      const alvo = (sexo === 'M') ? ((pai + mae + 13) / 2) : ((pai + mae - 13) / 2);
+      const faixaMin = alvo - 8.5;
+      const faixaMax = alvo + 8.5;
+
+      const dentro = (altAtual >= faixaMin && altAtual <= faixaMax);
+      const delta = altAtual - alvo;
+
+      let analise = `Alvo parental: ${alvo.toFixed(1)} cm\nFaixa esperada: ${faixaMin.toFixed(1)} a ${faixaMax.toFixed(1)} cm\n\n`;
+      analise += `Altura atual: ${altAtual.toFixed(1)} cm\n`;
+      analise += `Diferença vs alvo: ${delta.toFixed(1)} cm\n`;
+      analise += `Interpretação: ${dentro ? 'Dentro' : 'Fora'} da faixa alvo.\n`;
+
+      if (Number.isFinite(io) && io > 0) {
+        const diffIO = io - idade;
+        analise += `\nIdade óssea informada: ${io.toFixed(1)} anos\n`;
+        analise += `IO - IC: ${diffIO.toFixed(1)} ano(s)\n`;
+        analise += `Interpretação IO: PLACEHOLDER (definir regra e limiares).`;
+      } else {
+        analise += `\nIdade óssea: não informada (opcional).`;
+      }
+
+      showResult('res-ap', analise);
     }
 
-    // --- CARDIO ---
-    function calcAlvoSC() {
-        const pai = parseFloat(document.getElementById('c-pai').value);
-        const mae = parseFloat(document.getElementById('c-mae').value);
-        const s = document.getElementById('c-sexo').value;
-        const alvo = s === 'M' ? (pai + mae + 13)/2 : (pai + mae - 13)/2;
-        const res = document.getElementById('res-cardio');
-        res.style.display = 'block';
-        res.innerHTML = `Alvo Parental: <span class="destaque">${alvo.toFixed(1)} cm</span>\nIntervalo: ${(alvo-5).toFixed(1)} - ${(alvo+5).toFixed(1)} cm`;
+    // =========================
+    // 3) CARDIO
+    // =========================
+    function calcECG() {
+      const qtq = Number(document.getElementById('ecg-qt-q').value);
+      const rrq = Number(document.getElementById('ecg-rr-q').value);
+      if (!Number.isFinite(qtq) || qtq <= 0) return showResult('res-ecg', 'Informe QT (quadradinhos).');
+      if (!Number.isFinite(rrq) || rrq <= 0) return showResult('res-ecg', 'Informe RR (quadradinhos).');
+
+      const qt_s = qtq * 0.04;
+      const rr_s = rrq * 0.04;
+
+      const qtc_bazett = qt_s / Math.sqrt(rr_s);
+      const qtc_fridericia = qt_s / Math.cbrt(rr_s);
+      const fc = 1500 / rrq; // 25 mm/s => 1500 quadradinhos/minuto
+
+      const msg =
+        `FC estimada: ${fc.toFixed(0)} bpm\n` +
+        `QT: ${qt_s.toFixed(3)} s\nRR: ${rr_s.toFixed(3)} s\n\n` +
+        `QTc (Bazett): ${(qtc_bazett * 1000).toFixed(0)} ms\n` +
+        `QTc (Fridericia): ${(qtc_fridericia * 1000).toFixed(0)} ms\n\n` +
+        `Intervalos por idade/eixo: PLACEHOLDER (inserir tabela).`;
+
+      showResult('res-ecg', msg);
     }
 
-    function calcQTc() {
-        const qt = parseInt(document.getElementById('qt-q').value) * 0.04;
-        const rr = parseInt(document.getElementById('rr-q').value) * 0.04;
-        const b = (qt / Math.sqrt(rr) * 1000).toFixed(0);
-        const f = (qt / Math.pow(rr, 1/3) * 1000).toFixed(0);
-        const res = document.getElementById('res-qtc');
-        res.style.display = 'block';
-        res.innerHTML = `Bazett: <span class="destaque">${b} ms</span>\nFridericia: <span class="destaque">${f} ms</span>\nStatus: ${b > 450 ? '⚠️ Alongado' : '✅ Normal'}`;
+    // Adulto (SBC) — lógica numérica padrão. Pediatria (SBP) — placeholder.
+    function classificarPA() {
+      const pas = Number(document.getElementById('pa-pas').value);
+      const pad = Number(document.getElementById('pa-pad').value);
+      const idade = Number(document.getElementById('pa-idade').value);
+      const sexo = document.getElementById('pa-sexo').value;
+      const est = Number(document.getElementById('pa-estatura').value);
+
+      if (!Number.isFinite(pas) || pas <= 0) return showResult('res-pa', 'Informe PAS.');
+      if (!Number.isFinite(pad) || pad <= 0) return showResult('res-pa', 'Informe PAD.');
+      if (!Number.isFinite(idade) || idade < 0) return showResult('res-pa', 'Informe idade.');
+      if (!Number.isFinite(est) || est <= 0) return showResult('res-pa', 'Informe estatura (cm) ou percentil.');
+
+      if (idade >= 18) {
+        // Classificação adulta (padrão numérico; ajustar conforme SBC/atualização desejada)
+        let cls = 'Normal';
+        if (pas < 120 && pad < 80) cls = 'Normal';
+        else if (pas >= 120 && pas <= 129 && pad < 80) cls = 'PA elevada';
+        else if ((pas >= 130 && pas <= 139) || (pad >= 80 && pad <= 89)) cls = 'HAS estágio 1';
+        else if (pas >= 140 || pad >= 90) cls = 'HAS estágio 2';
+        if (pas >= 180 || pad >= 120) cls = 'Crise hipertensiva (avaliar urgência/emergência)';
+
+        showResult('res-pa', `Adulto (SBC - numérico): ${cls}\nPAS/PAD: ${pas}/${pad} mmHg`);
+        return;
+      }
+
+      // Pediatria: precisa tabela percentílica.
+      const msg =
+        `Pediatria (SBP): classificação requer percentis por idade/sexo/estatura.\n\n` +
+        `Dados: ${idade} anos | sexo ${sexo} | estatura ${est}\nPAS/PAD: ${pas}/${pad} mmHg\n\n` +
+        `ATUALIZAR_CONFORME_SBP: plugar tabela percentílica (P90/P95/P95+12) para gerar classificação (normal, PA elevada, HAS1, HAS2).`;
+      showResult('res-pa', msg);
     }
 
-    // --- EMERGÊNCIA ---
-    function calcEmergencia() {
-        const p = parseFloat(document.getElementById('em-peso').value);
-        const i = parseFloat(document.getElementById('em-idade').value);
-        const cot = (i/4 + 3.5).toFixed(1);
-        const adr = (p * 0.1).toFixed(1);
-        const res = document.getElementById('res-emerg');
-        res.style.display = 'block';
-        res.innerHTML = `COT (Cuffed): <span class="destaque">${cot}</span>\nFixação: ${(i/2 + 12).toFixed(1)} cm\nAdrenalina (1:10k): <span class="destaque">${adr} ml</span>\nKetamina SRI: ${(p*2).toFixed(0)} mg`;
+    // =========================
+    // 4) EMERGÊNCIA (subitens)
+    // =========================
+    function getPesoIdadeEmerg() {
+      const peso = Number(document.getElementById('em-peso').value);
+      const idade = Number(document.getElementById('em-idade').value);
+      if (!Number.isFinite(peso) || peso <= 0) return { error: 'Informe peso (kg).' };
+      if (!Number.isFinite(idade) || idade < 0) return { error: 'Informe idade (anos).' };
+      return { peso, idade };
     }
 
-    // --- HIDRA / RENAL ---
-    function calcHidra() {
-        const p = parseFloat(document.getElementById('h-peso').value);
-        const vig = parseFloat(document.getElementById('h-vig').value);
-        const na = parseFloat(document.getElementById('h-na').value);
-        const base = document.getElementById('h-base').value;
-        let vol = p <= 10 ? p*100 : (p <= 20 ? 1000+(p-10)*50 : 1500+(p-20)*20);
-        const percG = (vig * 144 * p) / vol;
-        const mEqNa = base === 'kg' ? na * p : (na * vol) / 1000;
-        const res = document.getElementById('res-hidra');
-        res.style.display = 'block';
-        res.innerHTML = `Volume 24h: <span class="destaque">${vol} ml</span> (${(vol/24).toFixed(1)} ml/h)\nConcentração Glicose: <span class="destaque">${percG.toFixed(1)}%</span>\nNaCl 20% (3.4mEq/ml): ${(mEqNa/3.4).toFixed(1)} ml`;
+    // Doses base (placeholders; ajustar conforme seu protocolo)
+    const EMERG_DOSES = {
+      // ATUALIZAR_CONFORME_PROTOCOLO
+      rcp: {
+        epi_mgkg: 0.01, // mg/kg IV/IO (exemplo)
+        amio_mgkg: 5,   // mg/kg (exemplo)
+        lido_mgkg: 1,   // mg/kg (exemplo)
+        defib_jkg_1: 2, // J/kg (exemplo)
+        defib_jkg_2: 4  // J/kg (exemplo)
+      },
+      sri: {
+        // exemplos para estrutura
+        cet_mgkg: 1.5,
+        eto_mgkg: 0.3,
+        mida_mgkg: 0.1,
+        fenta_mcgkg: 2,
+        roc_mgkg: 1.2,
+        succ_mgkg: 2
+      },
+      tubo: {
+        // Fórmulas pediátricas clássicas
+      },
+      sedacao: {
+        // placeholders
+      },
+      neuro: {
+        // placeholders
+      },
+      ritmo: {
+        // placeholders
+      },
+      choque: {
+        bolus_mlkg: 20 // mL/kg (exemplo)
+      }
+    };
+
+    function calcEmerg41() {
+      const base = getPesoIdadeEmerg();
+      if (base.error) return showResult('res-em-41', base.error);
+
+      const { peso, idade } = base;
+      const sub = document.getElementById('em-41').value;
+
+      let out = '';
+      if (sub === 'rcp') {
+        const epi = EMERG_DOSES.rcp.epi_mgkg * peso;
+        const amio = EMERG_DOSES.rcp.amio_mgkg * peso;
+        const lido = EMERG_DOSES.rcp.lido_mgkg * peso;
+        const def1 = EMERG_DOSES.rcp.defib_jkg_1 * peso;
+        const def2 = EMERG_DOSES.rcp.defib_jkg_2 * peso;
+
+        out =
+          `RCP (placeholder):\n` +
+          `• Epinefrina: ${epi.toFixed(2)} mg (0,01 mg/kg IV/IO)\n` +
+          `• Amiodarona: ${amio.toFixed(0)} mg (5 mg/kg)\n` +
+          `• Lidocaína: ${lido.toFixed(0)} mg (1 mg/kg)\n` +
+          `• Desfibrilação: ${def1.toFixed(0)} J (2 J/kg) → ${def2.toFixed(0)} J (4 J/kg)\n\n` +
+          `ATUALIZAR_CONFORME_PROTOCOLO: revise doses, apresentações e máximos.`;
+      }
+
+      if (sub === 'sri') {
+        const cet = EMERG_DOSES.sri.cet_mgkg * peso;
+        const eto = EMERG_DOSES.sri.eto_mgkg * peso;
+        const mida = EMERG_DOSES.sri.mida_mgkg * peso;
+        const fenta = EMERG_DOSES.sri.fenta_mcgkg * peso;
+        const roc = EMERG_DOSES.sri.roc_mgkg * peso;
+        const succ = EMERG_DOSES.sri.succ_mgkg * peso;
+
+        out =
+          `SRI (placeholder):\n` +
+          `Indução (escolher 1):\n` +
+          `• Cetamina: ${cet.toFixed(1)} mg\n` +
+          `• Etomidato: ${eto.toFixed(1)} mg\n` +
+          `• Midazolam: ${mida.toFixed(1)} mg\n\n` +
+          `Analgesia (se indicado):\n` +
+          `• Fentanil: ${fenta.toFixed(0)} mcg\n\n` +
+          `Bloqueio neuromuscular (escolher 1):\n` +
+          `• Rocurônio: ${roc.toFixed(1)} mg\n` +
+          `• Succinilcolina: ${succ.toFixed(1)} mg\n\n` +
+          `ATUALIZAR_CONFORME_PROTOCOLO: confirme faixas, contraindicações, máximos e diluições.`;
+      }
+
+      if (sub === 'tubo') {
+        // Fórmulas: diâmetro interno (cuffed) = idade/4 + 3.5 ; uncuffed = idade/4 + 4
+        // Profundidade (oral) ≈ 3 x DI (cm) (heurística)
+        // Obs: RN tem tabela por peso/IG (placeholder)
+        const diCuffed = (idade / 4) + 3.5;
+        const diUncuffed = (idade / 4) + 4.0;
+        const profCuffed = 3 * diCuffed;
+        const profUncuffed = 3 * diUncuffed;
+
+        out =
+          `Tubo e fixação (heurísticas clássicas):\n` +
+          `• ETT cuffed (DI): idade/4 + 3,5 = ${diCuffed.toFixed(1)} mm\n` +
+          `• ETT uncuffed (DI): idade/4 + 4,0 = ${diUncuffed.toFixed(1)} mm\n` +
+          `• Profundidade oral (aprox): 3 × DI\n` +
+          `  - cuffed: ~${profCuffed.toFixed(1)} cm\n` +
+          `  - uncuffed: ~${profUncuffed.toFixed(1)} cm\n\n` +
+          `Neonato: ATUALIZAR_TABELA_RN por peso/IG para DI e profundidade.`;
+      }
+
+      showResult('res-em-41', out);
+    }
+
+    function calcEmerg42() {
+      const base = getPesoIdadeEmerg();
+      if (base.error) return showResult('res-em-42', base.error);
+      const { peso } = base;
+      const sub = document.getElementById('em-42').value;
+
+      let out = '';
+      if (sub === 'proced') {
+        out =
+          `Sedação/analgesia para procedimentos (placeholder):\n` +
+          `• Midazolam: X mg/kg → ${(peso * 0.1).toFixed(2)} mg (exemplo estrutural)\n` +
+          `• Fentanil: X mcg/kg → ${(peso * 2).toFixed(0)} mcg (exemplo estrutural)\n\n` +
+          `ATUALIZAR_TABELAS_SEDACAO: inserir drogas, doses, máximos e observações.`;
+      } else {
+        out =
+          `Sedação contínua (placeholder):\n` +
+          `• Midazolam: X mcg/kg/min\n` +
+          `• Fentanil: X mcg/kg/h\n` +
+          `• Dexmedetomidina: X mcg/kg/h\n\n` +
+          `ATUALIZAR_TABELAS_SEDACAO: inserir taxas e limites conforme protocolo.`;
+      }
+
+      showResult('res-em-42', out);
+    }
+
+    function calcEmerg43() {
+      const base = getPesoIdadeEmerg();
+      if (base.error) return showResult('res-em-43', base.error);
+      const { peso } = base;
+      const sub = document.getElementById('em-43').value;
+
+      let out = '';
+      if (sub === 'crise') {
+        out =
+          `Crise convulsiva (placeholder):\n` +
+          `• Benzodiazepínico (ex.: diazepam/midazolam): dose por kg\n` +
+          `Exemplo estrutural: midazolam 0,2 mg/kg → ${(peso * 0.2).toFixed(2)} mg\n\n` +
+          `ATUALIZAR_TABELAS_NEURO: definir 1ª/2ª linha, vias, repetição e máximos.`;
+      } else if (sub === 'status') {
+        out =
+          `Status convulsivo (placeholder):\n` +
+          `• 1ª linha: benzo\n` +
+          `• 2ª linha: levetiracetam/fenitoína/valproato (conforme protocolo)\n` +
+          `• 3ª linha: considerar UTI/intubação/sedação contínua\n\n` +
+          `ATUALIZAR_TABELAS_NEURO: inserir doses e sequência temporal.`;
+      } else {
+        out =
+          `Hipertensão intracraniana (placeholder):\n` +
+          `• Elevar cabeceira, analgesia/sedação, normocapnia, tratar causa\n` +
+          `• Soluções hipertônicas/manitol conforme protocolo\n\n` +
+          `ATUALIZAR_TABELAS_NEURO: inserir doses e critérios.`;
+      }
+
+      showResult('res-em-43', out);
+    }
+
+    function calcEmerg44() {
+      const base = getPesoIdadeEmerg();
+      if (base.error) return showResult('res-em-44', base.error);
+      const { peso } = base;
+      const sub = document.getElementById('em-44').value;
+
+      let out = '';
+      if (sub === 'chocaveis') {
+        out =
+          `Ritmos chocáveis (placeholder): FV / TV sem pulso\n` +
+          `• Desfibrilação: 2–4 J/kg (ver 4.1)\n` +
+          `• Antiarrítmico: amiodarona/lidocaína (ver 4.1)\n\n` +
+          `Peso: ${peso.toFixed(1)} kg\n` +
+          `ATUALIZAR_TABELAS_RITMO: inserir sequência e doses conforme guideline.`;
+      } else {
+        out =
+          `Ritmos não chocáveis (placeholder): AESP / assistolia\n` +
+          `• Epinefrina conforme protocolo\n` +
+          `• Tratar causas reversíveis (Hs e Ts)\n\n` +
+          `ATUALIZAR_TABELAS_RITMO: inserir medicações, doses e checklist.`;
+      }
+
+      showResult('res-em-44', out);
+    }
+
+    function calcEmerg45() {
+      const base = getPesoIdadeEmerg();
+      if (base.error) return showResult('res-em-45', base.error);
+      const { peso } = base;
+      const tipo = document.getElementById('em-45').value;
+
+      const bolus = EMERG_DOSES.choque.bolus_mlkg * peso;
+
+      let out = `Choque (placeholder) — tipo: ${tipo}\n\n`;
+      out += `• Cristaloide: ${bolus.toFixed(0)} mL (20 mL/kg) (exemplo)\n`;
+      out += `• Vasopressores/inotrópicos: PLACEHOLDER (noradrenalina/adrenalina/dobutamina etc.)\n\n`;
+      out += `ATUALIZAR_TABELAS_CHOQUE: inserir drogas, doses por kg, máximos e estratégia por tipo.`;
+
+      showResult('res-em-45', out);
+    }
+
+    // =========================
+    // 5) HIDRATAÇÃO
+    // =========================
+    function calcHollidaySegar() {
+      const peso = Number(document.getElementById('hs-peso').value);
+      const modo = document.getElementById('hs-modo').value;
+
+      const na = Number(document.getElementById('hs-na').value);
+      const k = Number(document.getElementById('hs-k').value);
+      const cl = Number(document.getElementById('hs-cl').value);
+      const glic = Number(document.getElementById('hs-glic').value);
+
+      if (!Number.isFinite(peso) || peso <= 0) return showResult('res-hs', 'Informe peso (kg).');
+
+      // Holliday-Segar: 100/50/20 mL/kg/dia
+      let vol24 = 0;
+      if (peso <= 10) vol24 = 100 * peso;
+      else if (peso <= 20) vol24 = 1000 + 50 * (peso - 10);
+      else vol24 = 1500 + 20 * (peso - 20);
+
+      const mlh = vol24 / 24;
+
+      let out =
+        `Manutenção (Holliday-Segar):\n` +
+        `Volume 24h: ${vol24.toFixed(0)} mL\n` +
+        `Taxa: ${mlh.toFixed(1)} mL/h\n\n`;
+
+      if (modo === 'meqkg') {
+        // mEq/kg/dia -> total/dia
+        if (Number.isFinite(na)) out += `Na+ total/dia: ${(na * peso).toFixed(1)} mEq\n`;
+        if (Number.isFinite(k)) out += `K+ total/dia: ${(k * peso).toFixed(1)} mEq\n`;
+        if (Number.isFinite(cl)) out += `Cl- total/dia: ${(cl * peso).toFixed(1)} mEq\n`;
+        if (Number.isFinite(glic)) out += `Glicose total/dia: ${(glic * peso).toFixed(1)} g\n`;
+        out += `\nObservação: composição final do soro depende do volume e solução-base (placeholder).`;
+      } else {
+        // mEq/L -> total/dia estimado com base no volume
+        const L24 = vol24 / 1000;
+        if (Number.isFinite(na)) out += `Na+ estimado/dia: ${(na * L24).toFixed(1)} mEq\n`;
+        if (Number.isFinite(k)) out += `K+ estimado/dia: ${(k * L24).toFixed(1)} mEq\n`;
+        if (Number.isFinite(cl)) out += `Cl- estimado/dia: ${(cl * L24).toFixed(1)} mEq\n`;
+        if (Number.isFinite(glic)) out += `Glicose estimado/dia: ${(glic * L24).toFixed(1)} g\n`;
+        out += `\nObservação: isto assume concentração final homogênea (placeholder).`;
+      }
+
+      showResult('res-hs', out);
+    }
+
+    function calcVIG() {
+      const peso = Number(document.getElementById('vig-peso').value);
+      const alvo = Number(document.getElementById('vig-alvo').value);
+      const na = Number(document.getElementById('vig-na').value);
+      const k = Number(document.getElementById('vig-k').value);
+      const cl = Number(document.getElementById('vig-cl').value);
+      const glic = Number(document.getElementById('vig-glic').value);
+
+      if (!Number.isFinite(peso) || peso <= 0) return showResult('res-vig', 'Informe peso (kg).');
+      if (!Number.isFinite(alvo) || alvo <= 0) return showResult('res-vig', 'Informe VIG alvo (mL/kg/h).');
+
+      const mlh = alvo * peso;
+      const vol24 = mlh * 24;
+
+      let out =
+        `VIG:\n` +
+        `Taxa: ${mlh.toFixed(1)} mL/h\n` +
+        `Volume 24h: ${vol24.toFixed(0)} mL\n\n` +
+        `Eletrólitos (mEq/L) informados:\n` +
+        `Na+: ${Number.isFinite(na) ? na.toFixed(1) : '—'} | K+: ${Number.isFinite(k) ? k.toFixed(1) : '—'} | Cl-: ${Number.isFinite(cl) ? cl.toFixed(1) : '—'}\n` +
+        `Glicose (g/L): ${Number.isFinite(glic) ? glic.toFixed(1) : '—'}\n\n` +
+        `ATUALIZAR: definir cálculo de prescrição final por solução-base e aditivos (placeholder).`;
+
+      showResult('res-vig', out);
     }
 
     function calcSchwartz() {
-        const cr = parseFloat(document.getElementById('ren-cr').value);
-        const alt = parseFloat(document.getElementById('ren-alt').value);
-        const tfg = (0.413 * alt / cr).toFixed(1);
-        const res = document.getElementById('res-renal');
-        res.style.display = 'block';
-        res.innerHTML = `eTFG: <span class="destaque">${tfg} ml/min/1.73m²</span>`;
+      const cr = Number(document.getElementById('ren-cr').value);
+      const alt = Number(document.getElementById('ren-alt').value);
+      if (!Number.isFinite(cr) || cr <= 0) return showResult('res-renal', 'Informe creatinina.');
+      if (!Number.isFinite(alt) || alt <= 0) return showResult('res-renal', 'Informe estatura (cm).');
+
+      const etfg = (0.413 * alt) / cr;
+      showResult('res-renal', `eTFG (Schwartz): ${etfg.toFixed(1)} mL/min/1,73m²`);
     }
 
-    // --- LAB / GASO ---
-    function calcGaso() {
-        const ph = parseFloat(document.getElementById('g-ph').value);
-        const pco2 = parseFloat(document.getElementById('g-pco2').value);
-        const hco3 = parseFloat(document.getElementById('g-hco3').value);
-        const na = parseFloat(document.getElementById('g-na').value);
-        let diag = "Equilíbrio Normal";
-        if(ph < 7.35) diag = hco3 < 22 ? "Acidose Metabólica" : "Acidose Respiratória";
-        const res = document.getElementById('res-gaso');
-        res.style.display = 'block';
-        res.innerHTML = `Diagnóstico: <span class="destaque">${diag}</span>\nAnion Gap: ${(na - (105 + hco3)).toFixed(1)}`;
+    // =========================
+    // 6) LABORATÓRIOS
+    // =========================
+    function calcGasoConduta() {
+      const ph = Number(document.getElementById('g-ph').value);
+      const pco2 = Number(document.getElementById('g-pco2').value);
+      const hco3 = Number(document.getElementById('g-hco3').value);
+      const na = Number(document.getElementById('g-na').value);
+      const cl = Number(document.getElementById('g-cl').value);
+      const alb = Number(document.getElementById('g-alb').value);
+
+      if (!Number.isFinite(ph) || ph <= 0) return showResult('res-gaso', 'Informe pH.');
+      if (!Number.isFinite(pco2) || pco2 <= 0) return showResult('res-gaso', 'Informe pCO2.');
+      if (!Number.isFinite(hco3) || hco3 <= 0) return showResult('res-gaso', 'Informe HCO3-.');
+      if (!Number.isFinite(na) || na <= 0) return showResult('res-gaso', 'Informe Na+.');
+      if (!Number.isFinite(cl) || cl <= 0) return showResult('res-gaso', 'Informe Cl-.');
+
+      const ag = na - (cl + hco3);
+      let agCorr = ag;
+      let agMsg = `Ânion gap: ${ag.toFixed(1)}`;
+
+      // Correção por albumina (aproximação comum; ajuste se preferir)
+      if (Number.isFinite(alb) && alb > 0) {
+        // AGcorr = AG + 2.5*(4 - alb)
+        agCorr = ag + 2.5 * (4 - alb);
+        agMsg += `\nÂnion gap corrigido (Alb): ${agCorr.toFixed(1)} (Alb ${alb.toFixed(1)} g/dL)`;
+      }
+
+      // Diagnóstico primário básico
+      const acidemia = ph < 7.35;
+      const alcalemia = ph > 7.45;
+
+      let prim = 'Indeterminado';
+      if (acidemia) {
+        prim = (hco3 < 22) ? 'Acidose metabólica (provável)' : 'Acidose respiratória (provável)';
+      } else if (alcalemia) {
+        prim = (hco3 > 26) ? 'Alcalose metabólica (provável)' : 'Alcalose respiratória (provável)';
+      } else {
+        prim = 'pH normal/compensado (avaliar distúrbios mistos)';
+      }
+
+      // Compensações (fórmulas clássicas; cuidado pediátrico/ventilação)
+      let comp = '';
+      if (hco3 < 22) {
+        // Winter: pCO2 esperada = 1.5*HCO3 + 8 (±2)
+        const exp = 1.5 * hco3 + 8;
+        comp = `Compensação (Winter): pCO2 esperada ~ ${exp.toFixed(1)} mmHg (±2)`;
+      } else if (hco3 > 26) {
+        const exp = 0.7 * (hco3 - 24) + 40;
+        comp = `Compensação alcalose metabólica: pCO2 esperada ~ ${exp.toFixed(1)} mmHg (±5)`;
+      } else {
+        comp = 'Compensação: avaliar no contexto clínico (placeholder).';
+      }
+
+      let conduta =
+        `Conduta (orientativa):\n` +
+        `• Correlacionar com clínica, lactato/cetonas/sepse/choque/IRA\n` +
+        `• Se acidose metabólica com AG alto: pensar em lactato/cetoacidose/uremia/tox.\n` +
+        `• Se AG normal (hiperclorêmica): pensar em diarreia/ATR/expansão com SF\n` +
+        `• Ajustar ventilação apenas se indicado (evitar hiperventilação iatrogênica)\n\n` +
+        `ATUALIZAR: adicionar fluxos de conduta por diagnóstico institucional.`;
+
+      const out =
+        `${prim}\n\n` +
+        `pH: ${ph.toFixed(2)} | pCO2: ${pco2.toFixed(1)} | HCO3-: ${hco3.toFixed(1)}\n` +
+        `${agMsg}\n\n` +
+        `${comp}\n\n` +
+        `${conduta}`;
+
+      showResult('res-gaso', out);
     }
 
     function convertLab() {
-        const f = parseFloat(document.getElementById('lab-conv').value);
-        const v = parseFloat(document.getElementById('lab-val').value);
-        const res = document.getElementById('res-lab');
-        res.style.display = 'block';
-        res.innerHTML = `Resultado SI: <span class="destaque">${(v * f).toFixed(2)}</span>`;
+      const fator = Number(document.getElementById('lab-conv').value);
+      const val = Number(document.getElementById('lab-val').value);
+      if (!Number.isFinite(val)) return showResult('res-lab', 'Informe o valor para converter.');
+
+      const res = val * fator;
+      showResult('res-lab', `Resultado: ${res.toFixed(2)}`);
     }
 
-    // --- CHECKLIST ---
+    // =========================
+    // CHECKLIST (placeholder)
+    // =========================
     function renderCheck() {
-        const i = document.getElementById('ck-idade').value;
-        const area = document.getElementById('check-area');
-        const db = {
-            "2": ["Sorriso Social", "Fixa o olhar", "Vitamina D (400UI)", "Vacinas: Penta/Pneumo"],
-            "6": ["Senta com apoio", "Inicia I.A.", "Ferro Profilático", "Vacinas: Penta/VIP"],
-            "12": ["Anda com apoio", "Primeiras palavras", "Dieta da Família", "Vacinas: Tríplice Viral"]
-        };
-        area.innerHTML = (db[i] || []).map(t => `<div style="display:flex; gap:10px; padding:8px 0; border-bottom:1px solid #eee"><input type="checkbox"> <span>${t}</span></div>`).join('');
+      const idade = document.getElementById('ck-idade').value;
+      const area = document.getElementById('check-area');
+      if (!idade) { area.innerHTML = ''; return; }
+
+      // Placeholder mínimo (você pode substituir por checklists completos)
+      const itens = {
+        '2': ['Vacinas do 2º mês', 'Aleitamento materno', 'Triagem auditiva/olhinho (se pendente)'],
+        '6': ['Introdução alimentar', 'Vacinas do 6º mês', 'Avaliar marcos do desenvolvimento'],
+        '12': ['Vacinas 12 meses', 'Triagem anemia/ferro (conforme risco)', 'Avaliar linguagem e marcha']
+      };
+
+      const list = (itens[idade] || []).map(i => `<li>${i}</li>`).join('');
+      area.innerHTML = `<div class="result-box" style="display:block"><span class="destaque">Checklist (placeholder)</span><ul style="margin:10px 0 0 18px">${list}</ul></div>`;
     }
-</script>
+  </script>
 </body>
 </html>
