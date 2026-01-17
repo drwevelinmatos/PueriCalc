@@ -229,13 +229,15 @@
         <label>Bilirrubina Total (mg/dL)</label>
         <input type="number" id="ict-bt" step="0.1" min="0">
 
-        <label>Fatores de risco (hemólise, sepse, prematuridade etc.)</label>
-        <select id="ict-risco">
-          <option value="nao">Não</option>
-          <option value="sim">Sim</option>
-        </select>
+        <label>Fatores de risco (marque os presentes)</label>
+<div style="margin-top:8px">
+  <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="hemolise"> Hemólise (ABO/Rh, Coombs +, G6PD, etc.)</label>
+  <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="sepse"> Sepse/instabilidade clínica</label>
+  <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="prematuro"> Prematuridade/idade gestacional limítrofe</label>
+  <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="albumina"> Hipoalbuminemia (se aplicável)</label>
+</div>
 
-        <button class="calc-btn" onclick="calcIctericiaSBP()">Avaliar Conduta</button>
+        <button class="calc-btn" onclick="calcIctericiaSBP2021()">Avaliar Conduta</button>
         <div id="res-ict" class="result-box"></div>
 
         <div class="muted warn">
@@ -817,78 +819,144 @@ function calcLubchencoPIG() {
 
   showResult('res-neo-lub', msg);
 }
+    
+// =========================
+// ICTERÍCIA — SBP 2021 (completo)
+// =========================
 
-    // Diretrizes de icterícia (placeholder)
-    const GUIDELINES_ICT_SBP = {
-      // ATUALIZAR_CONFORME_SBP
-      // Estrutura sugerida: por categoria (>=38 sem; 35-37; <35) e faixas de hora.
-      // Exemplo (NÃO OFICIAL):
-      categories: [
-        { name: '>=38', minGA: 38, maxGA: 99, riskAdjust: 1.0,
-          thresholds: [
-            { minH: 0, maxH: 23, photo: 10, exch: 20 },
-            { minH: 24, maxH: 47, photo: 12, exch: 22 },
-            { minH: 48, maxH: 71, photo: 15, exch: 25 },
-            { minH: 72, maxH: 999, photo: 17, exch: 28 }
-          ]
-        },
-        { name: '35-37', minGA: 35, maxGA: 37, riskAdjust: 0.9,
-          thresholds: [
-            { minH: 0, maxH: 23, photo: 8, exch: 18 },
-            { minH: 24, maxH: 47, photo: 10, exch: 20 },
-            { minH: 48, maxH: 71, photo: 13, exch: 23 },
-            { minH: 72, maxH: 999, photo: 15, exch: 26 }
-          ]
-        },
-        { name: '<35', minGA: 0, maxGA: 34, riskAdjust: 0.8,
-          thresholds: [
-            { minH: 0, maxH: 23, photo: 6, exch: 16 },
-            { minH: 24, maxH: 47, photo: 8, exch: 18 },
-            { minH: 48, maxH: 71, photo: 10, exch: 20 },
-            { minH: 72, maxH: 999, photo: 12, exch: 22 }
-          ]
-        }
-      ],
-      riskFactorDelta: 1.5 // Exemplo: “com risco” desloca limiar em -1.5 mg/dL (NÃO OFICIAL)
-    };
+// RN &lt;35 semanas: SBP 2021 - Tabela 10 (BT mg/dL)
+// Regra SBP: "Aplicar os valores inferiores referidos" quando houver fatores de risco.
+// Aqui implementado como: se risco => usa o LIMITE INFERIOR do intervalo; se sem risco => LIMITE SUPERIOR.
+const SBP2021_PRE35 = [
+  { minGA: 0,     maxGA: 27.999, photo: [5, 6],  exch: [11, 14] },
+  { minGA: 28.0,  maxGA: 29.999, photo: [6, 8],  exch: [12, 14] },
+  { minGA: 30.0,  maxGA: 31.999, photo: [8, 10], exch: [13, 16] },
+  { minGA: 32.0,  maxGA: 33.999, photo: [10,12], exch: [15, 18] },
+  { minGA: 34.0,  maxGA: 34.999, photo: [10,12], exch: [17, 19] }
+];
 
-    function calcIctericiaSBP() {
-      const ig = Number(document.getElementById('ict-ig').value);
-      const horas = Number(document.getElementById('ict-horas').value);
-      const bt = Number(document.getElementById('ict-bt').value);
-      const risco = document.getElementById('ict-risco').value === 'sim';
+function getRiskFlagIctericia() {
+  const checks = Array.from(document.querySelectorAll('.ict-risk'));
+  return checks.some(c => c.checked);
+}
 
-      if (!Number.isFinite(ig) || ig <= 0) return showResult('res-ict', 'Informe IG (semanas).');
-      if (!Number.isFinite(horas) || horas < 0) return showResult('res-ict', 'Informe horas de vida.');
-      if (!Number.isFinite(bt) || bt < 0) return showResult('res-ict', 'Informe BT (mg/dL).');
+function pickThreshold(range, hasRisk) {
+  // range = [min,max]
+  // SBP diz aplicar valores inferiores quando risco presente.
+  return hasRisk ? range[0] : range[1];
+}
 
-      const cat = GUIDELINES_ICT_SBP.categories.find(c => ig >= c.minGA && ig <= c.maxGA);
-      if (!cat) return showResult('res-ict', 'Não foi possível determinar categoria por IG.');
+function findPre35Row(gaFloat) {
+  return SBP2021_PRE35.find(r => gaFloat >= r.minGA && gaFloat &lt;= r.maxGA) || null;
+}
 
-      const row = cat.thresholds.find(t => horas >= t.minH && horas <= t.maxH);
-      if (!row) return showResult('res-ict', 'Não foi possível determinar faixa de horas de vida.');
+    // RN ≥35 semanas: SBP 2021 (por horas de vida)
+// Estrutura para você plugar os valores exatos do SBP 2021.
+// Formato: para cada faixa de IG (35-37 e >=38) e faixa de horas, defina fototerapia e exsanguíneo.
+// ATUALIZAR_CONFORME_SBP2021: colar valores reais aqui.
+const SBP2021_GE35 = {
+  groups: [
+    {
+      name: "35-37",
+      minGA: 35,
+      maxGA: 37.999,
+      rows: [
+        // { minH: 0, maxH: 23, photo: X, exch: Y },
+        // { minH: 24, maxH: 35, photo: X, exch: Y },
+        // ...
+      ]
+    },
+    {
+      name: ">=38",
+      minGA: 38,
+      maxGA: 99,
+      rows: [
+        // { minH: 0, maxH: 23, photo: X, exch: Y },
+        // ...
+      ]
+    }
+  ],
+  // Ajuste por risco em RN ≥35: SBP usa linha/limiar mais baixo quando risco presente.
+  // Você pode implementar risco como: subtrair delta OU usar uma tabela "com risco".
+  // Aqui eu deixo preparado para as duas formas.
+  hasRiskTable: false, // se você colar "rowsRisk", mude para true
+};
 
-      // Ajuste por fator de risco (placeholder)
-      const photoThr = risco ? (row.photo - GUIDELINES_ICT_SBP.riskFactorDelta) : row.photo;
-      const exchThr = risco ? (row.exch - GUIDELINES_ICT_SBP.riskFactorDelta) : row.exch;
+function findGE35Row(gaFloat, horas) {
+  const grp = SBP2021_GE35.groups.find(g => gaFloat >= g.minGA && gaFloat &lt;= g.maxGA);
+  if (!grp) return null;
+  const row = grp.rows.find(r => horas >= r.minH && horas &lt;= r.maxH);
+  return row ? { grp, row } : null;
+}
 
-      let conduta = 'Acompanhar / repetir BT conforme risco clínico.';
-      if (bt >= exchThr) conduta = 'Considerar EXSANGUÍNEOTRANSFUSÃO (avaliar urgente).';
-      else if (bt >= photoThr) conduta = 'Iniciar FOTOTERAPIA (ou intensificar).';
+    function calcIctericiaSBP2021() {
+  const igSem = Number(document.getElementById('ict-ig').value);
+  const horas = Number(document.getElementById('ict-horas').value);
+  const bt = Number(document.getElementById('ict-bt').value);
 
-      const msg =
-        `Categoria IG: ${cat.name} (placeholder)\n` +
-        `Faixa horas: ${row.minH}-${row.maxH}\n` +
-        `BT informada: ${bt.toFixed(1)} mg/dL | Risco: ${risco ? 'Sim' : 'Não'}\n\n` +
-        `Limiar fototerapia (placeholder): ${photoThr.toFixed(1)} mg/dL\n` +
-        `Limiar exsanguíneo (placeholder): ${exchThr.toFixed(1)} mg/dL\n\n` +
-        `Conduta sugerida: ${conduta}\n\n` +
-        `ATUALIZAR_CONFORME_SBP: substitua GUIDELINES_ICT_SBP pelos limiares oficiais da SBP.`;
+  if (!Number.isFinite(igSem) || igSem &lt;= 0) return showResult('res-ict', 'Informe IG (semanas).');
+  if (!Number.isFinite(horas) || horas &lt; 0) return showResult('res-ict', 'Informe horas de vida.');
+  if (!Number.isFinite(bt) || bt &lt; 0) return showResult('res-ict', 'Informe bilirrubina total (mg/dL).');
 
-      showResult('res-ict', msg);
+  const hasRisk = getRiskFlagIctericia();
+  const gaFloat = igSem; // aqui IG está em semanas inteiras; se você quiser semanas+dias, eu adapto como float.
+
+  // 1) RN &lt;35 semanas: SBP 2021 Tabela 10 (usa IG corrigida)
+  if (gaFloat &lt; 35) {
+    const row = findPre35Row(gaFloat);
+    if (!row) {
+      return showResult('res-ict', 'Sem referência SBP 2021 (&lt;35 semanas) para esta IG. Verifique o valor informado.');
     }
 
-    // =========================
+    const thrPhoto = pickThreshold(row.photo, hasRisk);
+    const thrExch = pickThreshold(row.exch, hasRisk);
+
+    let conduta = 'Acompanhar e repetir BT conforme clínica.';
+    if (bt >= thrExch) conduta = 'Exsanguineotransfusão: INDICAÇÃO (avaliar urgência, otimizar fototerapia intensiva enquanto prepara).';
+    else if (bt >= thrPhoto) conduta = 'Fototerapia: INDICAÇÃO (preferir intensiva conforme contexto).';
+
+    const msg =
+      `SBP 2021 — RN &lt;35 semanas (Tabela 10)\n` +
+      `IG: ${igSem} sem | Horas de vida: ${horas}h | Risco: ${hasRisk ? 'Sim (usar limite inferior)' : 'Não (usar limite superior)'}\n` +
+      `BT: ${bt.toFixed(1)} mg/dL\n\n` +
+      `Limiar fototerapia: ${thrPhoto.toFixed(1)} mg/dL\n` +
+      `Limiar exsanguíneo: ${thrExch.toFixed(1)} mg/dL\n\n` +
+      `Conduta: ${conduta}`;
+
+    return showResult('res-ict', msg);
+  }
+
+  // 2) RN ≥35 semanas: SBP 2021 por horas/IG (precisa tabela preenchida)
+  const hit = findGE35Row(gaFloat, horas);
+  if (!hit) {
+    return showResult(
+      'res-ict',
+      `SBP 2021 — RN ≥35 semanas\n` +
+      `Tabela por horas/IG ainda não foi preenchida no código.\n\n` +
+      `Preencha SBP2021_GE35.groups[].rows com os limiares oficiais do SBP 2021.\n` +
+      `Depois disso o cálculo fica automático.`
+    );
+  }
+
+  const thrPhoto = hit.row.photo;
+  const thrExch = hit.row.exch;
+
+  let conduta = 'Acompanhar e repetir BT conforme risco clínico.';
+  if (bt >= thrExch) conduta = 'Exsanguineotransfusão: INDICAÇÃO (avaliar urgência).';
+  else if (bt >= thrPhoto) conduta = 'Fototerapia: INDICAÇÃO.';
+
+  const msg =
+    `SBP 2021 — RN ≥35 semanas\n` +
+    `Grupo IG: ${hit.grp.name}\n` +
+    `Horas: ${horas}h | Risco: ${hasRisk ? 'Sim (implementar ajuste conforme SBP)' : 'Não'}\n` +
+    `BT: ${bt.toFixed(1)} mg/dL\n\n` +
+    `Limiar fototerapia: ${thrPhoto.toFixed(1)} mg/dL\n` +
+    `Limiar exsanguíneo: ${thrExch.toFixed(1)} mg/dL\n\n` +
+    `Conduta: ${conduta}`;
+
+  return showResult('res-ict', msg);
+}
+        // =========================
     // 2) CRESCIMENTO
     // =========================
     const REF_CRESC = {
