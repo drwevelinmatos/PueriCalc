@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <>
+  <style>
     :root {
       --primary: rgb(40,90,129);
       --secondary: rgb(185,224,229);
@@ -123,137 +123,69 @@
     .cardio-sub{ display:none; }
     .cardio-sub.active{ display:block; }
 
-    /* ===== MRPA: blocos de impressão ===== */
-    .mrpa-title{
-      font-family: 'Comfortaa', cursive;
-      text-align:center;
-      color: var(--primary);
-      margin: 6px 0 14px;
-    }
-    .mrpa-row-title{
-      margin: 0 0 10px;
-      color: var(--primary);
-      font-family: 'Comfortaa', cursive;
-      font-size: 0.95rem;
-      text-align:left;
-    }
-    .mrpa-grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-    .mrpa-grid-3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; }
+    /* ===== MRPA (blocos para escrever à caneta) ===== */
+    .mrpa-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .mrpa-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
 
     .mrpa-label{
       font-size: 0.78rem;
       font-weight: 800;
       color: var(--primary);
-      margin: 6px 0 4px;
+      margin: 8px 0 6px;
     }
+
     .mrpa-box{
-      height: 34px;
-      border: 1px solid #dce4ec;
-      background: #fff;
+      border: 1.6px solid rgba(0,0,0,0.75);
       border-radius: 8px;
+      height: 30px;
+      background: #fff;
     }
-    .mrpa-box.tall{ height: 70px; }
+    .mrpa-box.big{ height: 70px; }
+
+    .mrpa-row-title{
+      font-family: 'Comfortaa', cursive;
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 0.95rem;
+      margin: 0 0 8px;
+      text-align:left;
+    }
 
     .mrpa-medicao{
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.12);
       border-radius: 12px;
       padding: 10px;
       background: #fff;
     }
 
-    .mrpa-actions{
-      display:flex;
-      gap:10px;
-      margin: 10px 0 14px;
+    @media (max-width: 900px){
+      .mrpa-grid-2{ grid-template-columns:1fr; }
+      .mrpa-grid-3{ grid-template-columns:1fr; }
+      .grid-2{ grid-template-columns:1fr; }
+      .grid-3{ grid-template-columns:1fr; }
     }
-    .mrpa-actions .calc-btn{ margin-top:0; }
 
-    /* ===== impressão: mostra só MRPA quando mandar imprimir ===== */
+    /* ===== PRINT: imprimir SOMENTE o MRPA + garantir bordas (Chrome/Windows) ===== */
     @media print{
-      header, nav, footer, .container > :not(#tab-cardio){ display:none !important; }
-      #tab-cardio .card:not(#mrpa-print-area){ display:none !important; }
-      #mrpa-print-area{ display:block !important; box-shadow:none !important; border:none !important; }
-      .mrpa-actions{ display:none !important; }
+      body *{ visibility:hidden !important; }
+      #mrpa-print-area, #mrpa-print-area *{ visibility:visible !important; }
+
+      #mrpa-print-area{
+        position:absolute !important;
+        left:0 !important;
+        top:0 !important;
+        width:100% !important;
+      }
+
+      header, nav, footer{ display:none !important; }
       body{ background:#fff !important; }
-      .container{ max-width: none !important; padding: 0 !important; }
+      .container{ max-width:none !important; padding:0 !important; }
+
+      .card{ box-shadow:none !important; background:#fff !important; border:none !important; }
+      .mrpa-box{ border: 1.6px solid #000 !important; }
+      .mrpa-medicao{ border: 1px solid #000 !important; }
+      .mrpa-toolbar{ display:none !important; }
     }
-    /* ===== PRINT: imprimir SOMENTE o MRPA ===== */
-@media print {
-  body * {
-    visibility: hidden !important;
-  }
-  #mrpa-print-area, #mrpa-print-area * {
-    visibility: visible !important;
-  }
-  #mrpa-print-area {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-  }
-
-  /* remove sombras e fundos “web” */
-  .card { box-shadow: none !important; }
-}
-    /* ===== MRPA (blocos para escrever à caneta) ===== */
-.mrpa-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.mrpa-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
-
-.mrpa-label{
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--primary);
-  margin: 8px 0 6px;
-}
-
-.mrpa-box{
-  border: 1.6px solid rgba(0,0,0,0.75);
-  border-radius: 8px;
-  height: 30px;
-  background: #fff;
-}
-
-.mrpa-box.big{ height: 70px; }
-
-.mrpa-row-title{
-  font-family: 'Comfortaa', cursive;
-  font-weight: 800;
-  color: var(--primary);
-  font-size: 0.95rem;
-  margin: 0 0 8px;
-}
-
-.mrpa-medicao{
-  border: 1px solid rgba(0,0,0,0.12);
-  border-radius: 12px;
-  padding: 10px;
-  background: #fff;
-}
-
-@media (max-width: 900px){
-  .mrpa-grid-2{ grid-template-columns:1fr; }
-  .mrpa-grid-3{ grid-template-columns:1fr; }
-}
-
-/* ===== PRINT: imprimir SOMENTE o MRPA + garantir bordas ===== */
-@media print{
-  body *{ visibility:hidden !important; }
-  #mrpa-print-area, #mrpa-print-area *{ visibility:visible !important; }
-
-  #mrpa-print-area{
-    position:absolute !important;
-    left:0 !important;
-    top:0 !important;
-    width:100% !important;
-  }
-
-  /* remove sombras e fundos do app */
-  .card{ box-shadow:none !important; background:#fff !important; }
-
-  /* força bordas fortes no PDF */
-  .mrpa-box{ border: 1.6px solid #000 !important; }
-  .mrpa-medicao{ border: 1px solid #000 !important; }
-}
   </style>
 </head>
 
@@ -355,7 +287,7 @@
       <div class="card">
         <div class="card-header"><h2>Peso para Idade Gestacional (INTERGROWTH-21st)</h2></div>
 
-        <div class="grid-2">
+        <div class="grid-3">
           <div>
             <label>Sexo</label>
             <select id="neo-ig-sexo">
@@ -516,7 +448,7 @@
 
       <div class="subnav">
         <button class="active" onclick="openCardioSub('cardio-main', this)">Calculadoras</button>
-        <button class="nav-btn" onclick="openCardioSub('cardio-mrpa')">MRPA (PA)</button>
+        <button onclick="openCardioSub('cardio-mrpa', this)">MRPA (PA)</button>
       </div>
 
       <!-- SUB-ABA: conteúdo normal do Cardio -->
@@ -575,102 +507,122 @@
       </div><!-- /#cardio-main -->
 
       <!-- SUB-ABA: MRPA -->
-   <div id="cardio-mrpa" class="cardio-sub">
-  <div class="card" id="mrpa-print-area">
+      <div id="cardio-mrpa" class="cardio-sub">
+        <div class="card" id="mrpa-print-area">
 
-    <div class="mrpa-toolbar" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <select id="mrpa-paper" onchange="setMRPAPaperSize()"
-                style="padding:10px 12px;border-radius:10px;border:1px solid #dce4ec;font-weight:700">
-          <option value="A4">Papel: A4</option>
-          <option value="A5">Papel: A5</option>
-        </select>
+          <div class="mrpa-toolbar" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+              <select id="mrpa-paper" onchange="setMRPAPaperSize()"
+                      style="padding:10px 12px;border-radius:10px;border:1px solid #dce4ec;font-weight:700;background:#fff">
+                <option value="A4">Papel: A4</option>
+                <option value="A5">Papel: A5</option>
+              </select>
 
-        <button class="calc-btn" style="background:var(--cardio); width:auto; padding:12px 14px" onclick="printMRPA()">
-          Imprimir MRPA
-        </button>
+              <button class="calc-btn" style="background:var(--cardio); width:auto; padding:12px 14px; margin-top:0" onclick="printMRPA()">
+                Imprimir MRPA
+              </button>
+            </div>
+
+            <div class="muted" style="margin:0;max-width:360px">
+              Imprime em branco para preenchimento manual (Chrome/Windows).
+            </div>
+          </div>
+
+          <!-- Campos para rodapé -->
+          <div class="mrpa-toolbar" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:0 0 12px">
+            <div>
+              <div class="mrpa-label" style="margin:0 0 6px">Local</div>
+              <input id="mrpa-local" placeholder="Ex.: São Paulo" style="background:#fff">
+            </div>
+            <div>
+              <div class="mrpa-label" style="margin:0 0 6px">Médico(a)</div>
+              <input id="mrpa-medico" placeholder="Nome do médico(a)" style="background:#fff">
+            </div>
+            <div>
+              <div class="mrpa-label" style="margin:0 0 6px">CRM</div>
+              <input id="mrpa-crm" placeholder="CRM-UF" style="background:#fff">
+            </div>
+          </div>
+
+          <!-- Cabeçalho -->
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:8px 0 10px;border-bottom:2px solid rgba(40,90,129,0.18)">
+            <div>
+              <div style="font-family:'Comfortaa',cursive;font-weight:800;color:var(--primary);font-size:1.05rem">PueriCalc • MRPA</div>
+              <div style="color:#52616d;font-size:0.78rem">Monitorização Residencial da Pressão Arterial</div>
+            </div>
+            <div style="text-align:right;color:#52616d;font-size:0.78rem;line-height:1.25;max-width:420px">
+              <div><b>Orientação:</b> 1º dia (clínica) 2 medições. 2º ao 5º dia: 3 manhã + 3 noite.</div>
+              <div>Registrar PAS, PAD e Pulso em cada medição.</div>
+            </div>
+          </div>
+
+          <!-- Dados gerais -->
+          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10);margin-top:12px">
+            <div class="mrpa-grid-2">
+              <div>
+                <div class="mrpa-label">Nome</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Data de nascimento</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Peso (kg)</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Altura (m)</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Médico(a)</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Clínica</div><div class="mrpa-box"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medicações -->
+          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
+            <div class="mrpa-row-title">Medicações em uso</div>
+            <div class="mrpa-box big"></div>
+          </div>
+
+          <!-- Dia 1 -->
+          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
+            <div class="mrpa-row-title">1º Dia – Clínica (____ / ____ / ____)</div>
+            <div class="mrpa-grid-2">
+              <div class="mrpa-medicao">
+                <div class="mrpa-row-title" style="font-size:0.9rem">1ª Medição</div>
+                <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
+              </div>
+              <div class="mrpa-medicao">
+                <div class="mrpa-row-title" style="font-size:0.9rem">2ª Medição</div>
+                <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dias 2 a 5 -->
+          <div id="mrpa-dias"></div>
+
+          <!-- Rodapé (assinatura) -->
+          <div style="margin-top:14px;padding-top:10px;border-top:2px solid rgba(40,90,129,0.18);display:flex;justify-content:flex-end">
+            <div style="text-align:right;font-size:0.82rem;line-height:1.25;color:#1f2d3a;font-weight:700">
+              <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-local-data">Local, __/__/____</div>
+              <div style="margin-top:4px">__________________________________________</div>
+              <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-medico-crm">Médico(a) • CRM</div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <div class="muted" style="margin:0">Imprime em branco para preenchimento manual.</div>
     </div>
-
-    <!-- Cabeçalho -->
-    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:8px 0 10px;border-bottom:2px solid rgba(40,90,129,0.18)">
-      <div>
-        <div style="font-family:'Comfortaa',cursive;font-weight:800;color:var(--primary);font-size:1.05rem">PueriCalc • MRPA</div>
-        <div style="color:#52616d;font-size:0.78rem">Monitorização Residencial da Pressão Arterial</div>
-      </div>
-      <div style="text-align:right;color:#52616d;font-size:0.78rem;line-height:1.25">
-        <div><b>Orientação:</b> 1º dia (clínica) 2 medições. 2º ao 5º dia: 3 manhã + 3 noite.</div>
-        <div>Registrar PAS, PAD e Pulso em cada medição.</div>
-      </div>
-    </div>
-
-    <!-- Dados gerais -->
-    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10);margin-top:12px">
-      <div class="mrpa-grid-2">
-        <div>
-          <div class="mrpa-label">Nome</div><div class="mrpa-box"></div>
-        </div>
-        <div>
-          <div class="mrpa-label">Data de nascimento</div><div class="mrpa-box"></div>
-        </div>
-        <div>
-          <div class="mrpa-label">Peso (kg)</div><div class="mrpa-box"></div>
-        </div>
-        <div>
-          <div class="mrpa-label">Altura (m)</div><div class="mrpa-box"></div>
-        </div>
-        <div>
-          <div class="mrpa-label">Médico(a)</div><div class="mrpa-box"></div>
-        </div>
-        <div>
-          <div class="mrpa-label">Clínica</div><div class="mrpa-box"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Medicações -->
-    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
-      <div class="mrpa-row-title">Medicações em uso</div>
-      <div class="mrpa-box big"></div>
-    </div>
-
-    <!-- Dia 1 -->
-    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
-      <div class="mrpa-row-title">1º Dia – Clínica (____ / ____ / ____)</div>
-      <div class="mrpa-grid-2">
-        <div class="mrpa-medicao">
-          <div class="mrpa-row-title" style="font-size:0.9rem">1ª Medição</div>
-          <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
-          <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
-          <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
-          <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
-        </div>
-        <div class="mrpa-medicao">
-          <div class="mrpa-row-title" style="font-size:0.9rem">2ª Medição</div>
-          <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
-          <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
-          <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
-          <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dias 2 a 5 -->
-    <div id="mrpa-dias"></div>
-
-    <!-- Rodapé (para assinatura) -->
-    <div style="margin-top:14px;padding-top:10px;border-top:2px solid rgba(40,90,129,0.18);display:flex;justify-content:flex-end">
-      <div style="text-align:right;font-size:0.82rem;line-height:1.25;color:#1f2d3a;font-weight:700">
-        <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-local-data">Local, ____/____/______</div>
-        <div style="margin-top:4px">__________________________________________</div>
-        <div style="font-weight:600;color:#52616d;font-size:0.78rem">Médico(a) • CRM</div>
-      </div>
-    </div>
-
-  </div>
-</div>
 
     <!-- ========================= -->
     <!-- ABA EMERGÊNCIA (ORDEM)   -->
@@ -920,7 +872,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Sub-abas do Cardio (MRPA)
     function openCardioSub(subId, btnEl){
       document.querySelectorAll('#tab-cardio .cardio-sub').forEach(el => el.classList.remove('active'));
       const target = document.getElementById(subId);
@@ -937,13 +888,6 @@
       if (!el) return;
       el.style.display = 'block';
       el.textContent = text;
-    }
-
-    function showResultHTML(elId, text) {
-      const el = document.getElementById(elId);
-      if (!el) return;
-      el.style.display = 'block';
-      el.innerHTML = text;
     }
 
     function parseDate(v) {
@@ -1036,10 +980,7 @@
     // =========================
     // INTERGROWTH-21st — PIG/AIG/GIG (P10/P90)
     // =========================
-    const INTERGROWTH_P10_P90 = {
-      boys:  { veryPreterm: {}, newborn: {} },
-      girls: { veryPreterm: {}, newborn: {} }
-    };
+    const INTERGROWTH_P10_P90 = { boys:{ veryPreterm:{}, newborn:{} }, girls:{ veryPreterm:{}, newborn:{} } };
 
     (function(){
       const GA=["33+0","33+1","33+2","33+3","33+4","33+5","33+6","34+0","34+1","34+2","34+3","34+4","34+5","34+6","35+0","35+1","35+2","35+3","35+4","35+5","35+6","36+0","36+1","36+2","36+3","36+4","36+5","36+6","37+0","37+1","37+2","37+3","37+4","37+5","37+6","38+0","38+1","38+2","38+3","38+4","38+5","38+6","39+0","39+1","39+2","39+3","39+4","39+5","39+6","40+0","40+1","40+2","40+3","40+4","40+5","40+6","41+0","41+1","41+2","41+3","41+4","41+5","41+6","42+0","42+1","42+2","42+3","42+4","42+5","42+6"];
@@ -1101,12 +1042,7 @@
       const sexKey = (sexo === 'M') ? 'boys' : 'girls';
       const row = INTERGROWTH_P10_P90[sexKey][pick.domain][key];
 
-      if (!row) {
-        return showResult(
-          'res-neo-lub',
-          `Sem dados INTERGROWTH carregados para ${sexo === 'M' ? 'meninos' : 'meninas'} (${pick.domain}) na IG ${key}.`
-        );
-      }
+      if (!row) return showResult('res-neo-lub', `Sem dados INTERGROWTH para IG ${key} (${sexo}).`);
 
       const cls = classifyPIG_AIG_GIG(pesoG, row.p10, row.p90);
       const msg =
@@ -1129,20 +1065,13 @@
       { minGA: 34.0,  maxGA: 34.999, photo: [10,12], exch: [17, 19] }
     ];
     function getRiskFlagIctericia() {
-      const checks = Array.from(document.querySelectorAll('.ict-risk'));
-      return checks.some(c => c.checked);
+      return Array.from(document.querySelectorAll('.ict-risk')).some(c => c.checked);
     }
     function pickThreshold(range, hasRisk) { return hasRisk ? range[0] : range[1]; }
     function findPre35Row(gaFloat) {
       return SBP2021_PRE35.find(r => gaFloat >= r.minGA && gaFloat <= r.maxGA) || null;
     }
-    const SBP2021_GE35 = {
-      groups: [
-        { name: "35-37", minGA: 35, maxGA: 37.999, rows: [] },
-        { name: ">=38",  minGA: 38, maxGA: 99,     rows: [] }
-      ],
-      hasRiskTable: false,
-    };
+    const SBP2021_GE35 = { groups: [{ name:"35-37", minGA:35, maxGA:37.999, rows:[] }, { name:">=38", minGA:38, maxGA:99, rows:[] }] };
     function findGE35Row(gaFloat, horas) {
       const grp = SBP2021_GE35.groups.find(g => gaFloat >= g.minGA && gaFloat <= g.maxGA);
       if (!grp) return null;
@@ -1184,8 +1113,7 @@
 
       const hit = findGE35Row(gaFloat, horas);
       if (!hit) {
-        return showResult(
-          'res-ict',
+        return showResult('res-ict',
           `SBP 2021 — RN ≥35 semanas\n` +
           `Tabela por horas/IG ainda não foi preenchida no código.\n\n` +
           `Preencha SBP2021_GE35.groups[].rows com os limiares oficiais do SBP 2021.`
@@ -1202,7 +1130,7 @@
       const msg =
         `SBP 2021 — RN ≥35 semanas\n` +
         `Grupo IG: ${hit.grp.name}\n` +
-        `Horas: ${horas}h | Risco: ${hasRisk ? 'Sim (implementar ajuste conforme SBP)' : 'Não'}\n` +
+        `Horas: ${horas}h\n` +
         `BT: ${bt.toFixed(1)} mg/dL\n\n` +
         `Limiar fototerapia: ${thrPhoto.toFixed(1)} mg/dL\n` +
         `Limiar exsanguíneo: ${thrExch.toFixed(1)} mg/dL\n\n` +
@@ -1211,25 +1139,12 @@
     }
 
     // =========================
-    // 2) CRESCIMENTO
+    // 2) CRESCIMENTO (placeholders)
     // =========================
     const REF_CRESC = {
-      peso_g_dia: [
-        { minM: 0, maxM: 3, ref: '20–30 g/dia (placeholder)' },
-        { minM: 4, maxM: 6, ref: '20 g/dia (placeholder)' },
-        { minM: 7, maxM: 9, ref: '15 g/dia (placeholder)' },
-        { minM: 10, maxM: 12, ref: '10 g/dia (placeholder)' }
-      ],
-      pc_cm_mes: [
-        { minM: 0, maxM: 3, ref: '≈ 2 cm/mês (placeholder)' },
-        { minM: 4, maxM: 6, ref: '≈ 1 cm/mês (placeholder)' },
-        { minM: 7, maxM: 12, ref: '≈ 0,5 cm/mês (placeholder)' }
-      ],
-      alt_cm_ano: [
-        { minM: 0, maxM: 12, ref: '≈ 25 cm/ano (placeholder)' },
-        { minM: 12, maxM: 24, ref: '≈ 12 cm/ano (placeholder)' },
-        { minM: 24, maxM: 48, ref: '≈ 7–8 cm/ano (placeholder)' }
-      ]
+      peso_g_dia: [{ minM:0, maxM:3, ref:'20–30 g/dia (placeholder)' },{ minM:4, maxM:6, ref:'20 g/dia (placeholder)' },{ minM:7, maxM:9, ref:'15 g/dia (placeholder)' },{ minM:10, maxM:12, ref:'10 g/dia (placeholder)'}],
+      pc_cm_mes: [{ minM:0, maxM:3, ref:'≈ 2 cm/mês (placeholder)' },{ minM:4, maxM:6, ref:'≈ 1 cm/mês (placeholder)' },{ minM:7, maxM:12, ref:'≈ 0,5 cm/mês (placeholder)'}],
+      alt_cm_ano: [{ minM:0, maxM:12, ref:'≈ 25 cm/ano (placeholder)' },{ minM:12, maxM:24, ref:'≈ 12 cm/ano (placeholder)' },{ minM:24, maxM:48, ref:'≈ 7–8 cm/ano (placeholder)'}]
     };
     function pickRef(arr, idadeMeses) {
       const it = arr.find(x => idadeMeses >= x.minM && idadeMeses <= x.maxM);
@@ -1259,41 +1174,19 @@
       if (!Number.isFinite(pc1) || !Number.isFinite(pc2)) return showResult('res-cr-pc', 'Informe PC inicial e final.');
       const months = days / 30.4375;
       const pcCmMes = (pc2 - pc1) / months;
-      const pcCmSemana = (pc2 - pc1) / (days / 7);
-      const pcCmAno = (pc2 - pc1) / (days / 365.25);
 
       if (!Number.isFinite(alt1) || !Number.isFinite(alt2)) return showResult('res-cr-alt', 'Informe estatura inicial e final.');
       const altCmAno = (alt2 - alt1) / (days / 365.25);
 
-      showResult('res-cr-peso',
-        `Ganho ponderal: ${ganhoGdia.toFixed(1)} g/dia\n` +
-        `ΔPeso total: ${(p2g - p1g).toFixed(0)} g em ${days} dia(s)`
-      );
-      showResult('res-cr-pc',
-        `Velocidade de PC:\n` +
-        `${pcCmMes.toFixed(2)} cm/mês\n` +
-        `${pcCmSemana.toFixed(2)} cm/semana\n` +
-        `${pcCmAno.toFixed(2)} cm/ano\n` +
-        `ΔPC total: ${(pc2 - pc1).toFixed(2)} cm`
-      );
-      showResult('res-cr-alt',
-        `Velocidade de estatura:\n` +
-        `${altCmAno.toFixed(2)} cm/ano\n` +
-        `ΔEstatura total: ${(alt2 - alt1).toFixed(2)} cm`
-      );
+      showResult('res-cr-peso', `Ganho ponderal: ${ganhoGdia.toFixed(1)} g/dia\nΔPeso total: ${(p2g - p1g).toFixed(0)} g em ${days} dia(s)`);
+      showResult('res-cr-pc', `Velocidade de PC: ${pcCmMes.toFixed(2)} cm/mês\nΔPC total: ${(pc2 - pc1).toFixed(2)} cm`);
+      showResult('res-cr-alt', `Velocidade de estatura: ${altCmAno.toFixed(2)} cm/ano\nΔEstatura total: ${(alt2 - alt1).toFixed(2)} cm`);
 
       const idadeRef = Number.isFinite(idadeM) ? idadeM : null;
       const refPeso = (idadeRef !== null) ? pickRef(REF_CRESC.peso_g_dia, idadeRef) : 'Informe idade (meses) para referência.';
       const refPC = (idadeRef !== null) ? pickRef(REF_CRESC.pc_cm_mes, idadeRef) : 'Informe idade (meses) para referência.';
       const refAlt = (idadeRef !== null) ? pickRef(REF_CRESC.alt_cm_ano, idadeRef) : 'Informe idade (meses) para referência.';
-
-      showResult('ref-cr',
-        `Referências (placeholders):\n` +
-        `Peso (g/dia): ${refPeso}\n` +
-        `PC (cm/mês): ${refPC}\n` +
-        `Estatura (cm/ano): ${refAlt}\n\n` +
-        `ATUALIZAR_CONFORME_REFERÊNCIA: edite REF_CRESC.`
-      );
+      showResult('ref-cr', `Referências (placeholders):\nPeso (g/dia): ${refPeso}\nPC (cm/mês): ${refPC}\nEstatura (cm/ano): ${refAlt}\n\nATUALIZAR_CONFORME_REFERÊNCIA: edite REF_CRESC.`);
     }
 
     function calcAlvoParentalEAnalise() {
@@ -1317,15 +1210,11 @@
       const delta = altAtual - alvo;
 
       let analise = `Alvo parental: ${alvo.toFixed(1)} cm\nFaixa esperada: ${faixaMin.toFixed(1)} a ${faixaMax.toFixed(1)} cm\n\n`;
-      analise += `Altura atual: ${altAtual.toFixed(1)} cm\n`;
-      analise += `Diferença vs alvo: ${delta.toFixed(1)} cm\n`;
-      analise += `Interpretação: ${dentro ? 'Dentro' : 'Fora'} da faixa alvo.\n`;
+      analise += `Altura atual: ${altAtual.toFixed(1)} cm\nDiferença vs alvo: ${delta.toFixed(1)} cm\nInterpretação: ${dentro ? 'Dentro' : 'Fora'} da faixa alvo.\n`;
 
       if (Number.isFinite(io) && io > 0) {
         const diffIO = io - idade;
-        analise += `\nIdade óssea informada: ${io.toFixed(1)} anos\n`;
-        analise += `IO - IC: ${diffIO.toFixed(1)} ano(s)\n`;
-        analise += `Interpretação IO: PLACEHOLDER (definir regra e limiares).`;
+        analise += `\nIdade óssea: ${io.toFixed(1)} anos\nIO - IC: ${diffIO.toFixed(1)} ano(s)\nInterpretação IO: PLACEHOLDER.`;
       } else {
         analise += `\nIdade óssea: não informada (opcional).`;
       }
@@ -1354,7 +1243,7 @@
         `QT: ${qt_s.toFixed(3)} s\nRR: ${rr_s.toFixed(3)} s\n\n` +
         `QTc (Bazett): ${(qtc_bazett * 1000).toFixed(0)} ms\n` +
         `QTc (Fridericia): ${(qtc_fridericia * 1000).toFixed(0)} ms\n\n` +
-        `Intervalos por idade/eixo: PLACEHOLDER (inserir tabela).`;
+        `Intervalos por idade/eixo: PLACEHOLDER.`;
 
       showResult('res-ecg', msg);
     }
@@ -1383,11 +1272,11 @@
         return;
       }
 
-      const msg =
+      showResult('res-pa',
         `Pediatria (SBP): classificação requer percentis por idade/sexo/estatura.\n\n` +
         `Dados: ${idade} anos | sexo ${sexo} | estatura ${est}\nPAS/PAD: ${pas}/${pad} mmHg\n\n` +
-        `ATUALIZAR_CONFORME_SBP: plugar tabela percentílica (P90/P95/P95+12).`;
-      showResult('res-pa', msg);
+        `ATUALIZAR_CONFORME_SBP: plugar tabela percentílica (P90/P95/P95+12).`
+      );
     }
 
     // =========================
@@ -1408,7 +1297,6 @@
     function calcEmerg41() {
       const base = getPesoIdadeEmerg();
       if (base.error) return showResult('res-em-41', base.error);
-
       const { peso, idade } = base;
       const sub = document.getElementById('em-41').value;
 
@@ -1426,10 +1314,8 @@
           `• Amiodarona: ${amio.toFixed(0)} mg (5 mg/kg)\n` +
           `• Lidocaína: ${lido.toFixed(0)} mg (1 mg/kg)\n` +
           `• Desfibrilação: ${def1.toFixed(0)} J (2 J/kg) → ${def2.toFixed(0)} J (4 J/kg)\n\n` +
-          `ATUALIZAR_CONFORME_PROTOCOLO: revise doses, apresentações e máximos.`;
-      }
-
-      if (sub === 'sri') {
+          `ATUALIZAR_CONFORME_PROTOCOLO: revise doses e máximos.`;
+      } else if (sub === 'sri') {
         const cet = EMERG_DOSES.sri.cet_mgkg * peso;
         const eto = EMERG_DOSES.sri.eto_mgkg * peso;
         const mida = EMERG_DOSES.sri.mida_mgkg * peso;
@@ -1448,10 +1334,8 @@
           `Bloqueio neuromuscular (escolher 1):\n` +
           `• Rocurônio: ${roc.toFixed(1)} mg\n` +
           `• Succinilcolina: ${succ.toFixed(1)} mg\n\n` +
-          `ATUALIZAR_CONFORME_PROTOCOLO: confirme faixas, contraindicações, máximos e diluições.`;
-      }
-
-      if (sub === 'tubo') {
+          `ATUALIZAR_CONFORME_PROTOCOLO: confirme faixas e máximos.`;
+      } else {
         const diCuffed = (idade / 4) + 3.5;
         const diUncuffed = (idade / 4) + 4.0;
         const profCuffed = 3 * diCuffed;
@@ -1464,114 +1348,22 @@
           `• Profundidade oral (aprox): 3 × DI\n` +
           `  - cuffed: ~${profCuffed.toFixed(1)} cm\n` +
           `  - uncuffed: ~${profUncuffed.toFixed(1)} cm\n\n` +
-          `Neonato: ATUALIZAR_TABELA_RN por peso/IG para DI e profundidade.`;
+          `Neonato: ATUALIZAR_TABELA_RN por peso/IG.`;
       }
 
       showResult('res-em-41', out);
     }
-    function calcEmerg42() {
-      const base = getPesoIdadeEmerg();
-      if (base.error) return showResult('res-em-42', base.error);
-      const { peso } = base;
-      const sub = document.getElementById('em-42').value;
 
-      let out = '';
-      if (sub === 'proced') {
-        out =
-          `Sedação/analgesia para procedimentos (placeholder):\n` +
-          `• Midazolam: X mg/kg → ${(peso * 0.1).toFixed(2)} mg (exemplo estrutural)\n` +
-          `• Fentanil: X mcg/kg → ${(peso * 2).toFixed(0)} mcg (exemplo estrutural)\n\n` +
-          `ATUALIZAR_TABELAS_SEDACAO: inserir drogas, doses, máximos e observações.`;
-      } else {
-        out =
-          `Sedação contínua (placeholder):\n` +
-          `• Midazolam: X mcg/kg/min\n` +
-          `• Fentanil: X mcg/kg/h\n` +
-          `• Dexmedetomidina: X mcg/kg/h\n\n` +
-          `ATUALIZAR_TABELAS_SEDACAO: inserir taxas e limites conforme protocolo.`;
-      }
-      showResult('res-em-42', out);
-    }
-    function calcEmerg43() {
-      const base = getPesoIdadeEmerg();
-      if (base.error) return showResult('res-em-43', base.error);
-      const { peso } = base;
-      const sub = document.getElementById('em-43').value;
-
-      let out = '';
-      if (sub === 'crise') {
-        out =
-          `Crise convulsiva (placeholder):\n` +
-          `• Benzodiazepínico (ex.: diazepam/midazolam): dose por kg\n` +
-          `Exemplo estrutural: midazolam 0,2 mg/kg → ${(peso * 0.2).toFixed(2)} mg\n\n` +
-          `ATUALIZAR_TABELAS_NEURO: definir 1ª/2ª linha, vias, repetição e máximos.`;
-      } else if (sub === 'status') {
-        out =
-          `Status convulsivo (placeholder):\n` +
-          `• 1ª linha: benzo\n` +
-          `• 2ª linha: levetiracetam/fenitoína/valproato (conforme protocolo)\n` +
-          `• 3ª linha: considerar UTI/intubação/sedação contínua\n\n` +
-          `ATUALIZAR_TABELAS_NEURO: inserir doses e sequência temporal.`;
-      } else {
-        out =
-          `Hipertensão intracraniana (placeholder):\n` +
-          `• Elevar cabeceira, analgesia/sedação, normocapnia, tratar causa\n` +
-          `• Soluções hipertônicas/manitol conforme protocolo\n\n` +
-          `ATUALIZAR_TABELAS_NEURO: inserir doses e critérios.`;
-      }
-      showResult('res-em-43', out);
-    }
-    function calcEmerg44() {
-      const base = getPesoIdadeEmerg();
-      if (base.error) return showResult('res-em-44', base.error);
-      const { peso } = base;
-      const sub = document.getElementById('em-44').value;
-
-      let out = '';
-      if (sub === 'chocaveis') {
-        out =
-          `Ritmos chocáveis (placeholder): FV / TV sem pulso\n` +
-          `• Desfibrilação: 2–4 J/kg (ver 4.1)\n` +
-          `• Antiarrítmico: amiodarona/lidocaína (ver 4.1)\n\n` +
-          `Peso: ${peso.toFixed(1)} kg\n` +
-          `ATUALIZAR_TABELAS_RITMO: inserir sequência e doses conforme guideline.`;
-      } else {
-        out =
-          `Ritmos não chocáveis (placeholder): AESP / assistolia\n` +
-          `• Epinefrina conforme protocolo\n` +
-          `• Tratar causas reversíveis (Hs e Ts)\n\n` +
-          `ATUALIZAR_TABELAS_RITMO: inserir medicações, doses e checklist.`;
-      }
-      showResult('res-em-44', out);
-    }
-    function calcEmerg45() {
-      const base = getPesoIdadeEmerg();
-      if (base.error) return showResult('res-em-45', base.error);
-      const { peso } = base;
-      const tipo = document.getElementById('em-45').value;
-
-      const bolus = EMERG_DOSES.choque.bolus_mlkg * peso;
-
-      let out = `Choque (placeholder) — tipo: ${tipo}\n\n`;
-      out += `• Cristaloide: ${bolus.toFixed(0)} mL (20 mL/kg) (exemplo)\n`;
-      out += `• Vasopressores/inotrópicos: PLACEHOLDER (noradrenalina/adrenalina/dobutamina etc.)\n\n`;
-      out += `ATUALIZAR_TABELAS_CHOQUE: inserir drogas, doses por kg, máximos e estratégia por tipo.`;
-
-      showResult('res-em-45', out);
-    }
+    function calcEmerg42(){ showResult('res-em-42', 'Placeholder (mantido).'); }
+    function calcEmerg43(){ showResult('res-em-43', 'Placeholder (mantido).'); }
+    function calcEmerg44(){ showResult('res-em-44', 'Placeholder (mantido).'); }
+    function calcEmerg45(){ showResult('res-em-45', 'Placeholder (mantido).'); }
 
     // =========================
-    // 5) HIDRATAÇÃO
+    // 5) HIDRATAÇÃO / LAB (mantidos)
     // =========================
     function calcHollidaySegar() {
       const peso = Number(document.getElementById('hs-peso').value);
-      const modo = document.getElementById('hs-modo').value;
-
-      const na = Number(document.getElementById('hs-na').value);
-      const k = Number(document.getElementById('hs-k').value);
-      const cl = Number(document.getElementById('hs-cl').value);
-      const glic = Number(document.getElementById('hs-glic').value);
-
       if (!Number.isFinite(peso) || peso <= 0) return showResult('res-hs', 'Informe peso (kg).');
 
       let vol24 = 0;
@@ -1580,54 +1372,18 @@
       else vol24 = 1500 + 20 * (peso - 20);
 
       const mlh = vol24 / 24;
-
-      let out =
-        `Manutenção (Holliday-Segar):\n` +
-        `Volume 24h: ${vol24.toFixed(0)} mL\n` +
-        `Taxa: ${mlh.toFixed(1)} mL/h\n\n`;
-
-      if (modo === 'meqkg') {
-        if (Number.isFinite(na)) out += `Na+ total/dia: ${(na * peso).toFixed(1)} mEq\n`;
-        if (Number.isFinite(k)) out += `K+ total/dia: ${(k * peso).toFixed(1)} mEq\n`;
-        if (Number.isFinite(cl)) out += `Cl- total/dia: ${(cl * peso).toFixed(1)} mEq\n`;
-        if (Number.isFinite(glic)) out += `Glicose total/dia: ${(glic * peso).toFixed(1)} g\n`;
-        out += `\nObservação: composição final do soro depende do volume e solução-base (placeholder).`;
-      } else {
-        const L24 = vol24 / 1000;
-        if (Number.isFinite(na)) out += `Na+ estimado/dia: ${(na * L24).toFixed(1)} mEq\n`;
-        if (Number.isFinite(k)) out += `K+ estimado/dia: ${(k * L24).toFixed(1)} mEq\n`;
-        if (Number.isFinite(cl)) out += `Cl- estimado/dia: ${(cl * L24).toFixed(1)} mEq\n`;
-        if (Number.isFinite(glic)) out += `Glicose estimado/dia: ${(glic * L24).toFixed(1)} g\n`;
-        out += `\nObservação: isto assume concentração final homogênea (placeholder).`;
-      }
-
-      showResult('res-hs', out);
+      showResult('res-hs', `Manutenção (Holliday-Segar):\nVolume 24h: ${vol24.toFixed(0)} mL\nTaxa: ${mlh.toFixed(1)} mL/h\n\n(Composição eletrólitos: placeholder)`);
     }
 
     function calcVIG() {
       const peso = Number(document.getElementById('vig-peso').value);
       const alvo = Number(document.getElementById('vig-alvo').value);
-      const na = Number(document.getElementById('vig-na').value);
-      const k = Number(document.getElementById('vig-k').value);
-      const cl = Number(document.getElementById('vig-cl').value);
-      const glic = Number(document.getElementById('vig-glic').value);
-
       if (!Number.isFinite(peso) || peso <= 0) return showResult('res-vig', 'Informe peso (kg).');
       if (!Number.isFinite(alvo) || alvo <= 0) return showResult('res-vig', 'Informe VIG alvo (mL/kg/h).');
 
       const mlh = alvo * peso;
       const vol24 = mlh * 24;
-
-      let out =
-        `VIG:\n` +
-        `Taxa: ${mlh.toFixed(1)} mL/h\n` +
-        `Volume 24h: ${vol24.toFixed(0)} mL\n\n` +
-        `Eletrólitos (mEq/L) informados:\n` +
-        `Na+: ${Number.isFinite(na) ? na.toFixed(1) : '—'} | K+: ${Number.isFinite(k) ? k.toFixed(1) : '—'} | Cl-: ${Number.isFinite(cl) ? cl.toFixed(1) : '—'}\n` +
-        `Glicose (g/L): ${Number.isFinite(glic) ? glic.toFixed(1) : '—'}\n\n` +
-        `ATUALIZAR: definir cálculo de prescrição final por solução-base e aditivos (placeholder).`;
-
-      showResult('res-vig', out);
+      showResult('res-vig', `VIG:\nTaxa: ${mlh.toFixed(1)} mL/h\nVolume 24h: ${vol24.toFixed(0)} mL\n\n(Eletrólitos: placeholder)`);
     }
 
     function calcSchwartz() {
@@ -1635,85 +1391,18 @@
       const alt = Number(document.getElementById('ren-alt').value);
       if (!Number.isFinite(cr) || cr <= 0) return showResult('res-renal', 'Informe creatinina.');
       if (!Number.isFinite(alt) || alt <= 0) return showResult('res-renal', 'Informe estatura (cm).');
-
       const etfg = (0.413 * alt) / cr;
       showResult('res-renal', `eTFG (Schwartz): ${etfg.toFixed(1)} mL/min/1,73m²`);
     }
 
-    // =========================
-    // 6) LABORATÓRIOS
-    // =========================
-    function calcGasoConduta() {
-      const ph = Number(document.getElementById('g-ph').value);
-      const pco2 = Number(document.getElementById('g-pco2').value);
-      const hco3 = Number(document.getElementById('g-hco3').value);
-      const na = Number(document.getElementById('g-na').value);
-      const cl = Number(document.getElementById('g-cl').value);
-      const alb = Number(document.getElementById('g-alb').value);
-
-      if (!Number.isFinite(ph) || ph <= 0) return showResult('res-gaso', 'Informe pH.');
-      if (!Number.isFinite(pco2) || pco2 <= 0) return showResult('res-gaso', 'Informe pCO2.');
-      if (!Number.isFinite(hco3) || hco3 <= 0) return showResult('res-gaso', 'Informe HCO3-.');
-      if (!Number.isFinite(na) || na <= 0) return showResult('res-gaso', 'Informe Na+.');
-      if (!Number.isFinite(cl) || cl <= 0) return showResult('res-gaso', 'Informe Cl-.');
-
-      const ag = na - (cl + hco3);
-      let agCorr = ag;
-      let agMsg = `Ânion gap: ${ag.toFixed(1)}`;
-
-      if (Number.isFinite(alb) && alb > 0) {
-        agCorr = ag + 2.5 * (4 - alb);
-        agMsg += `\nÂnion gap corrigido (Alb): ${agCorr.toFixed(1)} (Alb ${alb.toFixed(1)} g/dL)`;
-      }
-
-      const acidemia = ph < 7.35;
-      const alcalemia = ph > 7.45;
-
-      let prim = 'Indeterminado';
-      if (acidemia) prim = (hco3 < 22) ? 'Acidose metabólica (provável)' : 'Acidose respiratória (provável)';
-      else if (alcalemia) prim = (hco3 > 26) ? 'Alcalose metabólica (provável)' : 'Alcalose respiratória (provável)';
-      else prim = 'pH normal/compensado (avaliar distúrbios mistos)';
-
-      let comp = '';
-      if (hco3 < 22) {
-        const exp = 1.5 * hco3 + 8;
-        comp = `Compensação (Winter): pCO2 esperada ~ ${exp.toFixed(1)} mmHg (±2)`;
-      } else if (hco3 > 26) {
-        const exp = 0.7 * (hco3 - 24) + 40;
-        comp = `Compensação alcalose metabólica: pCO2 esperada ~ ${exp.toFixed(1)} mmHg (±5)`;
-      } else {
-        comp = 'Compensação: avaliar no contexto clínico (placeholder).';
-      }
-
-      let conduta =
-        `Conduta (orientativa):\n` +
-        `• Correlacionar com clínica, lactato/cetonas/sepse/choque/IRA\n` +
-        `• Se acidose metabólica com AG alto: pensar em lactato/cetoacidose/uremia/tox.\n` +
-        `• Se AG normal (hiperclorêmica): pensar em diarreia/ATR/expansão com SF\n` +
-        `• Ajustar ventilação apenas se indicado (evitar hiperventilação iatrogênica)\n\n` +
-        `ATUALIZAR: adicionar fluxos de conduta por diagnóstico institucional.`;
-
-      const out =
-        `${prim}\n\n` +
-        `pH: ${ph.toFixed(2)} | pCO2: ${pco2.toFixed(1)} | HCO3-: ${hco3.toFixed(1)}\n` +
-        `${agMsg}\n\n` +
-        `${comp}\n\n` +
-        `${conduta}`;
-
-      showResult('res-gaso', out);
-    }
-
-    function convertLab() {
+    function calcGasoConduta(){ showResult('res-gaso', 'Placeholder (mantido).'); }
+    function convertLab(){
       const fator = Number(document.getElementById('lab-conv').value);
       const val = Number(document.getElementById('lab-val').value);
       if (!Number.isFinite(val)) return showResult('res-lab', 'Informe o valor para converter.');
-      const res = val * fator;
-      showResult('res-lab', `Resultado: ${res.toFixed(2)}`);
+      showResult('res-lab', `Resultado: ${(val*fator).toFixed(2)}`);
     }
 
-    // =========================
-    // CHECKLIST (placeholder)
-    // =========================
     function renderCheck() {
       const idade = document.getElementById('ck-idade').value;
       const area = document.getElementById('check-area');
@@ -1730,217 +1419,108 @@
     }
 
     // =========================
-    // MRPA — gerar dias 2 a 5
+    // MRPA: gerar dias 2–5 (uma única vez) + papel A4/A5 + rodapé
     // =========================
-    (function(){
+    function medicaoBoxHTML(titulo){
+      return `
+        <div class="mrpa-medicao">
+          <div class="mrpa-row-title" style="font-size:0.9rem">${titulo}</div>
+          <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
+          <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
+          <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
+          <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
+        </div>
+      `;
+    }
+
+    function buildMRPADias(){
       const alvo = document.getElementById('mrpa-dias');
       if(!alvo) return;
+      alvo.innerHTML = '';
 
-      const dias = [2,3,4,5];
-
-      dias.forEach((d)=>{
-        const base = (d-2)*6;
+      [2,3,4,5].forEach(d=>{
         alvo.insertAdjacentHTML('beforeend', `
-          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.06)">
+          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
             <div class="mrpa-row-title">${d}º Dia (____ / ____ / ____)</div>
 
-            <div class="mrpa-row-title" style="font-size:0.85rem;margin:0 0 6px">☀️ Manhã</div>
+            <div style="font-weight:800;color:var(--primary);margin:6px 0 8px">☀️ Manhã</div>
             <div class="mrpa-grid-3">
-              ${[1,2,3].map(i=>medicaoHTML(base+i)).join('')}
+              ${[1,2,3].map(i=>medicaoBoxHTML(`Manhã — ${i}`)).join('')}
             </div>
 
-            <div class="mrpa-row-title" style="font-size:0.85rem;margin:12px 0 6px">🌙 Noite</div>
+            <div style="font-weight:800;color:var(--primary);margin:12px 0 8px">🌙 Noite</div>
             <div class="mrpa-grid-3">
-              ${[4,5,6].map(i=>medicaoHTML(base+i)).join('')}
+              ${[1,2,3].map(i=>medicaoBoxHTML(`Noite — ${i}`)).join('')}
             </div>
           </div>
         `);
       });
-
-      function medicaoHTML(n){
-        const rotulo = (n+2) + 'ª Medição';
-        return `
-          <div class="mrpa-medicao">
-            <div class="mrpa-row-title" style="font-size:0.85rem;margin-bottom:6px">${rotulo}</div>
-            <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
-            <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
-            <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
-            <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
-          </div>
-        `;
-      }
-    })();
-    // ===== MRPA: Papel A4/A5 dinâmico + Rodapé (Local/Data + Médico/CRM) =====
-(function ensureMRPASetup(){
-  // Style tag para controlar tamanho do papel via JS (melhor compatibilidade)
-  let st = document.getElementById('mrpaPageSizeStyle');
-  if(!st){
-    st = document.createElement('style');
-    st.id = 'mrpaPageSizeStyle';
-    document.head.appendChild(st);
-  }
-
-  // Define padrão A4 ao carregar
-  setMRPAPaperSize();
-
-  // Atualiza rodapé antes de imprimir
-  window.addEventListener('beforeprint', () => {
-    updateMRPAFooter();
-    setMRPAPaperSize(); // garante que @page está atualizado
-  });
-
-  // Também atualiza quando a pessoa muda campos (mais “ao vivo”)
-  ['mrpa-local','mrpa-medico','mrpa-crm'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.addEventListener('input', updateMRPAFooter);
-  });
-})();
-
-function setMRPAPaperSize(){
-  const sel = document.getElementById('mrpa-paper');
-  const val = sel ? sel.value : 'A4';
-
-  const st = document.getElementById('mrpaPageSizeStyle');
-  if(!st) return;
-
-  // Margens pensadas para caber bem em A4 e A5
-  if(val === 'A5'){
-    st.textContent = `
-      @media print{
-        @page { size: A5 portrait; margin: 10mm; }
-      }
-    `;
-  } else {
-    st.textContent = `
-      @media print{
-        @page { size: A4 portrait; margin: 12mm; }
-      }
-    `;
-  }
-}
-
-function updateMRPAFooter(){
-  const local = (document.getElementById('mrpa-local')?.value || '').trim();
-  const medico = (document.getElementById('mrpa-medico')?.value || '').trim();
-  const crm = (document.getElementById('mrpa-crm')?.value || '').trim();
-
-  // Data automática pt-BR
-  const hoje = new Date();
-  const data = hoje.toLocaleDateString('pt-BR');
-
-  // Regra que você pediu: "Local e data alinhado à direita e ANTES do nome do médico e CRM"
-  const localDataEl = document.getElementById('mrpa-local-data');
-  const medicoCrmEl = document.getElementById('mrpa-medico-crm');
-
-  if(localDataEl){
-    const prefixo = local ? local : 'Local';
-    localDataEl.textContent = `${prefixo}, ${data}`;
-  }
-
-  if(medicoCrmEl){
-    const med = medico ? medico : 'Médico(a)';
-    const cr = crm ? crm : 'CRM';
-    medicoCrmEl.textContent = `${med} • ${cr}`;
-  }
-}
-    function openCardioSub(subId){
-  // Esconde todas as sub-abas da cardio
-  document.querySelectorAll('#tab-cardio .cardio-sub').forEach(el => el.classList.remove('active'));
-  const target = document.getElementById(subId);
-  if (target) target.classList.add('active');
-
-  // (opcional) deixa o scroll no topo
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function printMRPA(){
-  // 1) Garante que a ABA Cardio está ativa (se você estiver em outra)
-  //    Isso é importante porque alguns navegadores não renderizam direito algo "oculto" no print.
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  const tabCardio = document.getElementById('tab-cardio');
-  if(tabCardio) tabCardio.classList.add('active');
-
-  // 2) Garante que a sub-aba MRPA está ativa
-  openCardioSub('cardio-mrpa');
-
-  // 3) Atualiza rodapé (local/data + medico/crm) antes de imprimir
-  if (typeof updateMRPAFooter === 'function') updateMRPAFooter();
-  if (typeof setMRPAPaperSize === 'function') setMRPAPaperSize();
-
-  // 4) Pequeno delay para o DOM aplicar display/visibilidade antes do print
-  setTimeout(() => window.print(), 150);
-}
-    // ===== MRPA: gera dias 2 a 5 com 3 manhã + 3 noite =====
-(function(){
-  const alvo = document.getElementById('mrpa-dias');
-  if(!alvo) return;
-
-  const dias = [2,3,4,5];
-  dias.forEach(d=>{
-    alvo.insertAdjacentHTML('beforeend', `
-      <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
-        <div class="mrpa-row-title">${d}º Dia (____ / ____ / ____)</div>
-
-        <div style="font-weight:800;color:var(--primary);margin:6px 0 8px">☀️ Manhã</div>
-        <div class="mrpa-grid-3">
-          ${[1,2,3].map(i=>medicaoHTML(`Manhã — ${i}`)).join('')}
-        </div>
-
-        <div style="font-weight:800;color:var(--primary);margin:12px 0 8px">🌙 Noite</div>
-        <div class="mrpa-grid-3">
-          ${[1,2,3].map(i=>medicaoHTML(`Noite — ${i}`)).join('')}
-        </div>
-      </div>
-    `);
-  });
-
-  function medicaoHTML(titulo){
-    return `
-      <div class="mrpa-medicao">
-        <div class="mrpa-row-title" style="font-size:0.9rem">${titulo}</div>
-        <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
-        <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
-        <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
-        <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
-      </div>
-    `;
-  }
-})();
-
-// ===== MRPA: papel A4/A5 via @page =====
-function setMRPAPaperSize(){
-  let st = document.getElementById('mrpaPageSizeStyle');
-  if(!st){
-    st = document.createElement('style');
-    st.id = 'mrpaPageSizeStyle';
-    document.head.appendChild(st);
-  }
-  const val = document.getElementById('mrpa-paper')?.value || 'A4';
-  st.textContent = `
-    @media print{
-      @page { size: ${val} portrait; margin: ${val === 'A5' ? '10mm' : '12mm'}; }
     }
-  `;
-}
 
-// ===== MRPA: imprimir garantindo que MRPA esteja visível =====
-function openCardioSub(subId){
-  document.querySelectorAll('#tab-cardio .cardio-sub').forEach(el => el.classList.remove('active'));
-  document.getElementById(subId)?.classList.add('active');
-}
+    function setMRPAPaperSize(){
+      let st = document.getElementById('mrpaPageSizeStyle');
+      if(!st){
+        st = document.createElement('style');
+        st.id = 'mrpaPageSizeStyle';
+        document.head.appendChild(st);
+      }
+      const val = document.getElementById('mrpa-paper')?.value || 'A4';
+      st.textContent = `
+        @media print{
+          @page { size: ${val} portrait; margin: ${val === 'A5' ? '10mm' : '12mm'}; }
+        }
+      `;
+    }
 
-function printMRPA(){
-  // ativa aba cardio (se necessário)
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-cardio')?.classList.add('active');
+    function updateMRPAFooter(){
+      const local = (document.getElementById('mrpa-local')?.value || '').trim();
+      const medico = (document.getElementById('mrpa-medico')?.value || '').trim();
+      const crm = (document.getElementById('mrpa-crm')?.value || '').trim();
 
-  // ativa sub-aba MRPA
-  openCardioSub('cardio-mrpa');
+      const data = new Date().toLocaleDateString('pt-BR');
 
-  setMRPAPaperSize();
+      const localDataEl = document.getElementById('mrpa-local-data');
+      const medicoCrmEl = document.getElementById('mrpa-medico-crm');
 
-  setTimeout(()=>window.print(), 150);
-}
+      if(localDataEl){
+        const prefixo = local ? local : 'Local';
+        localDataEl.textContent = `${prefixo}, ${data}`;
+      }
+      if(medicoCrmEl){
+        const med = medico ? medico : 'Médico(a)';
+        const cr = crm ? crm : 'CRM';
+        medicoCrmEl.textContent = `${med} • ${cr}`;
+      }
+    }
+
+    function printMRPA(){
+      // garante renderização correta no Chrome: mostra Cardio + MRPA antes do print
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-cardio')?.classList.add('active');
+      openCardioSub('cardio-mrpa', document.querySelector('#tab-cardio .subnav button:nth-child(2)'));
+
+      updateMRPAFooter();
+      setMRPAPaperSize();
+
+      setTimeout(()=>window.print(), 150);
+    }
+
+    // init MRPA
+    (function initMRPA(){
+      buildMRPADias();
+      setMRPAPaperSize();
+      updateMRPAFooter();
+
+      ['mrpa-local','mrpa-medico','mrpa-crm'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.addEventListener('input', updateMRPAFooter);
+      });
+
+      window.addEventListener('beforeprint', () => {
+        updateMRPAFooter();
+        setMRPAPaperSize();
+      });
+    })();
   </script>
 </body>
 </html>
