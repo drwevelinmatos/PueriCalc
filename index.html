@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <style>
+  <>
     :root {
       --primary: rgb(40,90,129);
       --secondary: rgb(185,224,229);
@@ -194,6 +194,65 @@
 
   /* remove sombras e fundos “web” */
   .card { box-shadow: none !important; }
+}
+    /* ===== MRPA (blocos para escrever à caneta) ===== */
+.mrpa-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.mrpa-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+.mrpa-label{
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 8px 0 6px;
+}
+
+.mrpa-box{
+  border: 1.6px solid rgba(0,0,0,0.75);
+  border-radius: 8px;
+  height: 30px;
+  background: #fff;
+}
+
+.mrpa-box.big{ height: 70px; }
+
+.mrpa-row-title{
+  font-family: 'Comfortaa', cursive;
+  font-weight: 800;
+  color: var(--primary);
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+
+.mrpa-medicao{
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+
+@media (max-width: 900px){
+  .mrpa-grid-2{ grid-template-columns:1fr; }
+  .mrpa-grid-3{ grid-template-columns:1fr; }
+}
+
+/* ===== PRINT: imprimir SOMENTE o MRPA + garantir bordas ===== */
+@media print{
+  body *{ visibility:hidden !important; }
+  #mrpa-print-area, #mrpa-print-area *{ visibility:visible !important; }
+
+  #mrpa-print-area{
+    position:absolute !important;
+    left:0 !important;
+    top:0 !important;
+    width:100% !important;
+  }
+
+  /* remove sombras e fundos do app */
+  .card{ box-shadow:none !important; background:#fff !important; }
+
+  /* força bordas fortes no PDF */
+  .mrpa-box{ border: 1.6px solid #000 !important; }
+  .mrpa-medicao{ border: 1px solid #000 !important; }
 }
   </style>
 </head>
@@ -516,98 +575,80 @@
       </div><!-- /#cardio-main -->
 
       <!-- SUB-ABA: MRPA -->
-    <div id="cardio-mrpa" class="cardio-sub">
+   <div id="cardio-mrpa" class="cardio-sub">
   <div class="card" id="mrpa-print-area">
 
-    <!-- Toolbar (não imprime) -->
-    <div class="mrpa-toolbar">
-      <div class="left">
-        <select id="mrpa-paper" onchange="setMRPAPaperSize()">
+    <div class="mrpa-toolbar" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <select id="mrpa-paper" onchange="setMRPAPaperSize()"
+                style="padding:10px 12px;border-radius:10px;border:1px solid #dce4ec;font-weight:700">
           <option value="A4">Papel: A4</option>
           <option value="A5">Papel: A5</option>
         </select>
-       <button class="calc-btn" style="background:var(--cardio); width:auto; padding:12px 14px" onclick="printMRPA()">
-  Imprimir MRPA
-      </button>
+
+        <button class="calc-btn" style="background:var(--cardio); width:auto; padding:12px 14px" onclick="printMRPA()">
+          Imprimir MRPA
+        </button>
       </div>
-      <div class="right">
-        <div class="muted" style="margin:0">Dica: selecione A4/A5 antes de imprimir.</div>
+
+      <div class="muted" style="margin:0">Imprime em branco para preenchimento manual.</div>
+    </div>
+
+    <!-- Cabeçalho -->
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:8px 0 10px;border-bottom:2px solid rgba(40,90,129,0.18)">
+      <div>
+        <div style="font-family:'Comfortaa',cursive;font-weight:800;color:var(--primary);font-size:1.05rem">PueriCalc • MRPA</div>
+        <div style="color:#52616d;font-size:0.78rem">Monitorização Residencial da Pressão Arterial</div>
+      </div>
+      <div style="text-align:right;color:#52616d;font-size:0.78rem;line-height:1.25">
+        <div><b>Orientação:</b> 1º dia (clínica) 2 medições. 2º ao 5º dia: 3 manhã + 3 noite.</div>
+        <div>Registrar PAS, PAD e Pulso em cada medição.</div>
       </div>
     </div>
 
-    <!-- Cabeçalho (imprime) -->
-    <div class="mrpa-print-header">
-      <div class="mrpa-brand">
-        <div class="brand">PueriCalc • MRPA</div>
-        <div class="sub">Monitorização Residencial da Pressão Arterial</div>
-      </div>
-      <div class="mrpa-head-meta">
-        <div><b>Instrução:</b> medir 2x no 1º dia (clínica) + 3 manhã/3 noite do 2º ao 5º dia.</div>
-        <div class="mut">Anotar PAS, PAD e Pulso em cada medição.</div>
-      </div>
-    </div>
-
-    <!-- DADOS GERAIS -->
-    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.06)">
+    <!-- Dados gerais -->
+    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10);margin-top:12px">
       <div class="mrpa-grid-2">
         <div>
-          <div class="mrpa-label">Nome</div>
-          <input class="mrpa-input" id="mrpa-nome" type="text" />
+          <div class="mrpa-label">Nome</div><div class="mrpa-box"></div>
         </div>
         <div>
-          <div class="mrpa-label">Data de nascimento</div>
-          <input class="mrpa-input" id="mrpa-dn" type="text" />
+          <div class="mrpa-label">Data de nascimento</div><div class="mrpa-box"></div>
         </div>
         <div>
-          <div class="mrpa-label">Peso (kg)</div>
-          <input class="mrpa-input" id="mrpa-peso" type="text" />
+          <div class="mrpa-label">Peso (kg)</div><div class="mrpa-box"></div>
         </div>
         <div>
-          <div class="mrpa-label">Altura (m)</div>
-          <input class="mrpa-input" id="mrpa-altura" type="text" />
-        </div>
-
-        <div>
-          <div class="mrpa-label">Médico(a)</div>
-          <input class="mrpa-input" id="mrpa-medico" type="text" placeholder="Dra. Wevelin Matos" />
+          <div class="mrpa-label">Altura (m)</div><div class="mrpa-box"></div>
         </div>
         <div>
-          <div class="mrpa-label">CRM</div>
-          <input class="mrpa-input" id="mrpa-crm" type="text" placeholder="CRM/UF XXXXX" />
-        </div>
-
-        <div>
-          <div class="mrpa-label">Clínica</div>
-          <input class="mrpa-input" id="mrpa-clinica" type="text" />
+          <div class="mrpa-label">Médico(a)</div><div class="mrpa-box"></div>
         </div>
         <div>
-          <div class="mrpa-label">Local (cidade)</div>
-          <input class="mrpa-input" id="mrpa-local" type="text" placeholder="Ex.: São Paulo" />
+          <div class="mrpa-label">Clínica</div><div class="mrpa-box"></div>
         </div>
       </div>
     </div>
 
-    <!-- MEDICAÇÕES -->
-    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.06)">
+    <!-- Medicações -->
+    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
       <div class="mrpa-row-title">Medicações em uso</div>
-      <textarea class="mrpa-input" id="mrpa-meds" style="height:70px; background:#fff"></textarea>
+      <div class="mrpa-box big"></div>
     </div>
 
-    <!-- DIA 1 -->
-    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.06)">
+    <!-- Dia 1 -->
+    <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
       <div class="mrpa-row-title">1º Dia – Clínica (____ / ____ / ____)</div>
-
       <div class="mrpa-grid-2">
         <div class="mrpa-medicao">
-          <div class="mrpa-row-title" style="font-size:0.9rem;margin-bottom:6px">1ª Medição</div>
+          <div class="mrpa-row-title" style="font-size:0.9rem">1ª Medição</div>
           <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
           <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
           <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
           <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
         </div>
-
         <div class="mrpa-medicao">
-          <div class="mrpa-row-title" style="font-size:0.9rem;margin-bottom:6px">2ª Medição</div>
+          <div class="mrpa-row-title" style="font-size:0.9rem">2ª Medição</div>
           <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
           <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
           <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
@@ -616,14 +657,15 @@
       </div>
     </div>
 
-    <!-- DIAS 2 A 5 (JS) -->
+    <!-- Dias 2 a 5 -->
     <div id="mrpa-dias"></div>
 
-    <!-- Rodapé (imprime) -->
-    <div class="mrpa-print-footer">
-      <div class="mrpa-footer-right">
-        <div id="mrpa-local-data" class="mut">Local, dd/mm/aaaa</div>
-        <div id="mrpa-medico-crm">Médico(a) • CRM</div>
+    <!-- Rodapé (para assinatura) -->
+    <div style="margin-top:14px;padding-top:10px;border-top:2px solid rgba(40,90,129,0.18);display:flex;justify-content:flex-end">
+      <div style="text-align:right;font-size:0.82rem;line-height:1.25;color:#1f2d3a;font-weight:700">
+        <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-local-data">Local, ____/____/______</div>
+        <div style="margin-top:4px">__________________________________________</div>
+        <div style="font-weight:600;color:#52616d;font-size:0.78rem">Médico(a) • CRM</div>
       </div>
     </div>
 
@@ -1827,6 +1869,77 @@ function printMRPA(){
 
   // 4) Pequeno delay para o DOM aplicar display/visibilidade antes do print
   setTimeout(() => window.print(), 150);
+}
+    // ===== MRPA: gera dias 2 a 5 com 3 manhã + 3 noite =====
+(function(){
+  const alvo = document.getElementById('mrpa-dias');
+  if(!alvo) return;
+
+  const dias = [2,3,4,5];
+  dias.forEach(d=>{
+    alvo.insertAdjacentHTML('beforeend', `
+      <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
+        <div class="mrpa-row-title">${d}º Dia (____ / ____ / ____)</div>
+
+        <div style="font-weight:800;color:var(--primary);margin:6px 0 8px">☀️ Manhã</div>
+        <div class="mrpa-grid-3">
+          ${[1,2,3].map(i=>medicaoHTML(`Manhã — ${i}`)).join('')}
+        </div>
+
+        <div style="font-weight:800;color:var(--primary);margin:12px 0 8px">🌙 Noite</div>
+        <div class="mrpa-grid-3">
+          ${[1,2,3].map(i=>medicaoHTML(`Noite — ${i}`)).join('')}
+        </div>
+      </div>
+    `);
+  });
+
+  function medicaoHTML(titulo){
+    return `
+      <div class="mrpa-medicao">
+        <div class="mrpa-row-title" style="font-size:0.9rem">${titulo}</div>
+        <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
+        <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
+        <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
+        <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
+      </div>
+    `;
+  }
+})();
+
+// ===== MRPA: papel A4/A5 via @page =====
+function setMRPAPaperSize(){
+  let st = document.getElementById('mrpaPageSizeStyle');
+  if(!st){
+    st = document.createElement('style');
+    st.id = 'mrpaPageSizeStyle';
+    document.head.appendChild(st);
+  }
+  const val = document.getElementById('mrpa-paper')?.value || 'A4';
+  st.textContent = `
+    @media print{
+      @page { size: ${val} portrait; margin: ${val === 'A5' ? '10mm' : '12mm'}; }
+    }
+  `;
+}
+
+// ===== MRPA: imprimir garantindo que MRPA esteja visível =====
+function openCardioSub(subId){
+  document.querySelectorAll('#tab-cardio .cardio-sub').forEach(el => el.classList.remove('active'));
+  document.getElementById(subId)?.classList.add('active');
+}
+
+function printMRPA(){
+  // ativa aba cardio (se necessário)
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-cardio')?.classList.add('active');
+
+  // ativa sub-aba MRPA
+  openCardioSub('cardio-mrpa');
+
+  setMRPAPaperSize();
+
+  setTimeout(()=>window.print(), 150);
 }
   </script>
 </body>
