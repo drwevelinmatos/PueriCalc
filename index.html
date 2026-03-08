@@ -269,495 +269,7 @@
   line-height:1.5;
   color:var(--text);
 }
-  </style>
-</head>
-
-<body>
-  <header>
-    <h1>Calculadoras Pediátricas</h1>
-    <div class="muted">Neonato • Crescimento • Cardio • Emergência • Hidratação • Laboratórios • Checklist</div>
-  </header>
-
-  <nav>
-  <button class="nav-btn active" onclick="openTab('tab-neo', this)">Neonato</button>
-  <button class="nav-btn" onclick="openTab('tab-cresc', this)">Crescimento</button>
-  <button class="nav-btn" onclick="openTab('tab-cardio', this)">Cardio</button>
-  <button class="nav-btn" onclick="openTab('tab-emerg', this)">Emergência</button>
-  <button class="nav-btn" onclick="openTab('tab-hidra', this)">Hidratação</button>
-  <button class="nav-btn" onclick="openTab('tab-laser', this)">Laserterapia</button>
-  <button class="nav-btn" onclick="openTab('tab-lab', this)">Laboratórios</button>
-  <button class="nav-btn" onclick="openTab('tab-check', this)">Checklist</button>
-</nav>
-
-  <div class="container">
-
-    <!-- ========================= -->
-    <!-- ABA NEONATOLOGIA (ORDEM) -->
-    <!-- ========================= -->
-    <div id="tab-neo" class="tab-content active">
-
-      <!-- 1) Idade Gestacional e DPP (ok) -->
-      <div class="card">
-        <div class="card-header"><h2>Idade Gestacional e DPP</h2></div>
-
-        <label>Modo de Entrada</label>
-        <select id="neo-modo" onchange="toggleNeoInput()">
-          <option value="dum">DUM (Data Última Menstruação)</option>
-          <option value="usg">USG 1º Trimestre</option>
-        </select>
-
-        <div id="box-dum">
-          <label>Data da DUM</label>
-          <input type="date" id="neo-dum">
-        </div>
-
-        <div id="box-usg" style="display:none">
-          <label>Data do USG</label>
-          <input type="date" id="neo-usg-data">
-          <div class="grid-2">
-            <div>
-              <label>Semanas no USG</label>
-              <input type="number" id="neo-usg-sem" min="0" step="1">
-            </div>
-            <div>
-              <label>Dias no USG</label>
-              <input type="number" id="neo-usg-dias" min="0" max="6" step="1">
-            </div>
-          </div>
-        </div>
-
-        <label>Data para cálculo (ex.: data do parto)</label>
-        <input type="date" id="neo-ig-calc">
-
-        <button class="calc-btn" onclick="calcNeoIG()">Calcular IG e DPP</button>
-        <div id="res-neo-ig" class="result-box"></div>
-      </div>
-
-      <!-- 2) IG Corrigida Pós-Nascimento -->
-      <div class="card">
-        <div class="card-header"><h2>Idade Gestacional Corrigida Pós-Nascimento</h2></div>
-
-        <div class="grid-2">
-          <div>
-            <label>IG ao nascimento (semanas)</label>
-            <input type="number" id="neo-ig-nasc-sem" min="0" step="1">
-          </div>
-          <div>
-            <label>IG ao nascimento (dias)</label>
-            <input type="number" id="neo-ig-nasc-dias" min="0" max="6" step="1">
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div>
-            <label>Data de nascimento</label>
-            <input type="date" id="neo-data-nasc">
-          </div>
-          <div>
-            <label>Data para cálculo</label>
-            <input type="date" id="neo-data-posnatal">
-          </div>
-        </div>
-
-        <button class="calc-btn" onclick="calcIGCorrigidaPosNatal()">Calcular Corrigida Pós-Natal</button>
-        <div id="res-neo-igcorr" class="result-box"></div>
-
-        <div class="muted">
-          Lógica: soma o tempo pós-natal (dias) à IG ao nascimento e retorna <span class="destaque">semanas + dias</span>.
-        </div>
-      </div>
-
-      <!-- 3) Peso para IG (INTERGROWTH-21st) -->
-      <div class="card">
-        <div class="card-header"><h2>Peso para Idade Gestacional (INTERGROWTH-21st)</h2></div>
-
-        <div class="grid-3">
-          <div>
-            <label>Sexo</label>
-            <select id="neo-ig-sexo">
-              <option value="M">Masculino</option>
-              <option value="F">Feminino</option>
-            </select>
-          </div>
-          <div>
-            <label>IG ao nascer (semanas)</label>
-            <input type="number" id="neo-lub-ig-sem" min="24" max="44" step="1">
-          </div>
-          <div>
-            <label>IG ao nascer (dias)</label>
-            <input type="number" id="neo-lub-ig-dias" min="0" max="6" step="1">
-          </div>
-        </div>
-
-        <label>Peso ao nascer (g)</label>
-        <input type="number" id="neo-lub-peso" min="200" step="1">
-
-        <button class="calc-btn" onclick="calcIntergrowthPIG()">Classificar (PIG/AIG/GIG)</button>
-        <div id="res-neo-lub" class="result-box"></div>
-      </div>
-
-      <!-- 4) Icterícia neonatal -->
-      <div class="card">
-        <div class="card-header"><h2>Icterícia Neonatal (parâmetros SBP)</h2></div>
-
-        <div class="grid-2">
-          <div><label>IG (semanas)</label><input type="number" id="ict-ig" min="24" step="1"></div>
-          <div><label>Horas de vida</label><input type="number" id="ict-horas" min="0" step="1"></div>
-        </div>
-
-        <label>Bilirrubina Total (mg/dL)</label>
-        <input type="number" id="ict-bt" step="0.1" min="0">
-
-        <label>Fatores de risco (marque os presentes)</label>
-        <div style="margin-top:8px">
-          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="hemolise"> Hemólise (ABO/Rh, Coombs +, G6PD, etc.)</label>
-          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="sepse"> Sepse/instabilidade clínica</label>
-          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="prematuro"> Prematuridade/idade gestacional limítrofe</label>
-          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="albumina"> Hipoalbuminemia (se aplicável)</label>
-        </div>
-
-        <button class="calc-btn" onclick="calcIctericiaSBP2021()">Avaliar Conduta</button>
-        <div id="res-ict" class="result-box"></div>
-
-        <div class="muted warn">
-          ATUALIZAR_CONFORME_SBP: este bloco está pronto para receber os limiares/tabelas SBP (fototerapia/exsanguíneo) por IG e horas de vida.
-          <div id="ictericia-tabelas">
-    <div class="ictericia-tabela">
-      <table>
-        <thead>
-          <tr>
-            <th rowspan="2">Idade pós-natal</th>
-            <th colspan="2">Fototerapia<br>Bilirrubinemia Total (mg/dL)</th>
-            <th colspan="2">Exsanguineotransfusão<br>Bilirrubinemia Total (mg/dL)</th>
-          </tr>
-          <tr>
-            <th>35 0/7 a 37 6/7 semanas</th>
-            <th>≥ 38 0/7 semanas</th>
-            <th>35 0/7 a 37 6/7 semanas</th>
-            <th>≥ 38 0/7 semanas</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>24 horas</td><td>8</td><td>10</td><td>15</td><td>18</td></tr>
-          <tr><td>36 horas</td><td>9,5</td><td>11,5</td><td>16</td><td>20</td></tr>
-          <tr><td>48 horas</td><td>11</td><td>13</td><td>18</td><td>21</td></tr>
-          <tr><td>72 horas</td><td>13</td><td>15</td><td>20</td><td>22</td></tr>
-          <tr><td>96 horas</td><td>14</td><td>16</td><td>21</td><td>23</td></tr>
-          <tr><td>5 a 7 dias</td><td>15</td><td>17</td><td>21</td><td>24</td></tr>
-        </tbody>
-      </table>
-      <ul>
-        <li>Diminuir em 2mg/dL o nível de indicação de fototerapia se doença hemolítica (Rh, ABO, outros antígenos), deficiência de G-6-PD, asfixia, letargia, instabilidade em temperatura, sepse, acidose ou albuminemia &lt;3g/dL.</li>
-      </ul>
-    </div>
-    <div class="ictericia-tabela">
-      <table>
-        <thead>
-          <tr>
-            <th>Idade gestacional corrigida (semanas)</th>
-            <th>Fototerapia<br>Bilirrubinemia Total (mg/dL)</th>
-            <th>Exsanguineotransfusão<br>Bilirrubinemia Total (mg/dL)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>&lt; 28</td><td>5 – 6</td><td>11 – 14</td></tr>
-          <tr><td>28 0/7 – 29 6/7</td><td>6 – 8</td><td>12 – 14</td></tr>
-          <tr><td>30 0/7 – 31 6/7</td><td>8 – 10</td><td>13 – 16</td></tr>
-          <tr><td>32 0/7 – 33 6/7</td><td>10 – 12</td><td>15 – 18</td></tr>
-          <tr><td>34 0/7 – 34 6/7</td><td>10 – 12</td><td>17 – 19</td></tr>
-        </tbody>
-      </table>
-      <ul>
-        <li>Aplicar os valores inferiores referidos para RN pré-termos nas seguintes condições: doença hemolítica (Rh, ABO, outros antígenos); deficiência de G-6-PD; albumina sérica &lt;2,5 g/dL; rápido aumento da BT; instabilidade clínica com ≥ 1 critério: pH &lt;7,15; ventilação mecânica; sepse/meningite ou apneia/bradicardia com necessidade de ventilação ou drogas vasotivas nas últimas 24 horas antes do início da fototerapia ou EST.</li>
-      </ul>
-    </div>
-  </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ========================= -->
-    <!-- ABA CRESCIMENTO (ORDEM)  -->
-    <!-- ========================= -->
-    <div id="tab-cresc" class="tab-content">
-
-      <!-- 1) Bloco único: velocidades -->
-      <div class="card">
-        <div class="card-header"><h2>Velocidades (PC, Peso, Estatura) — bloco único</h2></div>
-
-        <div class="grid-2">
-          <div><label>Data inicial</label><input type="date" id="cr-data-i"></div>
-          <div><label>Data final</label><input type="date" id="cr-data-f"></div>
-        </div>
-
-        <div class="grid-3">
-          <div>
-            <label>PC inicial (cm)</label>
-            <input type="number" id="cr-pc-i" step="0.1">
-          </div>
-          <div>
-            <label>PC final (cm)</label>
-            <input type="number" id="cr-pc-f" step="0.1">
-          </div>
-          <div>
-            <label>Idade (meses) (p/ referência)</label>
-            <input type="number" id="cr-idade-meses" step="0.1" min="0">
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div>
-            <label>Peso inicial</label>
-            <input type="number" id="cr-peso-i" step="1">
-          </div>
-          <div>
-            <label>Peso final</label>
-            <input type="number" id="cr-peso-f" step="1">
-          </div>
-        </div>
-
-        <label>Unidade do peso</label>
-        <select id="cr-peso-unid">
-          <option value="g">g</option>
-          <option value="kg">kg</option>
-        </select>
-
-        <div class="grid-2">
-          <div>
-            <label>Estatura inicial (cm)</label>
-            <input type="number" id="cr-alt-i" step="0.1">
-          </div>
-          <div>
-            <label>Estatura final (cm)</label>
-            <input type="number" id="cr-alt-f" step="0.1">
-          </div>
-        </div>
-
-        <button class="calc-btn" onclick="calcVelocidadesCrescimento()">Calcular velocidades</button>
-
-        <div id="res-cr-peso" class="result-box"></div>
-        <div id="res-cr-pc" class="result-box"></div>
-        <div id="res-cr-alt" class="result-box"></div>
-
-        <div id="ref-cr" class="result-box"></div>
-      </div>
-
-      <!-- 2) Alvo parental + idade óssea + análise -->
-      <div class="card">
-        <div class="card-header"><h2>Alvo parental + Idade óssea + Análise integrada</h2></div>
-
-        <div class="grid-2">
-          <div><label>Altura do pai (cm)</label><input type="number" id="ap-pai" step="0.1"></div>
-          <div><label>Altura da mãe (cm)</label><input type="number" id="ap-mae" step="0.1"></div>
-        </div>
-
-        <label>Sexo da criança</label>
-        <select id="ap-sexo">
-          <option value="M">Masculino</option>
-          <option value="F">Feminino</option>
-        </select>
-
-        <div class="grid-2">
-          <div><label>Altura atual (cm)</label><input type="number" id="ap-alt-atual" step="0.1"></div>
-          <div><label>Idade cronológica (anos)</label><input type="number" id="ap-idade" step="0.1"></div>
-        </div>
-
-        <label>Idade óssea (anos) (entrada manual)</label>
-        <input type="number" id="ap-io" step="0.1">
-
-        <button class="calc-btn" onclick="calcAlvoParentalEAnalise()">Calcular e analisar</button>
-        <div id="res-ap" class="result-box"></div>
-
-        <div class="muted">
-          ⚠️ Idade óssea aqui é <b>input clínico</b> (ex.: Greulich &amp; Pyle). A interpretação avançada fica como placeholder para você definir regra.
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ========================= -->
-    <!-- ABA CARDIO (ORDEM)       -->
-    <!-- ========================= -->
-    <div id="tab-cardio" class="tab-content">
-
-      <div class="subnav">
-        <button class="active" onclick="openCardioSub('cardio-main', this)">Calculadoras</button>
-        <button onclick="openCardioSub('cardio-mrpa', this)">MRPA (PA)</button>
-      </div>
-
-      <!-- SUB-ABA: conteúdo normal do Cardio -->
-      <div id="cardio-main" class="cardio-sub active">
-
-        <!-- 1) Avaliação de ECG -->
-        <div class="card">
-          <div class="card-header" style="border-color:var(--cardio)"><h2>Avaliação de ECG</h2></div>
-
-          <p class="muted">Use quadradinhos: 1mm = 0,04s (25 mm/s). Se preferir, informe RR em quadradinhos.</p>
-
-          <div class="grid-2">
-            <div><label>QT (quadradinhos)</label><input type="number" id="ecg-qt-q" step="1" min="1"></div>
-            <div><label>RR (quadradinhos)</label><input type="number" id="ecg-rr-q" step="1" min="1"></div>
-          </div>
-
-          <button class="calc-btn" style="background:var(--cardio)" onclick="calcECG()">Analisar ECG (QTc + FC)</button>
-          <div id="res-ecg" class="result-box"></div>
-
-          <div class="muted warn">
-            Intervalos/eixo por idade: placeholder (não inserir tabela sem fonte). Estrutura pronta para você preencher.
-          </div>
-        </div>
-
-        <!-- 2) Classificação PA pediatria e adulto -->
-        <div class="card">
-          <div class="card-header" style="border-color:var(--cardio)"><h2>Classificação de Pressão Arterial (Pediatria e Adulto)</h2></div>
-
-          <div class="grid-2">
-            <div><label>PAS (mmHg)</label><input type="number" id="pa-pas" step="1"></div>
-            <div><label>PAD (mmHg)</label><input type="number" id="pa-pad" step="1"></div>
-          </div>
-
-          <div class="grid-2">
-            <div><label>Idade (anos)</label><input type="number" id="pa-idade" step="0.1"></div>
-            <div>
-              <label>Sexo</label>
-              <select id="pa-sexo">
-                <option value="M">Masculino</option>
-                <option value="F">Feminino</option>
-              </select>
-            </div>
-          </div>
-
-          <label>Estatura (cm) ou Percentil de estatura (se você já tiver)</label>
-          <input type="number" id="pa-estatura" step="0.1">
-
-          <button class="calc-btn" style="background:var(--cardio)" onclick="classificarPA()">Classificar PA</button>
-          <div id="res-pa" class="result-box"></div>
-
-          <div class="muted warn">
-            Pediatria (SBP): precisa de <b>tabela percentílica por idade/sexo/estatura</b>. O código está preparado para plugar.
-          </div>
-        </div>
-
-      </div><!-- /#cardio-main -->
-
-      <!-- SUB-ABA: MRPA -->
-      <div id="cardio-mrpa" class="cardio-sub">
-        <div class="card" id="mrpa-print-area">
-
-          <div class="mrpa-toolbar" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-              <select id="mrpa-paper" onchange="setMRPAPaperSize()"
-                      style="padding:10px 12px;border-radius:10px;border:1px solid #dce4ec;font-weight:700;background:#fff">
-                <option value="A4">Papel: A4</option>
-                <option value="A5">Papel: A5</option>
-              </select>
-
-              <button class="calc-btn" style="background:var(--cardio); width:auto; padding:12px 14px; margin-top:0" onclick="printMRPA()">
-                Imprimir MRPA
-              </button>
-            </div>
-
-            <div class="muted" style="margin:0;max-width:360px">
-              Imprime em branco para preenchimento manual (Chrome/Windows).
-            </div>
-          </div>
-
-          <!-- Campos para rodapé -->
-          <div class="mrpa-toolbar" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:0 0 12px">
-            <div>
-              <div class="mrpa-label" style="margin:0 0 6px">Local</div>
-              <input id="mrpa-local" placeholder="Ex.: São Paulo" style="background:#fff">
-            </div>
-            <div>
-              <div class="mrpa-label" style="margin:0 0 6px">Médico(a)</div>
-              <input id="mrpa-medico" placeholder="Nome do médico(a)" style="background:#fff">
-            </div>
-            <div>
-              <div class="mrpa-label" style="margin:0 0 6px">CRM</div>
-              <input id="mrpa-crm" placeholder="CRM-UF" style="background:#fff">
-            </div>
-          </div>
-
-          <!-- Cabeçalho -->
-          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:8px 0 10px;border-bottom:2px solid rgba(40,90,129,0.18)">
-            <div>
-              <div style="font-family:'Comfortaa',cursive;font-weight:800;color:var(--primary);font-size:1.05rem">PueriCalc • MRPA</div>
-              <div style="color:#52616d;font-size:0.78rem">Monitorização Residencial da Pressão Arterial</div>
-            </div>
-            <div style="text-align:right;color:#52616d;font-size:0.78rem;line-height:1.25;max-width:420px">
-              <div><b>Orientação:</b> 1º dia (clínica) 2 medições. 2º ao 5º dia: 3 manhã + 3 noite.</div>
-              <div>Registrar PAS, PAD e Pulso em cada medição.</div>
-            </div>
-          </div>
-
-          <!-- Dados gerais -->
-          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10);margin-top:12px">
-            <div class="mrpa-grid-2">
-              <div>
-                <div class="mrpa-label">Nome</div><div class="mrpa-box"></div>
-              </div>
-              <div>
-                <div class="mrpa-label">Data de nascimento</div><div class="mrpa-box"></div>
-              </div>
-              <div>
-                <div class="mrpa-label">Peso (kg)</div><div class="mrpa-box"></div>
-              </div>
-              <div>
-                <div class="mrpa-label">Altura (m)</div><div class="mrpa-box"></div>
-              </div>
-              <div>
-                <div class="mrpa-label">Médico(a)</div><div class="mrpa-box"></div>
-              </div>
-              <div>
-                <div class="mrpa-label">Clínica</div><div class="mrpa-box"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Medicações -->
-          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
-            <div class="mrpa-row-title">Medicações em uso</div>
-            <div class="mrpa-box big"></div>
-          </div>
-
-          <!-- Dia 1 -->
-          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
-            <div class="mrpa-row-title">1º Dia – Clínica (____ / ____ / ____)</div>
-            <div class="mrpa-grid-2">
-              <div class="mrpa-medicao">
-                <div class="mrpa-row-title" style="font-size:0.9rem">1ª Medição</div>
-                <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
-                <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
-                <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
-                <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
-              </div>
-              <div class="mrpa-medicao">
-                <div class="mrpa-row-title" style="font-size:0.9rem">2ª Medição</div>
-                <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
-                <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
-                <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
-                <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dias 2 a 5 -->
-          <div id="mrpa-dias"></div>
-
-          <!-- Rodapé (assinatura) -->
-          <div style="margin-top:14px;padding-top:10px;border-top:2px solid rgba(40,90,129,0.18);display:flex;justify-content:flex-end">
-            <div style="text-align:right;font-size:0.82rem;line-height:1.25;color:#1f2d3a;font-weight:700">
-              <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-local-data">Local, __/__/____</div>
-              <div style="margin-top:4px">__________________________________________</div>
-              <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-medico-crm">Médico(a) • CRM</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-/* ===== LASERTERAPIA ===== */
+    /* ===== LASERTERAPIA ===== */
 #tab-laser,
 #tab-laser *{
   font-family:'Gotham Book', Arial, sans-serif;
@@ -1273,6 +785,494 @@
     border-radius:0;
     padding:20px;
   }
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Calculadoras Pediátricas</h1>
+    <div class="muted">Neonato • Crescimento • Cardio • Emergência • Hidratação • Laboratórios • Checklist</div>
+  </header>
+
+  <nav>
+  <button class="nav-btn active" onclick="openTab('tab-neo', this)">Neonato</button>
+  <button class="nav-btn" onclick="openTab('tab-cresc', this)">Crescimento</button>
+  <button class="nav-btn" onclick="openTab('tab-cardio', this)">Cardio</button>
+  <button class="nav-btn" onclick="openTab('tab-emerg', this)">Emergência</button>
+  <button class="nav-btn" onclick="openTab('tab-hidra', this)">Hidratação</button>
+  <button class="nav-btn" onclick="openTab('tab-laser', this)">Laserterapia</button>
+  <button class="nav-btn" onclick="openTab('tab-lab', this)">Laboratórios</button>
+  <button class="nav-btn" onclick="openTab('tab-check', this)">Checklist</button>
+</nav>
+
+  <div class="container">
+
+    <!-- ========================= -->
+    <!-- ABA NEONATOLOGIA (ORDEM) -->
+    <!-- ========================= -->
+    <div id="tab-neo" class="tab-content active">
+
+      <!-- 1) Idade Gestacional e DPP (ok) -->
+      <div class="card">
+        <div class="card-header"><h2>Idade Gestacional e DPP</h2></div>
+
+        <label>Modo de Entrada</label>
+        <select id="neo-modo" onchange="toggleNeoInput()">
+          <option value="dum">DUM (Data Última Menstruação)</option>
+          <option value="usg">USG 1º Trimestre</option>
+        </select>
+
+        <div id="box-dum">
+          <label>Data da DUM</label>
+          <input type="date" id="neo-dum">
+        </div>
+
+        <div id="box-usg" style="display:none">
+          <label>Data do USG</label>
+          <input type="date" id="neo-usg-data">
+          <div class="grid-2">
+            <div>
+              <label>Semanas no USG</label>
+              <input type="number" id="neo-usg-sem" min="0" step="1">
+            </div>
+            <div>
+              <label>Dias no USG</label>
+              <input type="number" id="neo-usg-dias" min="0" max="6" step="1">
+            </div>
+          </div>
+        </div>
+
+        <label>Data para cálculo (ex.: data do parto)</label>
+        <input type="date" id="neo-ig-calc">
+
+        <button class="calc-btn" onclick="calcNeoIG()">Calcular IG e DPP</button>
+        <div id="res-neo-ig" class="result-box"></div>
+      </div>
+
+      <!-- 2) IG Corrigida Pós-Nascimento -->
+      <div class="card">
+        <div class="card-header"><h2>Idade Gestacional Corrigida Pós-Nascimento</h2></div>
+
+        <div class="grid-2">
+          <div>
+            <label>IG ao nascimento (semanas)</label>
+            <input type="number" id="neo-ig-nasc-sem" min="0" step="1">
+          </div>
+          <div>
+            <label>IG ao nascimento (dias)</label>
+            <input type="number" id="neo-ig-nasc-dias" min="0" max="6" step="1">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label>Data de nascimento</label>
+            <input type="date" id="neo-data-nasc">
+          </div>
+          <div>
+            <label>Data para cálculo</label>
+            <input type="date" id="neo-data-posnatal">
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcIGCorrigidaPosNatal()">Calcular Corrigida Pós-Natal</button>
+        <div id="res-neo-igcorr" class="result-box"></div>
+
+        <div class="muted">
+          Lógica: soma o tempo pós-natal (dias) à IG ao nascimento e retorna <span class="destaque">semanas + dias</span>.
+        </div>
+      </div>
+
+      <!-- 3) Peso para IG (INTERGROWTH-21st) -->
+      <div class="card">
+        <div class="card-header"><h2>Peso para Idade Gestacional (INTERGROWTH-21st)</h2></div>
+
+        <div class="grid-3">
+          <div>
+            <label>Sexo</label>
+            <select id="neo-ig-sexo">
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
+          </div>
+          <div>
+            <label>IG ao nascer (semanas)</label>
+            <input type="number" id="neo-lub-ig-sem" min="24" max="44" step="1">
+          </div>
+          <div>
+            <label>IG ao nascer (dias)</label>
+            <input type="number" id="neo-lub-ig-dias" min="0" max="6" step="1">
+          </div>
+        </div>
+
+        <label>Peso ao nascer (g)</label>
+        <input type="number" id="neo-lub-peso" min="200" step="1">
+
+        <button class="calc-btn" onclick="calcIntergrowthPIG()">Classificar (PIG/AIG/GIG)</button>
+        <div id="res-neo-lub" class="result-box"></div>
+      </div>
+
+      <!-- 4) Icterícia neonatal -->
+      <div class="card">
+        <div class="card-header"><h2>Icterícia Neonatal (parâmetros SBP)</h2></div>
+
+        <div class="grid-2">
+          <div><label>IG (semanas)</label><input type="number" id="ict-ig" min="24" step="1"></div>
+          <div><label>Horas de vida</label><input type="number" id="ict-horas" min="0" step="1"></div>
+        </div>
+
+        <label>Bilirrubina Total (mg/dL)</label>
+        <input type="number" id="ict-bt" step="0.1" min="0">
+
+        <label>Fatores de risco (marque os presentes)</label>
+        <div style="margin-top:8px">
+          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="hemolise"> Hemólise (ABO/Rh, Coombs +, G6PD, etc.)</label>
+          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="sepse"> Sepse/instabilidade clínica</label>
+          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="prematuro"> Prematuridade/idade gestacional limítrofe</label>
+          <label style="font-weight:600;color:#2c3e50"><input type="checkbox" class="ict-risk" value="albumina"> Hipoalbuminemia (se aplicável)</label>
+        </div>
+
+        <button class="calc-btn" onclick="calcIctericiaSBP2021()">Avaliar Conduta</button>
+        <div id="res-ict" class="result-box"></div>
+
+        <div class="muted warn">
+          ATUALIZAR_CONFORME_SBP: este bloco está pronto para receber os limiares/tabelas SBP (fototerapia/exsanguíneo) por IG e horas de vida.
+          <div id="ictericia-tabelas">
+    <div class="ictericia-tabela">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Idade pós-natal</th>
+            <th colspan="2">Fototerapia<br>Bilirrubinemia Total (mg/dL)</th>
+            <th colspan="2">Exsanguineotransfusão<br>Bilirrubinemia Total (mg/dL)</th>
+          </tr>
+          <tr>
+            <th>35 0/7 a 37 6/7 semanas</th>
+            <th>≥ 38 0/7 semanas</th>
+            <th>35 0/7 a 37 6/7 semanas</th>
+            <th>≥ 38 0/7 semanas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>24 horas</td><td>8</td><td>10</td><td>15</td><td>18</td></tr>
+          <tr><td>36 horas</td><td>9,5</td><td>11,5</td><td>16</td><td>20</td></tr>
+          <tr><td>48 horas</td><td>11</td><td>13</td><td>18</td><td>21</td></tr>
+          <tr><td>72 horas</td><td>13</td><td>15</td><td>20</td><td>22</td></tr>
+          <tr><td>96 horas</td><td>14</td><td>16</td><td>21</td><td>23</td></tr>
+          <tr><td>5 a 7 dias</td><td>15</td><td>17</td><td>21</td><td>24</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Diminuir em 2mg/dL o nível de indicação de fototerapia se doença hemolítica (Rh, ABO, outros antígenos), deficiência de G-6-PD, asfixia, letargia, instabilidade em temperatura, sepse, acidose ou albuminemia &lt;3g/dL.</li>
+      </ul>
+    </div>
+    <div class="ictericia-tabela">
+      <table>
+        <thead>
+          <tr>
+            <th>Idade gestacional corrigida (semanas)</th>
+            <th>Fototerapia<br>Bilirrubinemia Total (mg/dL)</th>
+            <th>Exsanguineotransfusão<br>Bilirrubinemia Total (mg/dL)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>&lt; 28</td><td>5 – 6</td><td>11 – 14</td></tr>
+          <tr><td>28 0/7 – 29 6/7</td><td>6 – 8</td><td>12 – 14</td></tr>
+          <tr><td>30 0/7 – 31 6/7</td><td>8 – 10</td><td>13 – 16</td></tr>
+          <tr><td>32 0/7 – 33 6/7</td><td>10 – 12</td><td>15 – 18</td></tr>
+          <tr><td>34 0/7 – 34 6/7</td><td>10 – 12</td><td>17 – 19</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Aplicar os valores inferiores referidos para RN pré-termos nas seguintes condições: doença hemolítica (Rh, ABO, outros antígenos); deficiência de G-6-PD; albumina sérica &lt;2,5 g/dL; rápido aumento da BT; instabilidade clínica com ≥ 1 critério: pH &lt;7,15; ventilação mecânica; sepse/meningite ou apneia/bradicardia com necessidade de ventilação ou drogas vasotivas nas últimas 24 horas antes do início da fototerapia ou EST.</li>
+      </ul>
+    </div>
+  </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- ABA CRESCIMENTO (ORDEM)  -->
+    <!-- ========================= -->
+    <div id="tab-cresc" class="tab-content">
+
+      <!-- 1) Bloco único: velocidades -->
+      <div class="card">
+        <div class="card-header"><h2>Velocidades (PC, Peso, Estatura) — bloco único</h2></div>
+
+        <div class="grid-2">
+          <div><label>Data inicial</label><input type="date" id="cr-data-i"></div>
+          <div><label>Data final</label><input type="date" id="cr-data-f"></div>
+        </div>
+
+        <div class="grid-3">
+          <div>
+            <label>PC inicial (cm)</label>
+            <input type="number" id="cr-pc-i" step="0.1">
+          </div>
+          <div>
+            <label>PC final (cm)</label>
+            <input type="number" id="cr-pc-f" step="0.1">
+          </div>
+          <div>
+            <label>Idade (meses) (p/ referência)</label>
+            <input type="number" id="cr-idade-meses" step="0.1" min="0">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label>Peso inicial</label>
+            <input type="number" id="cr-peso-i" step="1">
+          </div>
+          <div>
+            <label>Peso final</label>
+            <input type="number" id="cr-peso-f" step="1">
+          </div>
+        </div>
+
+        <label>Unidade do peso</label>
+        <select id="cr-peso-unid">
+          <option value="g">g</option>
+          <option value="kg">kg</option>
+        </select>
+
+        <div class="grid-2">
+          <div>
+            <label>Estatura inicial (cm)</label>
+            <input type="number" id="cr-alt-i" step="0.1">
+          </div>
+          <div>
+            <label>Estatura final (cm)</label>
+            <input type="number" id="cr-alt-f" step="0.1">
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calcVelocidadesCrescimento()">Calcular velocidades</button>
+
+        <div id="res-cr-peso" class="result-box"></div>
+        <div id="res-cr-pc" class="result-box"></div>
+        <div id="res-cr-alt" class="result-box"></div>
+
+        <div id="ref-cr" class="result-box"></div>
+      </div>
+
+      <!-- 2) Alvo parental + idade óssea + análise -->
+      <div class="card">
+        <div class="card-header"><h2>Alvo parental + Idade óssea + Análise integrada</h2></div>
+
+        <div class="grid-2">
+          <div><label>Altura do pai (cm)</label><input type="number" id="ap-pai" step="0.1"></div>
+          <div><label>Altura da mãe (cm)</label><input type="number" id="ap-mae" step="0.1"></div>
+        </div>
+
+        <label>Sexo da criança</label>
+        <select id="ap-sexo">
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
+
+        <div class="grid-2">
+          <div><label>Altura atual (cm)</label><input type="number" id="ap-alt-atual" step="0.1"></div>
+          <div><label>Idade cronológica (anos)</label><input type="number" id="ap-idade" step="0.1"></div>
+        </div>
+
+        <label>Idade óssea (anos) (entrada manual)</label>
+        <input type="number" id="ap-io" step="0.1">
+
+        <button class="calc-btn" onclick="calcAlvoParentalEAnalise()">Calcular e analisar</button>
+        <div id="res-ap" class="result-box"></div>
+
+        <div class="muted">
+          ⚠️ Idade óssea aqui é <b>input clínico</b> (ex.: Greulich &amp; Pyle). A interpretação avançada fica como placeholder para você definir regra.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- ABA CARDIO (ORDEM)       -->
+    <!-- ========================= -->
+    <div id="tab-cardio" class="tab-content">
+
+      <div class="subnav">
+        <button class="active" onclick="openCardioSub('cardio-main', this)">Calculadoras</button>
+        <button onclick="openCardioSub('cardio-mrpa', this)">MRPA (PA)</button>
+      </div>
+
+      <!-- SUB-ABA: conteúdo normal do Cardio -->
+      <div id="cardio-main" class="cardio-sub active">
+
+        <!-- 1) Avaliação de ECG -->
+        <div class="card">
+          <div class="card-header" style="border-color:var(--cardio)"><h2>Avaliação de ECG</h2></div>
+
+          <p class="muted">Use quadradinhos: 1mm = 0,04s (25 mm/s). Se preferir, informe RR em quadradinhos.</p>
+
+          <div class="grid-2">
+            <div><label>QT (quadradinhos)</label><input type="number" id="ecg-qt-q" step="1" min="1"></div>
+            <div><label>RR (quadradinhos)</label><input type="number" id="ecg-rr-q" step="1" min="1"></div>
+          </div>
+
+          <button class="calc-btn" style="background:var(--cardio)" onclick="calcECG()">Analisar ECG (QTc + FC)</button>
+          <div id="res-ecg" class="result-box"></div>
+
+          <div class="muted warn">
+            Intervalos/eixo por idade: placeholder (não inserir tabela sem fonte). Estrutura pronta para você preencher.
+          </div>
+        </div>
+
+        <!-- 2) Classificação PA pediatria e adulto -->
+        <div class="card">
+          <div class="card-header" style="border-color:var(--cardio)"><h2>Classificação de Pressão Arterial (Pediatria e Adulto)</h2></div>
+
+          <div class="grid-2">
+            <div><label>PAS (mmHg)</label><input type="number" id="pa-pas" step="1"></div>
+            <div><label>PAD (mmHg)</label><input type="number" id="pa-pad" step="1"></div>
+          </div>
+
+          <div class="grid-2">
+            <div><label>Idade (anos)</label><input type="number" id="pa-idade" step="0.1"></div>
+            <div>
+              <label>Sexo</label>
+              <select id="pa-sexo">
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+              </select>
+            </div>
+          </div>
+
+          <label>Estatura (cm) ou Percentil de estatura (se você já tiver)</label>
+          <input type="number" id="pa-estatura" step="0.1">
+
+          <button class="calc-btn" style="background:var(--cardio)" onclick="classificarPA()">Classificar PA</button>
+          <div id="res-pa" class="result-box"></div>
+
+          <div class="muted warn">
+            Pediatria (SBP): precisa de <b>tabela percentílica por idade/sexo/estatura</b>. O código está preparado para plugar.
+          </div>
+        </div>
+
+      </div><!-- /#cardio-main -->
+
+      <!-- SUB-ABA: MRPA -->
+      <div id="cardio-mrpa" class="cardio-sub">
+        <div class="card" id="mrpa-print-area">
+
+          <div class="mrpa-toolbar" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+              <select id="mrpa-paper" onchange="setMRPAPaperSize()"
+                      style="padding:10px 12px;border-radius:10px;border:1px solid #dce4ec;font-weight:700;background:#fff">
+                <option value="A4">Papel: A4</option>
+                <option value="A5">Papel: A5</option>
+              </select>
+
+              <button class="calc-btn" style="background:var(--cardio); width:auto; padding:12px 14px; margin-top:0" onclick="printMRPA()">
+                Imprimir MRPA
+              </button>
+            </div>
+
+            <div class="muted" style="margin:0;max-width:360px">
+              Imprime em branco para preenchimento manual (Chrome/Windows).
+            </div>
+          </div>
+
+          <!-- Campos para rodapé -->
+          <div class="mrpa-toolbar" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:0 0 12px">
+            <div>
+              <div class="mrpa-label" style="margin:0 0 6px">Local</div>
+              <input id="mrpa-local" placeholder="Ex.: São Paulo" style="background:#fff">
+            </div>
+            <div>
+              <div class="mrpa-label" style="margin:0 0 6px">Médico(a)</div>
+              <input id="mrpa-medico" placeholder="Nome do médico(a)" style="background:#fff">
+            </div>
+            <div>
+              <div class="mrpa-label" style="margin:0 0 6px">CRM</div>
+              <input id="mrpa-crm" placeholder="CRM-UF" style="background:#fff">
+            </div>
+          </div>
+
+          <!-- Cabeçalho -->
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:8px 0 10px;border-bottom:2px solid rgba(40,90,129,0.18)">
+            <div>
+              <div style="font-family:'Comfortaa',cursive;font-weight:800;color:var(--primary);font-size:1.05rem">PueriCalc • MRPA</div>
+              <div style="color:#52616d;font-size:0.78rem">Monitorização Residencial da Pressão Arterial</div>
+            </div>
+            <div style="text-align:right;color:#52616d;font-size:0.78rem;line-height:1.25;max-width:420px">
+              <div><b>Orientação:</b> 1º dia (clínica) 2 medições. 2º ao 5º dia: 3 manhã + 3 noite.</div>
+              <div>Registrar PAS, PAD e Pulso em cada medição.</div>
+            </div>
+          </div>
+
+          <!-- Dados gerais -->
+          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10);margin-top:12px">
+            <div class="mrpa-grid-2">
+              <div>
+                <div class="mrpa-label">Nome</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Data de nascimento</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Peso (kg)</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Altura (m)</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Médico(a)</div><div class="mrpa-box"></div>
+              </div>
+              <div>
+                <div class="mrpa-label">Clínica</div><div class="mrpa-box"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medicações -->
+          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
+            <div class="mrpa-row-title">Medicações em uso</div>
+            <div class="mrpa-box big"></div>
+          </div>
+
+          <!-- Dia 1 -->
+          <div class="card" style="box-shadow:none;border:1px solid rgba(0,0,0,0.10)">
+            <div class="mrpa-row-title">1º Dia – Clínica (____ / ____ / ____)</div>
+            <div class="mrpa-grid-2">
+              <div class="mrpa-medicao">
+                <div class="mrpa-row-title" style="font-size:0.9rem">1ª Medição</div>
+                <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
+              </div>
+              <div class="mrpa-medicao">
+                <div class="mrpa-row-title" style="font-size:0.9rem">2ª Medição</div>
+                <div class="mrpa-label">Hora</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAS</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">PAD</div><div class="mrpa-box"></div>
+                <div class="mrpa-label">Pulso</div><div class="mrpa-box"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dias 2 a 5 -->
+          <div id="mrpa-dias"></div>
+
+          <!-- Rodapé (assinatura) -->
+          <div style="margin-top:14px;padding-top:10px;border-top:2px solid rgba(40,90,129,0.18);display:flex;justify-content:flex-end">
+            <div style="text-align:right;font-size:0.82rem;line-height:1.25;color:#1f2d3a;font-weight:700">
+              <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-local-data">Local, __/__/____</div>
+              <div style="margin-top:4px">__________________________________________</div>
+              <div style="font-weight:600;color:#52616d;font-size:0.78rem" id="mrpa-medico-crm">Médico(a) • CRM</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
 }
     <!-- ========================= -->
     <!-- ABA EMERGÊNCIA (ORDEM)   -->
