@@ -195,6 +195,80 @@
       .mrpa-medicao{ border: 1px solid #000 !important; }
       .mrpa-toolbar{ display:none !important; }
     }
+    .check-wrap{
+  display:grid;
+  gap:14px;
+}
+
+.check-block{
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.06);
+  border-radius:14px;
+  padding:14px;
+  box-shadow: var(--shadow);
+}
+
+.check-block h3{
+  text-align:left;
+  margin:0 0 10px;
+  font-size:0.95rem;
+  color:var(--check);
+}
+
+.check-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.check-list li{
+  padding:8px 0;
+  border-bottom:1px dashed rgba(0,0,0,0.08);
+  font-size:0.88rem;
+  line-height:1.45;
+}
+
+.check-list li:last-child{
+  border-bottom:none;
+}
+
+.check-alert{
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  background:#fff5f5;
+  border:1px solid rgba(211,47,47,0.18);
+  color:#8a2b2b;
+  font-size:0.86rem;
+  line-height:1.5;
+}
+
+.check-subtitle{
+  font-size:0.8rem;
+  color:#6b7b87;
+  margin:-4px 0 10px;
+}
+
+.check-tag{
+  display:inline-block;
+  font-size:0.72rem;
+  font-weight:800;
+  color:#fff;
+  background:var(--check);
+  padding:4px 8px;
+  border-radius:999px;
+  margin-bottom:8px;
+}
+
+.check-muted-box{
+  background:#f8fbfd;
+  border:1px solid rgba(40,90,129,0.12);
+  border-radius:12px;
+  padding:12px;
+  font-size:0.85rem;
+  line-height:1.5;
+  color:var(--text);
+}
   </style>
 </head>
 
@@ -2015,19 +2089,51 @@
     <!-- ========================= -->
     <!-- ABA CHECKLIST            -->
     <!-- ========================= -->
-    <div id="tab-check" class="tab-content">
-      <div class="card">
-        <div class="card-header" style="border-color:var(--check)"><h2>Puericultura Inteligente</h2></div>
-        <label>Idade da Consulta</label>
-        <select id="ck-idade" onchange="renderCheck()">
-          <option value="">Selecione...</option>
-          <option value="2">2 Meses</option>
-          <option value="6">6 Meses</option>
-          <option value="12">12 Meses</option>
-        </select>
-        <div id="check-area" style="margin-top:15px"></div>
-      </div>
+   <div id="tab-check" class="tab-content">
+  <div class="card">
+    <div class="card-header" style="border-color:var(--check)">
+      <h2>Checklist de Puericultura, Vacinação e DNPM</h2>
     </div>
+
+    <label>Faixa etária / idade da consulta</label>
+    <select id="ck-idade" onchange="renderCheck()">
+      <option value="">Selecione...</option>
+      <option value="0m">Ao nascer (0 mês)</option>
+      <option value="1m">1 mês</option>
+      <option value="2m">2 meses</option>
+      <option value="3m">3 meses</option>
+      <option value="4m">4 meses</option>
+      <option value="5m">5 meses</option>
+      <option value="6m">6 meses</option>
+      <option value="7m">7 meses</option>
+      <option value="8m">8 meses</option>
+      <option value="9m">9 meses</option>
+      <option value="10m">10 meses</option>
+      <option value="11m">11 meses</option>
+      <option value="12m">12 meses</option>
+      <option value="13_14m">13 a 14 meses</option>
+      <option value="15m">15 meses</option>
+      <option value="16_17m">16 a 17 meses</option>
+      <option value="18m">18 meses</option>
+      <option value="19_20m">19 a 20 meses</option>
+      <option value="21_22m">21 a 22 meses</option>
+      <option value="23_24m">23 a 24 meses</option>
+      <option value="2_3a">2 a 3 anos</option>
+      <option value="3a">3 anos</option>
+      <option value="4a">4 anos</option>
+      <option value="5a">5 anos</option>
+      <option value="6a">6 anos</option>
+      <option value="7_8a">7 a 8 anos</option>
+      <option value="9a">9 anos</option>
+      <option value="10a">10 anos</option>
+      <option value="11a">11 anos</option>
+      <option value="12_14a">12 a 14 anos</option>
+      <option value="15_19a">15 a 19 anos</option>
+    </select>
+
+    <div id="check-area" style="margin-top:15px"></div>
+  </div>
+</div>
 
     <!-- BIBLIOGRAFIA -->
     <div class="card">
@@ -2591,20 +2697,989 @@
       showResult('res-lab', `Resultado: ${(val*fator).toFixed(2)}`);
     }
 
-    function renderCheck() {
-      const idade = document.getElementById('ck-idade').value;
-      const area = document.getElementById('check-area');
-      if (!idade) { area.innerHTML = ''; return; }
+  function renderCheck() {
+  const idade = document.getElementById('ck-idade').value;
+  const area = document.getElementById('check-area');
+  if (!idade) { area.innerHTML = ''; return; }
 
-      const itens = {
-        '2': ['Vacinas do 2º mês', 'Aleitamento materno', 'Triagem auditiva/olhinho (se pendente)'],
-        '6': ['Introdução alimentar', 'Vacinas do 6º mês', 'Avaliar marcos do desenvolvimento'],
-        '12': ['Vacinas 12 meses', 'Triagem anemia/ferro (conforme risco)', 'Avaliar linguagem e marcha']
-      };
+  const CHECK_DATA = {
+    "0m": {
+      titulo: "Ao nascer (0 mês)",
+      vacinas: [
+        "BCG (dose única) — ideal ainda na maternidade.",
+        "Hepatite B (dose ao nascer) — se mãe HBsAg+, associar HBIG o mais precocemente possível (até 7 dias)."
+      ],
+      privado: [
+        "Hepatite B pode estar embutida em vacinas combinadas depois (penta/hexa), então o total pode ser 3 ou 4 doses conforme o produto."
+      ],
+      dnpm: []
+    },
 
-      const list = (itens[idade] || []).map(i => `<li>${i}</li>`).join('');
-      area.innerHTML = `<div class="result-box" style="display:block"><span class="destaque">Checklist (placeholder)</span><ul style="margin:10px 0 0 18px">${list}</ul></div>`;
+    "1m": {
+      titulo: "1 mês",
+      vacinas: [
+        "Checagem de oportunidade/atrasos: Hep B ao nascer e BCG."
+      ],
+      privado: [
+        "Nirsevimabe (VSR) pode ser aplicado a partir do nascimento, dose única, recomendado para < 8 meses; 8 a 23 meses apenas para maior risco."
+      ],
+      dnpm: {
+        social: [
+          "Acalma-se ao ouvir voz dos pais",
+          "Olha brevemente para o rosto"
+        ],
+        linguagem: [
+          "Emite sons guturais",
+          "Chora de forma diferenciada"
+        ],
+        cognitivo: [
+          "Fixa brevemente objetos",
+          "Segue objetos em linha média"
+        ],
+        motor: [
+          "Movimentos simétricos",
+          "Levanta discretamente a cabeça em prono"
+        ]
+      }
+    },
+
+    "2m": {
+      titulo: "2 meses",
+      vacinas: [
+        "Pentavalente (DTPw + Hib + Hep B) — 1ª dose",
+        "VIP (Polio inativada) — 1ª dose",
+        "Pneumocócica conjugada (PNI: VPC10) — 1ª dose",
+        "Rotavírus monovalente — 1ª dose (janela ampliada: D1 pode até 11 meses e 29 dias)"
+      ],
+      privado: [
+        "Hexa acelular (DTaP + VIP + Hib + Hep B) pode substituir penta + VIP.",
+        "Pneumocócica VPC15 ou VPC20 pode substituir VPC10.",
+        "Rotavírus pentavalente (VRH5): 3 doses (2, 4 e 6 meses)."
+      ],
+      dnpm: {
+        social: [
+          "Sorriso social",
+          "Observa atentamente o cuidador"
+        ],
+        linguagem: [
+          "Vocaliza (vogais)",
+          "Sons tipo “agu”"
+        ],
+        cognitivo: [
+          "Segue objetos até 180°",
+          "Demonstra interesse por estímulos"
+        ],
+        motor: [
+          "Sustenta melhor a cabeça",
+          "Apoia-se nos antebraços em prono"
+        ]
+      }
+    },
+
+    "3m": {
+      titulo: "3 meses",
+      vacinas: [
+        "Meningocócica C — 1ª dose (PNI)"
+      ],
+      privado: [
+        "Meningocócica B (MenB) — ideal iniciar aos 3 meses e 5 meses + reforço 12–15 meses (2+1).",
+        "MenACWY pode ser usada mais cedo em algumas estratégias privadas."
+      ],
+      dnpm: {
+        social: [
+          "Sorri espontaneamente",
+          "Interage com expressões faciais"
+        ],
+        linguagem: [
+          "Sons variados",
+          "Responde à voz"
+        ],
+        cognitivo: [
+          "Leva mãos à boca",
+          "Observa mãos"
+        ],
+        motor: [
+          "Sustenta cabeça firme",
+          "Abre mãos frequentemente"
+        ]
+      }
+    },
+
+    "4m": {
+      titulo: "4 meses",
+      vacinas: [
+        "Pentavalente — 2ª dose",
+        "VIP — 2ª dose",
+        "Pneumo (VPC10) — 2ª dose",
+        "Rotavírus monovalente — 2ª dose (janela ampliada: D2 pode até 23 meses e 29 dias; intervalo mínimo 30 dias)"
+      ],
+      privado: [
+        "Se usando hexa acelular, aplicar a 2ª dose do esquema combinado.",
+        "Se usando VRH5, aqui é a 2ª dose."
+      ],
+      dnpm: {
+        social: [
+          "Ri alto",
+          "Procura interação"
+        ],
+        linguagem: [
+          "Balbucio inicial"
+        ],
+        cognitivo: [
+          "Reconhece cuidadores",
+          "Interesse por objetos"
+        ],
+        motor: [
+          "Rola prono → supino",
+          "Sustenta cabeça completamente"
+        ]
+      }
+    },
+
+    "5m": {
+      titulo: "5 meses",
+      vacinas: [
+        "Meningocócica C — 2ª dose (PNI)"
+      ],
+      privado: [
+        "MenB — 2ª dose (se no esquema 3 e 5 meses)."
+      ],
+      dnpm: {
+        social: [
+          "Demonstra preferência por pessoas"
+        ],
+        linguagem: [
+          "Sons consonantais isolados"
+        ],
+        cognitivo: [
+          "Explora objetos com boca"
+        ],
+        motor: [
+          "Leva pés à boca",
+          "Apoio em mãos estendidas"
+        ]
+      }
+    },
+
+    "6m": {
+      titulo: "6 meses",
+      vacinas: [
+        "Pentavalente — 3ª dose",
+        "VIP — 3ª dose",
+        "Influenza — iniciar aos 6 meses (primovacinação: 2 doses com 1 mês de intervalo)",
+        "Covid-19 — esquema depende do imunizante; ex.: Pfizer 6, 7 e 9 meses"
+      ],
+      privado: [
+        "Rotavírus pentavalente (VRH5) — 3ª dose, se adotado.",
+        "Influenza tetravalente (4V) pode ser usada na rede privada."
+      ],
+      dnpm: {
+        social: [
+          "Reconhece estranhos",
+          "Gosta de brincar"
+        ],
+        linguagem: [
+          "Balbucia repetitivo (ba-ba, da-da)"
+        ],
+        cognitivo: [
+          "Passa objetos de uma mão para outra"
+        ],
+        motor: [
+          "Rola ambos os lados",
+          "Senta com apoio"
+        ]
+      }
+    },
+
+    "7m": {
+      titulo: "7 meses",
+      vacinas: [
+        "Covid-19 — 2ª dose (quando esquema 6, 7 e 9 meses)",
+        "Influenza — 2ª dose se primeira temporada / primovacinação"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Expressa emoções variadas"
+        ],
+        linguagem: [
+          "Responde ao nome"
+        ],
+        cognitivo: [
+          "Procura objetos parcialmente escondidos"
+        ],
+        motor: [
+          "Senta com mínimo apoio"
+        ]
+      }
+    },
+
+    "8m": {
+      titulo: "8 meses",
+      vacinas: [
+        "Revisão / atrasos"
+      ],
+      privado: [
+        "Ainda dentro da faixa de Nirsevimabe para < 8 meses, se não recebeu e estiver indicado."
+      ],
+      dnpm: {
+        social: [
+          "Ansiedade de separação"
+        ],
+        linguagem: [
+          "Vocalizações variadas"
+        ],
+        cognitivo: [
+          "Permanência do objeto inicial"
+        ],
+        motor: [
+          "Senta sem apoio",
+          "Início do engatinhar"
+        ]
+      }
+    },
+
+    "9m": {
+      titulo: "9 meses",
+      vacinas: [
+        "Febre amarela — 1ª dose (conforme área/recomendação local)",
+        "Covid-19 — 3ª dose quando esquema 6, 7 e 9 meses"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Estranhamento evidente"
+        ],
+        linguagem: [
+          "Entende “não”"
+        ],
+        cognitivo: [
+          "Procura objeto escondido"
+        ],
+        motor: [
+          "Fica em pé com apoio",
+          "Engatinha"
+        ]
+      }
+    },
+
+    "10m": {
+      titulo: "10 meses",
+      vacinas: [
+        "Revisão / atrasos, especialmente MenC, rotavírus e pneumo"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Busca atenção ativa"
+        ],
+        linguagem: [
+          "Imita sons"
+        ],
+        cognitivo: [
+          "Usa objetos corretamente (copinho, escova)"
+        ],
+        motor: [
+          "Puxa para ficar em pé"
+        ]
+      }
+    },
+
+    "11m": {
+      titulo: "11 meses",
+      vacinas: [
+        "Revisão / planejamento do combo de 12 meses"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Demonstra preferências"
+        ],
+        linguagem: [
+          "Sons com entonação"
+        ],
+        cognitivo: [
+          "Testa causa-efeito"
+        ],
+        motor: [
+          "Anda com apoio"
+        ]
+      }
+    },
+
+    "12m": {
+      titulo: "12 meses",
+      vacinas: [
+        "Tríplice viral (SCR/MMR) — 1ª dose",
+        "Pneumo — reforço",
+        "Meningocócica ACWY — reforço no PNI aos 12 meses após esquema com MenC"
+      ],
+      privado: [
+        "MenB — reforço entre 12 e 15 meses.",
+        "SCR + Varicela separadas ou tetraviral conforme esquema.",
+        "Hepatite A: SBIm recomenda 2 doses."
+      ],
+      dnpm: {
+        social: [
+          "Dá tchau",
+          "Brinca de cadê-achou"
+        ],
+        linguagem: [
+          "1–3 palavras significativas"
+        ],
+        cognitivo: [
+          "Segue comando simples"
+        ],
+        motor: [
+          "Pode andar sozinho",
+          "Pinça fina madura"
+        ]
+      }
+    },
+
+    "13_14m": {
+      titulo: "13 a 14 meses",
+      vacinas: [
+        "Revisão / atrasos + influenza anual na temporada"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Demonstra preferência clara por cuidadores",
+          "Mostra objetos para compartilhar interesse",
+          "Pode apresentar birras iniciais"
+        ],
+        linguagem: [
+          "3–5 palavras com significado",
+          "Aponta para pedir algo",
+          "Entende comandos simples sem gesto"
+        ],
+        cognitivo: [
+          "Imita ações simples",
+          "Explora objetos de diferentes maneiras"
+        ],
+        motor: [
+          "Anda sozinho",
+          "Abaixa e levanta sem apoio",
+          "Pinça refinada"
+        ]
+      }
+    },
+
+    "15m": {
+      titulo: "15 meses",
+      vacinas: [
+        "DTP — 1º reforço",
+        "Polio (VIP) — reforço",
+        "Hepatite A — dose única no PNI",
+        "Varicela — 1ª dose",
+        "SCR — 2ª dose"
+      ],
+      privado: [
+        "Varicela: considerar 2 doses após 1 ano; 2ª dose pode ser a partir de 15 meses.",
+        "Tetraviral frequentemente usada como 2ª dose.",
+        "Hepatite A: completar a 2ª dose conforme esquema adotado."
+      ],
+      dnpm: null
+    },
+
+    "16_17m": {
+      titulo: "16 a 17 meses",
+      vacinas: [
+        "Revisão / atrasos, com atenção a varicela 2ª dose/tetraviral"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Demonstra afeto (abraça, beija)",
+          "Busca cuidador para segurança"
+        ],
+        linguagem: [
+          "5–10 palavras",
+          "Usa gestos + palavras combinados"
+        ],
+        cognitivo: [
+          "Aponta para 1 parte do corpo quando solicitado",
+          "Início de brincadeira simbólica"
+        ],
+        motor: [
+          "Corre com base alargada",
+          "Sobe móveis baixos",
+          "Empilha 2 blocos"
+        ]
+      }
+    },
+
+    "18m": {
+      titulo: "18 meses",
+      vacinas: [
+        "Revisão / atrasos + influenza anual se em temporada"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Brinca próximo a outras crianças",
+          "Pode apresentar oposição"
+        ],
+        linguagem: [
+          "10–20 palavras",
+          "Nomeia objetos familiares",
+          "Entende instruções simples de 1 passo"
+        ],
+        cognitivo: [
+          "Usa objetos corretamente",
+          "Brincadeira simbólica mais evidente"
+        ],
+        motor: [
+          "Corre melhor",
+          "Sobe escadas com ajuda",
+          "Empilha 3 blocos"
+        ]
+      },
+      alertas: [
+        "Ausência de palavras aos 18 meses",
+        "Não anda",
+        "Não aponta"
+      ]
+    },
+
+    "19_20m": {
+      titulo: "19 a 20 meses",
+      vacinas: [
+        "Revisão / atrasos"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Demonstra maior autonomia",
+          "Pode demonstrar frustração com intensidade"
+        ],
+        linguagem: [
+          "20–30 palavras",
+          "Começa a combinar 2 palavras ocasionalmente"
+        ],
+        cognitivo: [
+          "Identifica objetos em livros",
+          "Segue comandos de 2 passos simples"
+        ],
+        motor: [
+          "Chuta bola",
+          "Corre com coordenação melhorada",
+          "Empilha 4 blocos"
+        ]
+      }
+    },
+
+    "21_22m": {
+      titulo: "21 a 22 meses",
+      vacinas: [
+        "Revisão / atrasos"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Mostra ciúmes ou apego",
+          "Demonstra empatia básica"
+        ],
+        linguagem: [
+          "Combina palavras com maior frequência",
+          "Usa pronomes iniciais"
+        ],
+        cognitivo: [
+          "Início de classificação simples",
+          "Brincadeira simbólica complexificando"
+        ],
+        motor: [
+          "Sobe escadas segurando corrimão",
+          "Inicia tentativa de pular"
+        ]
+      }
+    },
+
+    "23_24m": {
+      titulo: "23 a 24 meses",
+      vacinas: [
+        "Fechamento do ciclo 0 a 24 meses",
+        "Influenza anual se ainda não recebeu na temporada",
+        "Conferir DTP/VIP reforço, SCR 2 doses, varicela, hepatite A, Covid e febre amarela conforme carteira"
+      ],
+      privado: [],
+      dnpm: {
+        social: [
+          "Brinca paralelamente",
+          "Demonstra independência clara"
+        ],
+        linguagem: [
+          "50 palavras ou mais",
+          "Frases de 2–3 palavras",
+          "Entende comandos de 2 etapas"
+        ],
+        cognitivo: [
+          "Imita tarefas domésticas",
+          "Identifica objetos por função",
+          "Completa frases simples"
+        ],
+        motor: [
+          "Corre bem",
+          "Pula com os dois pés",
+          "Empilha 6 blocos",
+          "Rabisca espontaneamente"
+        ]
+      },
+      alertas: [
+        "Não combina palavras",
+        "Não imita ações",
+        "Não segue comandos simples",
+        "Regressão de habilidades"
+      ]
+    },
+
+    "2_3a": {
+      titulo: "2 a 3 anos",
+      vacinas: [
+        "Influenza anual",
+        "Covid-19 conforme recomendação vigente",
+        "Hepatite A — checar se completou",
+        "Varicela — checar se completou 2 doses"
+      ],
+      privado: [
+        "Influenza pode ser trivalente ou tetravalente.",
+        "Hepatite A: SBIm prefere 2 doses.",
+        "Varicela: se aos 24 meses ainda só tiver 1 dose, programar a 2ª."
+      ],
+      dnpm: {
+        social: [
+          "Jogo paralelo com outras crianças",
+          "Demonstra preferências claras",
+          "Início de comportamento opositor",
+          "Demonstra afeto por cuidadores"
+        ],
+        linguagem: [
+          "Vocabulário > 50 palavras",
+          "Frases de 2–3 palavras",
+          "Nomeia objetos familiares",
+          "Entende instruções de 2 etapas"
+        ],
+        cognitivo: [
+          "Brincadeira simbólica elaborada",
+          "Identifica objetos em livros",
+          "Começa a categorizar objetos simples"
+        ],
+        motor: [
+          "Corre com boa coordenação",
+          "Sobe escadas alternando pés com apoio",
+          "Chuta bola",
+          "Empilha 6 blocos ou mais"
+        ]
+      }
+    },
+
+    "3a": {
+      titulo: "3 anos",
+      vacinas: [
+        "Influenza anual",
+        "Covid-19 conforme recomendação vigente",
+        "Revisão de atrasos: SCR, varicela, hepatite A, febre amarela e dT/DTP"
+      ],
+      privado: [
+        "Conferir 2ª dose da varicela.",
+        "Conferir esquema ampliado da hepatite A.",
+        "Revisar indicações especiais de meningocócicas e pneumocócicas."
+      ],
+      dnpm: {
+        social: [
+          "Brinca com outras crianças",
+          "Demonstra empatia inicial",
+          "Imita comportamentos adultos"
+        ],
+        linguagem: [
+          "Frases de 3–4 palavras",
+          "Fala compreensível para familiares",
+          "Faz perguntas simples"
+        ],
+        cognitivo: [
+          "Entende conceitos simples de tamanho e quantidade",
+          "Imaginação estruturada"
+        ],
+        motor: [
+          "Pedala triciclo",
+          "Sobe escadas alternando pés",
+          "Desenha círculo"
+        ]
+      }
+    },
+
+    "4a": {
+      titulo: "4 anos",
+      vacinas: [
+        "DTP — reforço do PNI",
+        "Varicela — 2ª dose no PNI",
+        "Febre amarela — 2ª dose no PNI se a 1ª foi antes dos 5 anos"
+      ],
+      privado: [
+        "DTPa ou dTpa-VIP no reforço de 4–5 anos.",
+        "Dengue (Qdenga®) — 2 doses, 0 e 3 meses, licenciada a partir de 4 anos.",
+        "Se ainda não completou, fazer 2ª dose da varicela."
+      ],
+      dnpm: {
+        social: [
+          "Jogo cooperativo inicial",
+          "Entende regras simples",
+          "Maior capacidade de compartilhar"
+        ],
+        linguagem: [
+          "Frases completas",
+          "Conta pequenas histórias"
+        ],
+        cognitivo: [
+          "Reconhece cores básicas",
+          "Entende sequência simples de eventos"
+        ],
+        motor: [
+          "Salta em um pé",
+          "Desenha figuras simples",
+          "Coordenação motora mais refinada"
+        ]
+      }
+    },
+
+    "5a": {
+      titulo: "5 anos",
+      vacinas: [
+        "Checar se o reforço dos 4 anos foi feito",
+        "Influenza anual",
+        "Febre amarela: atualizar se faltou o reforço"
+      ],
+      privado: [
+        "Meningocócica ACWY — reforço entre 5 e 6 anos.",
+        "DTPa/dTpa-VIP se o reforço não foi feito.",
+        "Dengue se ainda não iniciou aos 4 anos."
+      ],
+      dnpm: {
+        social: [
+          "Maior autonomia",
+          "Interesse por amizades estáveis"
+        ],
+        linguagem: [
+          "Linguagem quase totalmente inteligível",
+          "Vocabulário ampliado"
+        ],
+        cognitivo: [
+          "Compreende regras de jogos",
+          "Início de noção temporal"
+        ],
+        motor: [
+          "Corre, pula e escala com coordenação",
+          "Desenha pessoa com várias partes do corpo"
+        ]
+      }
+    },
+
+    "6a": {
+      titulo: "6 anos",
+      vacinas: [
+        "Influenza anual — rotina pública até menores de 6 anos; após isso, depende de grupo contemplado",
+        "Atualizar atrasos vacinais"
+      ],
+      privado: [
+        "Meningocócica ACWY — ainda na janela do reforço de 5 a 6 anos.",
+        "Dengue se pendente.",
+        "Atualizar SCR, varicela, hepatite A, febre amarela e dTpa/dTpa-VIP."
+      ],
+      dnpm: {
+        social: [
+          "Integração social escolar",
+          "Desenvolve autoestima baseada em habilidades"
+        ],
+        linguagem: [
+          "Narrativa estruturada",
+          "Compreende instruções complexas"
+        ],
+        cognitivo: [
+          "Pensamento concreto",
+          "Início de habilidades matemáticas básicas"
+        ],
+        motor: [
+          "Coordenação motora fina para escrita",
+          "Participa de esportes simples"
+        ]
+      }
+    },
+
+    "7_8a": {
+      titulo: "7 a 8 anos",
+      vacinas: [
+        "dT em esquemas de resgate/incompletos",
+        "Atualização de hepatite B, SCR, febre amarela e demais atrasos"
+      ],
+      privado: [
+        "Revisar se já recebeu ACWY aos 5–6 anos.",
+        "MenB pode ser indicada em suscetíveis ou grupos de risco.",
+        "Influenza anual continua recomendada na rede privada."
+      ],
+      dnpm: {
+        social: [
+          "Amizades mais estáveis",
+          "Capacidade de cooperação em grupo"
+        ],
+        linguagem: [
+          "Conversação complexa",
+          "Capacidade de argumentação inicial"
+        ],
+        cognitivo: [
+          "Pensamento lógico concreto",
+          "Melhor compreensão de regras"
+        ],
+        motor: [
+          "Coordenação esportiva mais refinada",
+          "Escrita fluida"
+        ],
+        puberdade: [
+          "Pré-puberdade",
+          "Possível início discreto de telarca em meninas > 8 anos"
+        ]
+      }
+    },
+
+    "9a": {
+      titulo: "9 anos",
+      vacinas: [
+        "HPV4 — dose única entre 9 e 14 anos",
+        "Atualizar atrasos de SCR, febre amarela, hepatite B e dT"
+      ],
+      privado: [
+        "HPV9 — preferencial pela SBIm, 2 doses (0 e 6 meses).",
+        "Pode-se discutir revacinação com HPV9 em quem tomou HPV4.",
+        "Influenza anual."
+      ],
+      dnpm: {
+        social: [
+          "Maior consciência social",
+          "Formação de identidade social"
+        ],
+        linguagem: [
+          "Discussões mais complexas",
+          "Capacidade narrativa avançada"
+        ],
+        cognitivo: [
+          "Pensamento lógico estruturado",
+          "Capacidade de resolver problemas mais complexos"
+        ],
+        motor: [
+          "Coordenação motora madura",
+          "Participação esportiva estruturada"
+        ],
+        puberdade: [
+          "Início da puberdade em parte das meninas",
+          "Telarca",
+          "Estirão inicial possível"
+        ]
+      }
+    },
+
+    "10a": {
+      titulo: "10 anos",
+      vacinas: [
+        "Dengue tetravalente — entre 10 e 14 anos, 2 doses, conforme histórico vacinal",
+        "Hepatite B, dT, SCR e febre amarela — completar se incompletas"
+      ],
+      privado: [
+        "HPV9 — 2 doses se ainda não vacinou.",
+        "Dengue (Qdenga®) também disponível na rede privada.",
+        "Influenza anual."
+      ],
+      dnpm: {
+        social: [
+          "Preocupação com aceitação social",
+          "Maior autonomia emocional"
+        ],
+        linguagem: [
+          "Debate de ideias",
+          "Melhor expressão verbal"
+        ],
+        cognitivo: [
+          "Pensamento lógico consolidado",
+          "Capacidade de planejamento"
+        ],
+        motor: [
+          "Desempenho esportivo avançado"
+        ],
+        puberdade: [
+          "Meninas: progressão puberal",
+          "Início puberal em alguns meninos"
+        ]
+      }
+    },
+
+    "11a": {
+      titulo: "11 anos",
+      vacinas: [
+        "Meningocócica ACWY — 1 dose entre 11 e 14 anos",
+        "Manter avaliação de HPV, dengue, dT, hepatite B, SCR e febre amarela"
+      ],
+      privado: [
+        "MenACWY — reforço aos 11 anos ou 5 anos após a última dose.",
+        "MenB — pode ser feita em 2 doses.",
+        "dTpa preferencial como reforço."
+      ],
+      dnpm: {
+        social: [
+          "Busca maior independência",
+          "Influência do grupo de pares"
+        ],
+        linguagem: [
+          "Comunicação semelhante ao adulto jovem"
+        ],
+        cognitivo: [
+          "Pensamento abstrato inicial"
+        ],
+        motor: [
+          "Coordenação motora adulta"
+        ],
+        puberdade: [
+          "Meninas: menarca pode ocorrer",
+          "Meninos: aumento testicular (Tanner G2)"
+        ]
+      }
+    },
+
+    "12_14a": {
+      titulo: "12 a 14 anos",
+      vacinas: [
+        "HPV4 — ainda dentro da faixa do PNI",
+        "Dengue tetravalente — ainda dentro da faixa do PNI",
+        "MenACWY — manter oportunidade até 14 anos",
+        "Atualizar hepatite B, dT, SCR e febre amarela"
+      ],
+      privado: [
+        "HPV9 — preferencial, 2 doses.",
+        "MenB — 2 doses.",
+        "Influenza anual.",
+        "dTpa/dTpa e VIP em situações de reforço, viagem ou resgate."
+      ],
+      dnpm: {
+        social: [
+          "Formação de identidade",
+          "Maior influência dos pares"
+        ],
+        linguagem: [
+          "Argumentação complexa"
+        ],
+        cognitivo: [
+          "Pensamento abstrato",
+          "Reflexão moral"
+        ],
+        motor: [
+          "Pico do estirão puberal"
+        ],
+        puberdade: [
+          "Meninas: menarca, desenvolvimento mamário, estirão",
+          "Meninos: crescimento testicular, mudança da voz, aumento de massa muscular"
+        ]
+      }
+    },
+
+    "15_19a": {
+      titulo: "15 a 19 anos",
+      vacinas: [
+        "HPV4 — fora da rotina universal, mas pode haver estratégia de resgate local",
+        "Completar hepatite B (0-1-6 meses), dT, SCR (2 doses) e febre amarela conforme histórico"
+      ],
+      privado: [
+        "HPV9 — recomendada em 2 doses até menores de 20 anos.",
+        "MenACWY — se não vacinado até 15 anos, considerar esquema de resgate.",
+        "MenB — 2 doses.",
+        "dTpa preferencial nos reforços.",
+        "Hepatite A — 2 doses se não vacinado.",
+        "Varicela — 2 doses se suscetível.",
+        "Dengue (Qdenga®) disponível na rede privada até 60 anos.",
+        "Influenza anual."
+      ],
+      dnpm: {
+        social: [
+          "Consolidação da identidade",
+          "Autonomia emocional"
+        ],
+        linguagem: [
+          "Comunicação adulta plena"
+        ],
+        cognitivo: [
+          "Pensamento abstrato consolidado",
+          "Planejamento futuro"
+        ],
+        motor: [
+          "Maturidade motora completa"
+        ],
+        puberdade: [
+          "Meninas: desenvolvimento puberal completo (Tanner V)",
+          "Meninos: finalização do desenvolvimento genital e estabilização do crescimento"
+        ]
+      }
     }
+  };
+
+  const d = CHECK_DATA[idade];
+  if (!d) {
+    area.innerHTML = '';
+    return;
+  }
+
+  function renderList(title, items, tag = '') {
+    if (!items || !items.length) return '';
+    return `
+      <div class="check-block">
+        ${tag ? `<div class="check-tag">${tag}</div>` : ''}
+        <h3>${title}</h3>
+        <ul class="check-list">
+          ${items.map(i => `<li>☐ ${i}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  function renderDNPM(dnpm) {
+    if (!dnpm) return '';
+    let html = `<div class="check-block"><h3>DNPM</h3><div class="check-subtitle">Marcos esperados para a faixa etária</div>`;
+
+    if (dnpm.social?.length) {
+      html += `<div class="check-muted-box"><b>Social / Emocional</b><br>${dnpm.social.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+    }
+    if (dnpm.linguagem?.length) {
+      html += `<div class="check-muted-box"><b>Linguagem / Comunicação</b><br>${dnpm.linguagem.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+    }
+    if (dnpm.cognitivo?.length) {
+      html += `<div class="check-muted-box"><b>Cognitivo</b><br>${dnpm.cognitivo.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+    }
+    if (dnpm.motor?.length) {
+      html += `<div class="check-muted-box"><b>Movimento / Desenvolvimento físico</b><br>${dnpm.motor.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+    }
+    if (dnpm.puberdade?.length) {
+      html += `<div class="check-muted-box"><b>Puberdade</b><br>${dnpm.puberdade.map(i => `☐ ${i}`).join('<br>')}</div>`;
+    }
+
+    html += `</div>`;
+    return html;
+  }
+
+  area.innerHTML = `
+    <div class="result-box" style="display:block">
+      <span class="destaque">${d.titulo}</span>
+      <div class="muted">Checklist ampliado de vacinação, rede privada/SBIm, desenvolvimento e alertas.</div>
+    </div>
+
+    <div class="check-wrap">
+      ${renderList('Vacinas / condutas principais', d.vacinas, 'PNI')}
+      ${renderList('Privado / SBIm / observações', d.privado, 'Privado / SBIm')}
+      ${renderDNPM(d.dnpm)}
+      ${d.alertas?.length ? `
+        <div class="check-alert">
+          <b>🚩 Alertas importantes</b><br>
+          ${d.alertas.map(i => `• ${i}`).join('<br>')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
 
     // =========================
     // MRPA: gerar dias 2–5 (uma única vez) + papel A4/A5 + rodapé
