@@ -766,95 +766,139 @@
 #tab-laser h2,
 #tab-laser h3,
 #tab-laser h4,
-#tab-laser .section-hero h2,
-#tab-laser .calc-title,
-#tab-laser .protocol-title{
+#tab-laser .print-brand{
   font-family:'Comfortaa', Arial, sans-serif;
 }
 
-.page-section{
-  padding:4px 0 20px;
+.laser-page{
+  display:block;
 }
 
-.section-hero{
+.laser-hero{
   background:linear-gradient(135deg, rgba(40,90,129,1), rgba(31,71,102,1));
   color:#fff;
-  border-radius:20px;
-  padding:18px 18px 16px;
-  margin-bottom:16px;
+  border-radius:22px;
+  padding:22px 20px 18px;
+  margin-bottom:18px;
   box-shadow:var(--shadow);
 }
 
-.section-hero h2{
-  margin:0 0 8px;
-  font-size:24px;
+.laser-hero h2{
   color:#fff;
   text-align:left;
+  margin:6px 0 8px;
+  font-size:1.5rem;
 }
 
-.section-hero p{
+.laser-hero p{
   margin:0;
-  color:rgba(255,255,255,.88);
+  color:rgba(255,255,255,0.9);
+  font-size:0.92rem;
   line-height:1.5;
-  font-size:14px;
 }
 
-.subtabs-wrap{ display:block; }
-
-.subtabs-nav{
-  display:flex;
-  gap:10px;
-  overflow:auto;
-  padding-bottom:8px;
-  margin-bottom:16px;
-}
-
-.subtab-btn{
-  border:none;
-  background:#F2F7FA;
-  color:var(--primary);
-  border:1px solid rgba(40,90,129,0.15);
+.laser-hero-badge{
+  display:inline-block;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.18);
   border-radius:999px;
-  padding:10px 14px;
-  white-space:nowrap;
+  padding:6px 10px;
+  font-size:0.72rem;
+  font-weight:800;
+}
+
+.laser-shell{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.laser-sidebar{
+  position:sticky;
+  top:70px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.laser-menu-btn{
+  width:100%;
+  text-align:left;
+  border:none;
+  background:#fff;
+  border-radius:16px;
+  padding:14px 14px;
+  border:1px solid rgba(40,90,129,0.12);
+  box-shadow:var(--shadow);
   cursor:pointer;
-  font-size:13px;
-  font-weight:700;
   transition:.2s ease;
 }
 
-.subtab-btn.active{
+.laser-menu-btn:hover{
+  transform:translateY(-1px);
+}
+
+.laser-menu-btn.active{
   background:linear-gradient(135deg, var(--primary), rgb(31,71,102));
   color:#fff;
-  border-color:transparent;
-  box-shadow:0 8px 18px rgba(31,71,102,.18);
 }
 
-.laser-subtab{ display:none; }
-.laser-subtab.active{ display:block; }
+.laser-menu-title{
+  display:block;
+  font-weight:800;
+  font-size:0.92rem;
+}
 
-.calc-card,
-.info-card{
+.laser-menu-sub{
+  display:block;
+  margin-top:4px;
+  font-size:0.75rem;
+  opacity:0.82;
+}
+
+.laser-content{
+  min-width:0;
+}
+
+.laser-panel{
+  display:none;
+}
+
+.laser-panel.active{
+  display:block;
+  animation:fadeIn .22s ease;
+}
+
+.laser-panel-head{
   background:#fff;
-  padding:20px;
   border-radius:18px;
+  padding:16px 18px;
+  border:1px solid rgba(40,90,129,0.10);
   box-shadow:var(--shadow);
-  border:1px solid rgba(0,0,0,0.05);
-  margin-bottom:20px;
+  margin-bottom:14px;
 }
 
-.calc-title{
+.laser-panel-head h3{
+  text-align:left;
   margin:0 0 6px;
   color:var(--primary);
-  font-size:20px;
-  text-align:left;
+  font-size:1.1rem;
 }
 
-.calc-subtitle{
-  margin:0 0 16px;
-  color:#5B6B7A;
-  font-size:13px;
+.laser-panel-head p{
+  margin:0;
+  color:#6b7b87;
+  font-size:0.85rem;
   line-height:1.5;
+}
+
+.laser-card{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  border:1px solid rgba(40,90,129,0.10);
+  box-shadow:var(--shadow);
 }
 
 .form-grid{
@@ -863,7 +907,9 @@
   gap:12px;
 }
 
-.full{ grid-column:1 / -1; }
+.full{
+  grid-column:1 / -1;
+}
 
 .input-group{
   display:flex;
@@ -872,9 +918,9 @@
 }
 
 .input-group label{
-  font-size:13px;
+  font-size:0.78rem;
   color:var(--primary);
-  font-weight:700;
+  font-weight:800;
 }
 
 .input-group input,
@@ -882,21 +928,17 @@
 .input-group textarea,
 .prontuario-box textarea{
   width:100%;
-  padding:12px 14px;
-  border:1.5px solid #dce4ec;
+  padding:12px 12px;
   border-radius:12px;
+  border:1px solid #dce4ec;
   background:#fff;
-  font-size:14px;
+  font-size:0.92rem;
   color:var(--text);
-  outline:none;
 }
 
-.input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus,
-.prontuario-box textarea:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 4px rgba(40,90,129,.10);
+.input-group textarea{
+  min-height:96px;
+  resize:vertical;
 }
 
 .input-row{
@@ -905,43 +947,98 @@
   gap:8px;
 }
 
-.calc-results{
-  margin-top:18px;
-  background:#EEF8F3;
-  border:1px solid #B7E4C7;
-  padding:16px;
-  border-radius:16px;
-}
-
-.result-row{
+.quick-actions{
   display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-  padding:8px 0;
-  border-bottom:1px dashed rgba(31,111,74,.18);
-  font-size:14px;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px;
 }
 
-.result-row:last-child{ border-bottom:none; }
-
-.result-row span:first-child{
-  color:#5B6B7A;
-}
-
-.result-row span:last-child{
-  font-weight:700;
-  color:#1F6F4A;
-  text-align:right;
-}
-
-.result-row.highlight span:last-child{
-  color:#B42318;
-  font-size:20px;
+.mini-btn{
+  border:1px solid rgba(40,90,129,0.12);
+  background:#F8FBFD;
+  color:var(--primary);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:0.74rem;
   font-weight:800;
+  cursor:pointer;
 }
 
-.protocol-box{
+.mini-btn:hover{
+  background:#EEF5FA;
+}
+
+.checklist-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+}
+
+.check-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#F8FBFD;
+  border:1px solid rgba(40,90,129,0.12);
+  border-radius:12px;
+  padding:10px 12px;
+  font-size:0.82rem;
+}
+
+.check-item input{
+  width:auto;
+  margin:0;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.laser-results-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:12px;
+  margin-top:16px;
+}
+
+.laser-result-card{
+  background:#F8FBFD;
+  border:1px solid rgba(40,90,129,0.10);
+  border-radius:16px;
+  padding:14px;
+  min-height:88px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.laser-result-card small{
+  color:#6b7b87;
+  font-size:0.74rem;
+  line-height:1.3;
+}
+
+.laser-result-card strong{
+  color:var(--primary);
+  font-size:1rem;
+  line-height:1.3;
+}
+
+.laser-result-highlight{
+  background:#FFF7F7;
+  border-color:rgba(180,35,24,0.12);
+}
+
+.laser-result-highlight strong{
+  color:#B42318;
+  font-size:1.15rem;
+}
+
+.laser-note-box{
   margin-top:16px;
   background:#F8FBFD;
   border:1px solid rgba(40,90,129,0.12);
@@ -949,18 +1046,17 @@
   padding:16px;
 }
 
-.protocol-title{
+.laser-note-box h4{
   margin:0 0 8px;
   color:var(--primary);
-  font-size:14px;
   text-align:left;
+  font-size:0.9rem;
 }
 
 .protocol-text{
-  font-size:13px;
-  line-height:1.6;
-  color:var(--text);
   white-space:pre-line;
+  line-height:1.6;
+  font-size:0.84rem;
 }
 
 .actions-row{
@@ -970,6 +1066,13 @@
   margin-top:16px;
 }
 
+.form-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+
 .btn-primary,
 .btn-secondary,
 .btn-tertiary{
@@ -977,16 +1080,14 @@
   border-radius:12px;
   padding:13px 14px;
   cursor:pointer;
-  font-size:14px;
-  font-weight:700;
-  transition:.2s ease;
+  font-size:0.86rem;
+  font-weight:800;
   font-family:'Gotham Book', Arial, sans-serif;
 }
 
 .btn-primary{
   background:linear-gradient(135deg, var(--primary), rgb(31,71,102));
   color:#fff;
-  box-shadow:0 8px 18px rgba(31,71,102,.20);
 }
 
 .btn-secondary{
@@ -996,15 +1097,9 @@
 }
 
 .btn-tertiary{
-  border:1px solid rgba(40,90,129,0.12);
   background:#fff;
   color:var(--primary);
-}
-
-.btn-primary:hover,
-.btn-secondary:hover,
-.btn-tertiary:hover{
-  transform:translateY(-1px);
+  border:1px solid rgba(40,90,129,0.12);
 }
 
 .prontuario-box{
@@ -1019,48 +1114,19 @@
   min-height:220px;
   resize:vertical;
   font-family:monospace !important;
-  font-size:13px;
+  font-size:0.82rem;
   line-height:1.5;
   background:#FCFDFE;
 }
 
-.protocol-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.protocol-mini-card{
-  background:#F8FBFD;
-  border:1px solid rgba(40,90,129,0.12);
-  border-radius:16px;
-  padding:14px;
-}
-
-.protocol-mini-card h4{
-  margin:0 0 8px;
-  color:var(--primary);
-  font-size:14px;
-  text-align:left;
-}
-
-.protocol-mini-card p{
-  margin:0;
-  color:var(--text);
-  font-size:13px;
-  line-height:1.6;
-}
-
 .table-wrap{
-  width:100%;
   overflow:auto;
-  margin-top:6px;
 }
 
 .laser-table{
   width:100%;
   border-collapse:collapse;
-  font-size:13px;
+  font-size:0.82rem;
   background:#fff;
   border:1px solid rgba(40,90,129,0.12);
   border-radius:14px;
@@ -1081,70 +1147,7 @@
 
 .laser-table th{
   color:var(--primary);
-  font-weight:700;
-}
-
-.quick-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:14px;
-}
-
-.mini-btn{
-  border:1px solid rgba(40,90,129,0.12);
-  background:#F8FBFD;
-  color:var(--primary);
-  border-radius:999px;
-  padding:8px 12px;
-  font-size:12px;
-  font-weight:700;
-  cursor:pointer;
-  transition:.2s ease;
-  font-family:'Gotham Book', Arial, sans-serif;
-}
-
-.mini-btn:hover{
-  background:#EEF5FA;
-  transform:translateY(-1px);
-}
-
-.checklist-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:14px;
-}
-
-.check-item{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:#F8FBFD;
-  border:1px solid rgba(40,90,129,0.12);
-  border-radius:12px;
-  padding:10px 12px;
-  font-size:13px;
-  color:var(--text);
-}
-
-.check-item input{
-  width:auto;
-  margin:0;
-}
-
-.form-toolbar{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin:14px 0 0;
-}
-
-.meta-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:14px;
+  font-weight:800;
 }
 
 .print-sheet{
@@ -1167,19 +1170,18 @@
 
 .print-brand{
   color:var(--primary);
-  font-family:'Comfortaa', Arial, sans-serif;
-  font-size:18px;
+  font-size:1rem;
   font-weight:700;
 }
 
 .print-subbrand{
   color:#5B6B7A;
-  font-size:12px;
+  font-size:0.75rem;
   margin-top:4px;
 }
 
 .print-body{
-  font-size:13px;
+  font-size:0.82rem;
   line-height:1.7;
   color:var(--text);
   white-space:pre-line;
@@ -1189,7 +1191,7 @@
   margin-top:22px;
   padding-top:14px;
   border-top:1px dashed rgba(40,90,129,0.18);
-  font-size:13px;
+  font-size:0.82rem;
   color:#5B6B7A;
 }
 
@@ -1202,39 +1204,41 @@
   background:#F2F7FA;
   border:1px solid rgba(40,90,129,0.12);
   color:var(--primary);
-  font-size:12px;
-  font-weight:700;
+  font-size:0.72rem;
+  font-weight:800;
 }
 
 .hidden-print{ display:block; }
-.only-print{ display:none; }
 
-@media (max-width: 768px){
-  .protocol-grid{
+@media (max-width: 980px){
+  .laser-shell{
     grid-template-columns:1fr;
+  }
+
+  .laser-sidebar{
+    position:static;
+    display:grid;
+    grid-template-columns:repeat(5, minmax(150px, 1fr));
+    overflow:auto;
+  }
+
+  .laser-menu-btn{
+    min-width:180px;
   }
 }
 
-@media (max-width: 640px){
+@media (max-width: 760px){
   .form-grid,
-  .actions-row,
-  .input-row,
   .meta-grid,
-  .checklist-grid{
+  .actions-row,
+  .checklist-grid,
+  .laser-results-grid,
+  .input-row{
     grid-template-columns:1fr;
   }
 
-  .result-row{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .result-row span:last-child{
-    text-align:left;
-  }
-
-  .section-hero h2{
-    font-size:21px;
+  .laser-hero h2{
+    font-size:1.25rem;
   }
 }
 
@@ -1262,10 +1266,6 @@
     display:none !important;
   }
 
-  .only-print{
-    display:block !important;
-  }
-
   .print-sheet{
     border:none;
     box-shadow:none;
@@ -1274,8 +1274,6 @@
     padding:20px;
   }
 }
-    </div>
-
     <!-- ========================= -->
     <!-- ABA EMERGÊNCIA (ORDEM)   -->
     <!-- ========================= -->
@@ -1436,608 +1434,697 @@
 <!-- ABA LASERTERAPIA         -->
 <!-- ========================= -->
 <div id="tab-laser" class="tab-content">
-  <div class="page-section">
-    <div class="section-hero">
+  <div class="laser-page">
+
+    <div class="laser-hero">
+      <div class="laser-hero-badge">PueriCalc • Laserterapia</div>
       <h2>Laserterapia</h2>
-      <p>Protocolos, calculadoras e apoio documental para fotobiomodulação no contexto clínico.</p>
+      <p>Protocolos clínicos, calculadoras e documentação assistencial em um módulo organizado por subáreas.</p>
     </div>
 
-    <div class="subtabs-wrap">
-      <div class="subtabs-nav">
-        <button class="subtab-btn active" onclick="openLaserSubtab('laser-ilib', this)">ILIB</button>
-        <button class="subtab-btn" onclick="openLaserSubtab('laser-feridas', this)">Feridas</button>
-        <button class="subtab-btn" onclick="openLaserSubtab('laser-mucosite', this)">Mucosite</button>
-        <button class="subtab-btn" onclick="openLaserSubtab('laser-dermato', this)">Dermatologia</button>
-        <button class="subtab-btn" onclick="openLaserSubtab('laser-protocolos', this)">Protocolos</button>
-      </div>
+    <div class="laser-shell">
+      <!-- MENU LATERAL / SUPERIOR -->
+      <aside class="laser-sidebar">
+        <button class="laser-menu-btn active" onclick="openLaserPanel('laser-panel-ilib', this)">
+          <span class="laser-menu-title">ILIB</span>
+          <span class="laser-menu-sub">Fotobiomodulação sistêmica</span>
+        </button>
 
-      <!-- ILIB -->
-      <div id="laser-ilib" class="laser-subtab active">
-        <div class="calc-card">
-          <h3 class="calc-title">ILIB • Fotobiomodulação Sistêmica</h3>
-          <p class="calc-subtitle">
-            Estimativa de volemia, tempo de sessão, energia total, densidade energética e texto para prontuário.
-          </p>
+        <button class="laser-menu-btn" onclick="openLaserPanel('laser-panel-feridas', this)">
+          <span class="laser-menu-title">Feridas</span>
+          <span class="laser-menu-sub">Reparo tecidual</span>
+        </button>
 
-          <div class="form-grid">
-            <div class="input-group full">
-              <label for="ilib_nome">Paciente</label>
-              <input type="text" id="ilib_nome" placeholder="Nome do paciente" oninput="ilibCalcular()">
-            </div>
+        <button class="laser-menu-btn" onclick="openLaserPanel('laser-panel-mucosite', this)">
+          <span class="laser-menu-title">Mucosite</span>
+          <span class="laser-menu-sub">Mucosa e analgesia</span>
+        </button>
 
-            <div class="input-group">
-              <label for="ilib_idade">Idade</label>
-              <div class="input-row">
-                <input type="number" id="ilib_idade" placeholder="Qtd" oninput="ilibCalcular()">
-                <select id="ilib_unidade" onchange="ilibCalcular()">
-                  <option value="anos">anos</option>
-                  <option value="meses">meses</option>
+        <button class="laser-menu-btn" onclick="openLaserPanel('laser-panel-dermato', this)">
+          <span class="laser-menu-title">Dermatologia</span>
+          <span class="laser-menu-sub">Inflamação e pele</span>
+        </button>
+
+        <button class="laser-menu-btn" onclick="openLaserPanel('laser-panel-protocolos', this)">
+          <span class="laser-menu-title">Protocolos</span>
+          <span class="laser-menu-sub">Quadro-resumo clínico</span>
+        </button>
+      </aside>
+
+      <!-- CONTEÚDO -->
+      <section class="laser-content">
+
+        <!-- ILIB -->
+        <div id="laser-panel-ilib" class="laser-panel active">
+          <div class="laser-panel-head">
+            <h3>ILIB</h3>
+            <p>Fotobiomodulação sistêmica com cálculo de volemia, tempo, energia e texto de prontuário.</p>
+          </div>
+
+          <div class="laser-card">
+            <div class="form-grid">
+              <div class="input-group full">
+                <label for="ilib_nome">Paciente</label>
+                <input type="text" id="ilib_nome" placeholder="Nome do paciente" oninput="ilibCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="ilib_idade">Idade</label>
+                <div class="input-row">
+                  <input type="number" id="ilib_idade" placeholder="Qtd" oninput="ilibCalcular()">
+                  <select id="ilib_unidade" onchange="ilibCalcular()">
+                    <option value="anos">anos</option>
+                    <option value="meses">meses</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="ilib_peso">Peso (kg)</label>
+                <input type="number" id="ilib_peso" step="0.01" placeholder="Ex: 12.5" oninput="ilibCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="ilib_potencia">Potência (mW)</label>
+                <input type="number" id="ilib_potencia" value="100" step="0.01" oninput="ilibCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="ilib_ciclos">Volemias / ciclos</label>
+                <input type="number" id="ilib_ciclos" value="6" step="1" oninput="ilibCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="ilib_area">Área estimada do feixe / spot (cm²)</label>
+                <input type="number" id="ilib_area" value="0.04" step="0.01" oninput="ilibCalcular()">
+              </div>
+
+              <div class="input-group full">
+                <label for="ilib_indicacao">Indicação clínica</label>
+                <select id="ilib_indicacao" onchange="ilibCalcular()">
+                  <option value="modulacao">Modulação inflamatória / suporte sistêmico</option>
+                  <option value="dor">Dor / recuperação funcional</option>
+                  <option value="mucosite">Mucosite / inflamação de mucosas</option>
+                  <option value="dermato">Dermatologia / reparo tecidual</option>
+                  <option value="adjuvante">Protocolo adjuvante geral</option>
                 </select>
               </div>
             </div>
 
-            <div class="input-group">
-              <label for="ilib_peso">Peso (kg)</label>
-              <input type="number" id="ilib_peso" step="0.01" placeholder="Ex: 12.5" oninput="ilibCalcular()">
+            <div class="laser-results-grid">
+              <div class="laser-result-card">
+                <small>Faixa etária / fator</small>
+                <strong id="ilib_fator">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Volemia estimada</small>
+                <strong id="ilib_volemia">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Tempo por volemia</small>
+                <strong id="ilib_ciclo">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Energia total</small>
+                <strong id="ilib_joules">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Densidade energética</small>
+                <strong id="ilib_densidade">—</strong>
+              </div>
+              <div class="laser-result-card laser-result-highlight">
+                <small>Tempo total da sessão</small>
+                <strong id="ilib_tempo">—</strong>
+              </div>
             </div>
 
-            <div class="input-group">
-              <label for="ilib_potencia">Potência (mW)</label>
-              <input type="number" id="ilib_potencia" value="100" step="0.01" oninput="ilibCalcular()">
+            <div class="laser-note-box">
+              <h4>Sugestão automática de protocolo</h4>
+              <div id="ilib_protocolo" class="protocol-text">Preencha os campos para visualizar a sugestão.</div>
             </div>
 
-            <div class="input-group">
-              <label for="ilib_ciclos">Volemias / ciclos</label>
-              <input type="number" id="ilib_ciclos" value="6" step="1" oninput="ilibCalcular()">
+            <div class="actions-row">
+              <button class="btn-primary" onclick="ilibGerarProntuario()">Gerar texto para prontuário</button>
+              <button class="btn-secondary" onclick="ilibCopiar()">Copiar texto</button>
             </div>
 
-            <div class="input-group">
-              <label for="ilib_area">Área estimada do feixe / spot (cm²)</label>
-              <input type="number" id="ilib_area" value="0.04" step="0.01" oninput="ilibCalcular()">
+            <div class="prontuario-box" id="ilib_box" style="display:none;">
+              <h4 class="protocol-title">Texto para prontuário</h4>
+              <textarea id="ilib_prontuario" readonly></textarea>
             </div>
-
-            <div class="input-group full">
-              <label for="ilib_indicacao">Indicação clínica</label>
-              <select id="ilib_indicacao" onchange="ilibCalcular()">
-                <option value="modulacao">Modulação inflamatória / suporte sistêmico</option>
-                <option value="dor">Dor / recuperação funcional</option>
-                <option value="mucosite">Mucosite / inflamação de mucosas</option>
-                <option value="dermato">Dermatologia / reparo tecidual</option>
-                <option value="adjuvante">Protocolo adjuvante geral</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="calc-results">
-            <div class="result-row"><span>Faixa etária / fator</span><span id="ilib_fator">—</span></div>
-            <div class="result-row"><span>Volemia estimada</span><span id="ilib_volemia">—</span></div>
-            <div class="result-row"><span>Tempo por volemia</span><span id="ilib_ciclo">—</span></div>
-            <div class="result-row"><span>Energia total</span><span id="ilib_joules">—</span></div>
-            <div class="result-row"><span>Densidade energética estimada</span><span id="ilib_densidade">—</span></div>
-            <div class="result-row highlight"><span>Tempo total da sessão</span><span id="ilib_tempo">—</span></div>
-          </div>
-
-          <div class="protocol-box">
-            <h4 class="protocol-title">Sugestão automática de protocolo</h4>
-            <div class="protocol-text" id="ilib_protocolo">Preencha os campos para visualizar a sugestão.</div>
-          </div>
-
-          <div class="actions-row">
-            <button class="btn-primary" onclick="ilibGerarProntuario()">Gerar texto para prontuário</button>
-            <button class="btn-secondary" onclick="ilibCopiar()">Copiar texto</button>
-          </div>
-
-          <div class="prontuario-box" id="ilib_box" style="display:none;">
-            <h4 class="protocol-title">Texto para prontuário</h4>
-            <textarea id="ilib_prontuario" readonly></textarea>
           </div>
         </div>
-      </div>
 
-      <!-- FERIDAS -->
-      <div id="laser-feridas" class="laser-subtab">
-        <div class="calc-card">
-          <h3 class="calc-title">Laserterapia em Feridas</h3>
-          <p class="calc-subtitle">Calculadora local com presets, modo pediátrico e gerador de evolução clínica.</p>
-
-          <div class="quick-actions">
-            <button class="mini-btn" onclick="feridasAplicarPreset('reparo')">Preset reparo</button>
-            <button class="mini-btn" onclick="feridasAplicarPreset('inflamacao')">Preset inflamação</button>
-            <button class="mini-btn" onclick="feridasAplicarPreset('analgesia')">Preset analgesia</button>
-            <button class="mini-btn" onclick="feridasAplicarPreset('cicatrizacao')">Preset cicatrização</button>
+        <!-- FERIDAS -->
+        <div id="laser-panel-feridas" class="laser-panel">
+          <div class="laser-panel-head">
+            <h3>Feridas</h3>
+            <p>Planejamento local por ponto, densidade energética e geração de texto clínico.</p>
           </div>
 
-          <div class="form-grid">
-            <div class="input-group full">
-              <label for="feridas_paciente">Paciente</label>
-              <input type="text" id="feridas_paciente" placeholder="Nome do paciente" oninput="feridasCalcular()">
+          <div class="laser-card">
+            <div class="quick-actions">
+              <button class="mini-btn" onclick="feridasAplicarPreset('reparo')">Preset reparo</button>
+              <button class="mini-btn" onclick="feridasAplicarPreset('inflamacao')">Preset inflamação</button>
+              <button class="mini-btn" onclick="feridasAplicarPreset('analgesia')">Preset analgesia</button>
+              <button class="mini-btn" onclick="feridasAplicarPreset('cicatrizacao')">Preset cicatrização</button>
             </div>
 
-            <div class="input-group">
-              <label for="feridas_modo">Modo clínico</label>
-              <select id="feridas_modo" onchange="feridasCalcular()">
-                <option value="pediatrico">Pediátrico</option>
-                <option value="adulto">Adulto</option>
-              </select>
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_area_nome">Área tratada</label>
-              <input type="text" id="feridas_area_nome" placeholder="Ex: joelho / abdome / perna" oninput="feridasCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_objetivo">Objetivo clínico</label>
-              <select id="feridas_objetivo" onchange="feridasCalcular()">
-                <option value="reparo">Reparo tecidual</option>
-                <option value="inflamacao">Modulação inflamatória</option>
-                <option value="analgesia">Analgesia</option>
-                <option value="cicatrizacao">Cicatrização</option>
-              </select>
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_lambda">Comprimento de onda (nm)</label>
-              <input type="number" id="feridas_lambda" value="660" oninput="feridasCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_potencia">Potência (mW)</label>
-              <input type="number" id="feridas_potencia" value="100" step="0.01" oninput="feridasCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_tempo">Tempo por ponto (s)</label>
-              <input type="number" id="feridas_tempo" value="10" step="0.01" oninput="feridasCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_pontos">Número de pontos</label>
-              <input type="number" id="feridas_pontos" value="10" step="1" oninput="feridasCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_area_cm2">Área estimada da lesão (cm²)</label>
-              <input type="number" id="feridas_area_cm2" value="4" step="0.01" oninput="feridasCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="feridas_frequencia">Frequência sugerida</label>
-              <input type="text" id="feridas_frequencia" placeholder="Ex: 2x/semana" oninput="feridasCalcular()">
-            </div>
-
-            <div class="meta-grid full">
-              <div class="input-group">
-                <label for="feridas_data">Data</label>
-                <input type="date" id="feridas_data" oninput="feridasCalcular()">
+            <div class="form-grid">
+              <div class="input-group full">
+                <label for="feridas_paciente">Paciente</label>
+                <input type="text" id="feridas_paciente" placeholder="Nome do paciente" oninput="feridasCalcular()">
               </div>
+
               <div class="input-group">
-                <label for="feridas_hora">Hora</label>
-                <input type="time" id="feridas_hora" oninput="feridasCalcular()">
+                <label for="feridas_modo">Modo clínico</label>
+                <select id="feridas_modo" onchange="feridasCalcular()">
+                  <option value="pediatrico">Pediátrico</option>
+                  <option value="adulto">Adulto</option>
+                </select>
               </div>
-            </div>
 
-            <div class="input-group full">
-              <label for="feridas_observacoes">Observações clínicas</label>
-              <textarea id="feridas_observacoes" placeholder="Aspecto da lesão, dor, exsudato, bordas, sinais inflamatórios..." oninput="feridasCalcular()"></textarea>
-            </div>
+              <div class="input-group">
+                <label for="feridas_area_nome">Área tratada</label>
+                <input type="text" id="feridas_area_nome" placeholder="Ex: joelho / abdome / perna" oninput="feridasCalcular()">
+              </div>
 
-            <div class="input-group full">
-              <label for="feridas_intercorrencias">Intercorrências / tolerância</label>
-              <textarea id="feridas_intercorrencias" placeholder="Ex: sem intercorrências, boa tolerância..." oninput="feridasCalcular()"></textarea>
-            </div>
-          </div>
+              <div class="input-group">
+                <label for="feridas_objetivo">Objetivo clínico</label>
+                <select id="feridas_objetivo" onchange="feridasCalcular()">
+                  <option value="reparo">Reparo tecidual</option>
+                  <option value="inflamacao">Modulação inflamatória</option>
+                  <option value="analgesia">Analgesia</option>
+                  <option value="cicatrizacao">Cicatrização</option>
+                </select>
+              </div>
 
-          <div class="checklist-grid">
-            <label class="check-item"><input type="checkbox" id="feridas_chk_foto" onchange="feridasCalcular()"> Registro fotográfico</label>
-            <label class="check-item"><input type="checkbox" id="feridas_chk_higiene" onchange="feridasCalcular()"> Higienização prévia</label>
-            <label class="check-item"><input type="checkbox" id="feridas_chk_dor" onchange="feridasCalcular()"> Dor avaliada</label>
-            <label class="check-item"><input type="checkbox" id="feridas_chk_reavaliacao" onchange="feridasCalcular()"> Reavaliação programada</label>
-          </div>
+              <div class="input-group">
+                <label for="feridas_lambda">Comprimento de onda (nm)</label>
+                <input type="number" id="feridas_lambda" value="660" oninput="feridasCalcular()">
+              </div>
 
-          <div class="calc-results">
-            <div class="result-row"><span>Energia por ponto</span><span id="feridas_j_ponto">—</span></div>
-            <div class="result-row"><span>Energia total</span><span id="feridas_j_total">—</span></div>
-            <div class="result-row"><span>Densidade energética estimada</span><span id="feridas_densidade">—</span></div>
-            <div class="result-row highlight"><span>Tempo total da aplicação</span><span id="feridas_tempo_total">—</span></div>
-          </div>
+              <div class="input-group">
+                <label for="feridas_potencia">Potência (mW)</label>
+                <input type="number" id="feridas_potencia" value="100" step="0.01" oninput="feridasCalcular()">
+              </div>
 
-          <div class="protocol-box">
-            <h4 class="protocol-title">Sugestão clínica</h4>
-            <div class="protocol-text" id="feridas_protocolo">Preencha os campos para visualizar a sugestão.</div>
-          </div>
+              <div class="input-group">
+                <label for="feridas_tempo">Tempo por ponto (s)</label>
+                <input type="number" id="feridas_tempo" value="10" step="0.01" oninput="feridasCalcular()">
+              </div>
 
-          <div class="actions-row">
-            <button class="btn-primary" onclick="feridasGerarProntuario()">Gerar texto para prontuário</button>
-            <button class="btn-secondary" onclick="feridasCopiar()">Copiar texto</button>
-          </div>
+              <div class="input-group">
+                <label for="feridas_pontos">Número de pontos</label>
+                <input type="number" id="feridas_pontos" value="10" step="1" oninput="feridasCalcular()">
+              </div>
 
-          <div class="form-toolbar hidden-print">
-            <button class="btn-tertiary" onclick="feridasGerarResumo()">Gerar resumo</button>
-            <button class="btn-tertiary" onclick="feridasSalvarLocal()">Salvar localmente</button>
-            <button class="btn-tertiary" onclick="feridasCarregarLocal()">Carregar salvo</button>
-            <button class="btn-tertiary" onclick="feridasLimpar()">Limpar</button>
-            <button class="btn-tertiary" onclick="feridasImprimir()">Imprimir</button>
-          </div>
+              <div class="input-group">
+                <label for="feridas_area_cm2">Área estimada da lesão (cm²)</label>
+                <input type="number" id="feridas_area_cm2" value="4" step="0.01" oninput="feridasCalcular()">
+              </div>
 
-          <div class="prontuario-box" id="feridas_box" style="display:none;">
-            <h4 class="protocol-title">Texto para prontuário</h4>
-            <textarea id="feridas_prontuario" readonly></textarea>
-          </div>
+              <div class="input-group">
+                <label for="feridas_frequencia">Frequência sugerida</label>
+                <input type="text" id="feridas_frequencia" placeholder="Ex: 2x/semana" oninput="feridasCalcular()">
+              </div>
 
-          <div class="print-area" id="feridas_print_area" style="display:none;">
-            <div class="print-sheet">
-              <div class="print-header">
-                <div>
-                  <div class="print-brand">PueriCalc • Laserterapia</div>
-                  <div class="print-subbrand">Registro clínico assistencial</div>
+              <div class="meta-grid full">
+                <div class="input-group">
+                  <label for="feridas_data">Data</label>
+                  <input type="date" id="feridas_data" oninput="feridasCalcular()">
                 </div>
-                <div class="badge-soft">Feridas</div>
-              </div>
-              <div class="print-body"></div>
-              <div class="signature-box">
-                Dr. Wevelin Matos<br>
-                Pediatria • Cardiologia Pediátrica • Laserterapia
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MUCOSITE -->
-      <div id="laser-mucosite" class="laser-subtab">
-        <div class="calc-card">
-          <h3 class="calc-title">Laserterapia em Mucosite</h3>
-          <p class="calc-subtitle">Calculadora local com presets e estrutura de evolução clínica.</p>
-
-          <div class="quick-actions">
-            <button class="mini-btn" onclick="mucositeAplicarPreset('leve')">Preset leve</button>
-            <button class="mini-btn" onclick="mucositeAplicarPreset('moderada')">Preset moderada</button>
-            <button class="mini-btn" onclick="mucositeAplicarPreset('intensa')">Preset intensa</button>
-          </div>
-
-          <div class="form-grid">
-            <div class="input-group full">
-              <label for="mucosite_paciente">Paciente</label>
-              <input type="text" id="mucosite_paciente" placeholder="Nome do paciente" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_modo">Modo clínico</label>
-              <select id="mucosite_modo" onchange="mucositeCalcular()">
-                <option value="pediatrico">Pediátrico</option>
-                <option value="adulto">Adulto</option>
-              </select>
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_local">Local</label>
-              <input type="text" id="mucosite_local" placeholder="Ex: língua / mucosa jugal / lábio" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_grau">Contexto / gravidade</label>
-              <select id="mucosite_grau" onchange="mucositeCalcular()">
-                <option value="leve">Leve</option>
-                <option value="moderada">Moderada</option>
-                <option value="intensa">Intensa</option>
-              </select>
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_lambda">Comprimento de onda (nm)</label>
-              <input type="number" id="mucosite_lambda" value="660" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_potencia">Potência (mW)</label>
-              <input type="number" id="mucosite_potencia" value="100" step="0.01" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_tempo">Tempo por ponto (s)</label>
-              <input type="number" id="mucosite_tempo" value="5" step="0.01" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_pontos">Número de pontos</label>
-              <input type="number" id="mucosite_pontos" value="6" step="1" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_area_cm2">Área estimada (cm²)</label>
-              <input type="number" id="mucosite_area_cm2" value="2" step="0.01" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="mucosite_frequencia">Frequência sugerida</label>
-              <input type="text" id="mucosite_frequencia" placeholder="Ex: diário / alternado" oninput="mucositeCalcular()">
-            </div>
-
-            <div class="meta-grid full">
-              <div class="input-group">
-                <label for="mucosite_data">Data</label>
-                <input type="date" id="mucosite_data" oninput="mucositeCalcular()">
-              </div>
-              <div class="input-group">
-                <label for="mucosite_hora">Hora</label>
-                <input type="time" id="mucosite_hora" oninput="mucositeCalcular()">
-              </div>
-            </div>
-
-            <div class="input-group full">
-              <label for="mucosite_observacoes">Observações clínicas</label>
-              <textarea id="mucosite_observacoes" placeholder="Dor, aceitação alimentar, hidratação, extensão, aspecto local..." oninput="mucositeCalcular()"></textarea>
-            </div>
-
-            <div class="input-group full">
-              <label for="mucosite_intercorrencias">Intercorrências / tolerância</label>
-              <textarea id="mucosite_intercorrencias" placeholder="Ex: sem intercorrências, boa tolerância..." oninput="mucositeCalcular()"></textarea>
-            </div>
-          </div>
-
-          <div class="checklist-grid">
-            <label class="check-item"><input type="checkbox" id="mucosite_chk_dor" onchange="mucositeCalcular()"> Dor registrada</label>
-            <label class="check-item"><input type="checkbox" id="mucosite_chk_alimentacao" onchange="mucositeCalcular()"> Alimentação avaliada</label>
-            <label class="check-item"><input type="checkbox" id="mucosite_chk_hidratacao" onchange="mucositeCalcular()"> Hidratação avaliada</label>
-            <label class="check-item"><input type="checkbox" id="mucosite_chk_reavaliacao" onchange="mucositeCalcular()"> Reavaliação programada</label>
-          </div>
-
-          <div class="calc-results">
-            <div class="result-row"><span>Energia por ponto</span><span id="mucosite_j_ponto">—</span></div>
-            <div class="result-row"><span>Energia total</span><span id="mucosite_j_total">—</span></div>
-            <div class="result-row"><span>Densidade energética estimada</span><span id="mucosite_densidade">—</span></div>
-            <div class="result-row highlight"><span>Tempo total da aplicação</span><span id="mucosite_tempo_total">—</span></div>
-          </div>
-
-          <div class="protocol-box">
-            <h4 class="protocol-title">Sugestão clínica</h4>
-            <div class="protocol-text" id="mucosite_protocolo">Preencha os campos para visualizar a sugestão.</div>
-          </div>
-
-          <div class="actions-row">
-            <button class="btn-primary" onclick="mucositeGerarProntuario()">Gerar texto para prontuário</button>
-            <button class="btn-secondary" onclick="mucositeCopiar()">Copiar texto</button>
-          </div>
-
-          <div class="form-toolbar hidden-print">
-            <button class="btn-tertiary" onclick="mucositeGerarResumo()">Gerar resumo</button>
-            <button class="btn-tertiary" onclick="mucositeSalvarLocal()">Salvar localmente</button>
-            <button class="btn-tertiary" onclick="mucositeCarregarLocal()">Carregar salvo</button>
-            <button class="btn-tertiary" onclick="mucositeLimpar()">Limpar</button>
-            <button class="btn-tertiary" onclick="mucositeImprimir()">Imprimir</button>
-          </div>
-
-          <div class="prontuario-box" id="mucosite_box" style="display:none;">
-            <h4 class="protocol-title">Texto para prontuário</h4>
-            <textarea id="mucosite_prontuario" readonly></textarea>
-          </div>
-
-          <div class="print-area" id="mucosite_print_area" style="display:none;">
-            <div class="print-sheet">
-              <div class="print-header">
-                <div>
-                  <div class="print-brand">PueriCalc • Laserterapia</div>
-                  <div class="print-subbrand">Registro clínico assistencial</div>
+                <div class="input-group">
+                  <label for="feridas_hora">Hora</label>
+                  <input type="time" id="feridas_hora" oninput="feridasCalcular()">
                 </div>
-                <div class="badge-soft">Mucosite</div>
               </div>
-              <div class="print-body"></div>
-              <div class="signature-box">
-                Dr. Wevelin Matos<br>
-                Pediatria • Cardiologia Pediátrica • Laserterapia
+
+              <div class="input-group full">
+                <label for="feridas_observacoes">Observações clínicas</label>
+                <textarea id="feridas_observacoes" placeholder="Aspecto da lesão, dor, exsudato, bordas, sinais inflamatórios..." oninput="feridasCalcular()"></textarea>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- DERMATO -->
-      <div id="laser-dermato" class="laser-subtab">
-        <div class="calc-card">
-          <h3 class="calc-title">Laserterapia em Dermatologia</h3>
-          <p class="calc-subtitle">Calculadora local com presets, modo pediátrico e documentação clínica estruturada.</p>
-
-          <div class="quick-actions">
-            <button class="mini-btn" onclick="dermatoAplicarPreset('inflamacao')">Preset inflamação</button>
-            <button class="mini-btn" onclick="dermatoAplicarPreset('reparo')">Preset reparo</button>
-            <button class="mini-btn" onclick="dermatoAplicarPreset('analgesia')">Preset analgesia</button>
-            <button class="mini-btn" onclick="dermatoAplicarPreset('adjuvante')">Preset adjuvante</button>
-          </div>
-
-          <div class="form-grid">
-            <div class="input-group full">
-              <label for="dermato_paciente">Paciente</label>
-              <input type="text" id="dermato_paciente" placeholder="Nome do paciente" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_modo">Modo clínico</label>
-              <select id="dermato_modo" onchange="dermatoCalcular()">
-                <option value="pediatrico">Pediátrico</option>
-                <option value="adulto">Adulto</option>
-              </select>
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_area_nome">Área tratada</label>
-              <input type="text" id="dermato_area_nome" placeholder="Ex: face / braço / couro cabeludo" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_objetivo">Objetivo</label>
-              <select id="dermato_objetivo" onchange="dermatoCalcular()">
-                <option value="inflamacao">Modulação inflamatória</option>
-                <option value="reparo">Reparo tecidual</option>
-                <option value="analgesia">Analgesia</option>
-                <option value="adjuvante">Adjuvante dermatológico</option>
-              </select>
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_lambda">Comprimento de onda (nm)</label>
-              <input type="number" id="dermato_lambda" value="660" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_potencia">Potência (mW)</label>
-              <input type="number" id="dermato_potencia" value="100" step="0.01" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_tempo">Tempo por ponto (s)</label>
-              <input type="number" id="dermato_tempo" value="8" step="0.01" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_pontos">Número de pontos</label>
-              <input type="number" id="dermato_pontos" value="8" step="1" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_area_cm2">Área estimada (cm²)</label>
-              <input type="number" id="dermato_area_cm2" value="3" step="0.01" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="input-group">
-              <label for="dermato_frequencia">Frequência sugerida</label>
-              <input type="text" id="dermato_frequencia" placeholder="Ex: 1–3x/semana" oninput="dermatoCalcular()">
-            </div>
-
-            <div class="meta-grid full">
-              <div class="input-group">
-                <label for="dermato_data">Data</label>
-                <input type="date" id="dermato_data" oninput="dermatoCalcular()">
-              </div>
-              <div class="input-group">
-                <label for="dermato_hora">Hora</label>
-                <input type="time" id="dermato_hora" oninput="dermatoCalcular()">
+              <div class="input-group full">
+                <label for="feridas_intercorrencias">Intercorrências / tolerância</label>
+                <textarea id="feridas_intercorrencias" placeholder="Ex: sem intercorrências, boa tolerância..." oninput="feridasCalcular()"></textarea>
               </div>
             </div>
 
-            <div class="input-group full">
-              <label for="dermato_observacoes">Observações clínicas</label>
-              <textarea id="dermato_observacoes" placeholder="Extensão, cor, edema, dor, prurido, aspecto evolutivo..." oninput="dermatoCalcular()"></textarea>
+            <div class="checklist-grid">
+              <label class="check-item"><input type="checkbox" id="feridas_chk_foto" onchange="feridasCalcular()"> Registro fotográfico</label>
+              <label class="check-item"><input type="checkbox" id="feridas_chk_higiene" onchange="feridasCalcular()"> Higienização prévia</label>
+              <label class="check-item"><input type="checkbox" id="feridas_chk_dor" onchange="feridasCalcular()"> Dor avaliada</label>
+              <label class="check-item"><input type="checkbox" id="feridas_chk_reavaliacao" onchange="feridasCalcular()"> Reavaliação programada</label>
             </div>
 
-            <div class="input-group full">
-              <label for="dermato_intercorrencias">Intercorrências / tolerância</label>
-              <textarea id="dermato_intercorrencias" placeholder="Ex: sem intercorrências, boa tolerância..." oninput="dermatoCalcular()"></textarea>
+            <div class="laser-results-grid">
+              <div class="laser-result-card">
+                <small>Energia por ponto</small>
+                <strong id="feridas_j_ponto">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Energia total</small>
+                <strong id="feridas_j_total">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Densidade energética</small>
+                <strong id="feridas_densidade">—</strong>
+              </div>
+              <div class="laser-result-card laser-result-highlight">
+                <small>Tempo total</small>
+                <strong id="feridas_tempo_total">—</strong>
+              </div>
             </div>
-          </div>
 
-          <div class="checklist-grid">
-            <label class="check-item"><input type="checkbox" id="dermato_chk_area" onchange="dermatoCalcular()"> Área documentada</label>
-            <label class="check-item"><input type="checkbox" id="dermato_chk_foto" onchange="dermatoCalcular()"> Registro fotográfico</label>
-            <label class="check-item"><input type="checkbox" id="dermato_chk_sinais" onchange="dermatoCalcular()"> Sinais locais avaliados</label>
-            <label class="check-item"><input type="checkbox" id="dermato_chk_reavaliacao" onchange="dermatoCalcular()"> Reavaliação programada</label>
-          </div>
+            <div class="laser-note-box">
+              <h4>Sugestão clínica</h4>
+              <div class="protocol-text" id="feridas_protocolo">Preencha os campos para visualizar a sugestão.</div>
+            </div>
 
-          <div class="calc-results">
-            <div class="result-row"><span>Energia por ponto</span><span id="dermato_j_ponto">—</span></div>
-            <div class="result-row"><span>Energia total</span><span id="dermato_j_total">—</span></div>
-            <div class="result-row"><span>Densidade energética estimada</span><span id="dermato_densidade">—</span></div>
-            <div class="result-row highlight"><span>Tempo total da aplicação</span><span id="dermato_tempo_total">—</span></div>
-          </div>
+            <div class="actions-row">
+              <button class="btn-primary" onclick="feridasGerarProntuario()">Gerar texto para prontuário</button>
+              <button class="btn-secondary" onclick="feridasCopiar()">Copiar texto</button>
+            </div>
 
-          <div class="protocol-box">
-            <h4 class="protocol-title">Sugestão clínica</h4>
-            <div class="protocol-text" id="dermato_protocolo">Preencha os campos para visualizar a sugestão.</div>
-          </div>
+            <div class="form-toolbar hidden-print">
+              <button class="btn-tertiary" onclick="feridasGerarResumo()">Gerar resumo</button>
+              <button class="btn-tertiary" onclick="feridasSalvarLocal()">Salvar localmente</button>
+              <button class="btn-tertiary" onclick="feridasCarregarLocal()">Carregar salvo</button>
+              <button class="btn-tertiary" onclick="feridasLimpar()">Limpar</button>
+              <button class="btn-tertiary" onclick="feridasImprimir()">Imprimir</button>
+            </div>
 
-          <div class="actions-row">
-            <button class="btn-primary" onclick="dermatoGerarProntuario()">Gerar texto para prontuário</button>
-            <button class="btn-secondary" onclick="dermatoCopiar()">Copiar texto</button>
-          </div>
+            <div class="prontuario-box" id="feridas_box" style="display:none;">
+              <h4 class="protocol-title">Texto para prontuário</h4>
+              <textarea id="feridas_prontuario" readonly></textarea>
+            </div>
 
-          <div class="form-toolbar hidden-print">
-            <button class="btn-tertiary" onclick="dermatoGerarResumo()">Gerar resumo</button>
-            <button class="btn-tertiary" onclick="dermatoSalvarLocal()">Salvar localmente</button>
-            <button class="btn-tertiary" onclick="dermatoCarregarLocal()">Carregar salvo</button>
-            <button class="btn-tertiary" onclick="dermatoLimpar()">Limpar</button>
-            <button class="btn-tertiary" onclick="dermatoImprimir()">Imprimir</button>
-          </div>
-
-          <div class="prontuario-box" id="dermato_box" style="display:none;">
-            <h4 class="protocol-title">Texto para prontuário</h4>
-            <textarea id="dermato_prontuario" readonly></textarea>
-          </div>
-
-          <div class="print-area" id="dermato_print_area" style="display:none;">
-            <div class="print-sheet">
-              <div class="print-header">
-                <div>
-                  <div class="print-brand">PueriCalc • Laserterapia</div>
-                  <div class="print-subbrand">Registro clínico assistencial</div>
+            <div class="print-area" id="feridas_print_area" style="display:none;">
+              <div class="print-sheet">
+                <div class="print-header">
+                  <div>
+                    <div class="print-brand">PueriCalc • Laserterapia</div>
+                    <div class="print-subbrand">Registro clínico assistencial</div>
+                  </div>
+                  <div class="badge-soft">Feridas</div>
                 </div>
-                <div class="badge-soft">Dermatologia</div>
-              </div>
-              <div class="print-body"></div>
-              <div class="signature-box">
-                Dr. Wevelin Matos<br>
-                Pediatria • Cardiologia Pediátrica • Laserterapia
+                <div class="print-body"></div>
+                <div class="signature-box">
+                  Dr. Wevelin Matos<br>
+                  Pediatria • Cardiologia Pediátrica • Laserterapia
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- PROTOCOLOS -->
-      <div id="laser-protocolos" class="laser-subtab">
-        <div class="info-card">
-          <h3 class="calc-title">Protocolos Clínicos</h3>
-          <p class="calc-subtitle">Quadro-resumo para organização assistencial e padronização documental.</p>
-
-          <div class="table-wrap">
-            <table class="laser-table">
-              <thead>
-                <tr>
-                  <th>Área</th>
-                  <th>Objetivo</th>
-                  <th>Frequência sugerida</th>
-                  <th>Observação</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>ILIB</td>
-                  <td>Suporte sistêmico / modulação inflamatória</td>
-                  <td>1–3x por semana</td>
-                  <td>Individualizar por quadro clínico e resposta</td>
-                </tr>
-                <tr>
-                  <td>Feridas</td>
-                  <td>Reparo tecidual / cicatrização</td>
-                  <td>2–3x por semana</td>
-                  <td>Registrar evolução fotográfica seriada</td>
-                </tr>
-                <tr>
-                  <td>Mucosite</td>
-                  <td>Analgesia / reparo de mucosa</td>
-                  <td>Diário ou alternado</td>
-                  <td>Pode exigir associação com protocolo local</td>
-                </tr>
-                <tr>
-                  <td>Dermatologia</td>
-                  <td>Modulação inflamatória cutânea</td>
-                  <td>1–3x por semana</td>
-                  <td>Definir por extensão e resposta clínica</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- MUCOSITE -->
+        <div id="laser-panel-mucosite" class="laser-panel">
+          <div class="laser-panel-head">
+            <h3>Mucosite</h3>
+            <p>Aplicação clínica em mucosa com cálculo local e documentação estruturada.</p>
           </div>
 
-          <div class="protocol-box">
-            <h4 class="protocol-title">Checklist pré-sessão</h4>
-            <div class="protocol-text">• Confirmar indicação clínica
+          <div class="laser-card">
+            <div class="quick-actions">
+              <button class="mini-btn" onclick="mucositeAplicarPreset('leve')">Preset leve</button>
+              <button class="mini-btn" onclick="mucositeAplicarPreset('moderada')">Preset moderada</button>
+              <button class="mini-btn" onclick="mucositeAplicarPreset('intensa')">Preset intensa</button>
+            </div>
+
+            <div class="form-grid">
+              <div class="input-group full">
+                <label for="mucosite_paciente">Paciente</label>
+                <input type="text" id="mucosite_paciente" placeholder="Nome do paciente" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_modo">Modo clínico</label>
+                <select id="mucosite_modo" onchange="mucositeCalcular()">
+                  <option value="pediatrico">Pediátrico</option>
+                  <option value="adulto">Adulto</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_local">Local</label>
+                <input type="text" id="mucosite_local" placeholder="Ex: língua / mucosa jugal / lábio" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_grau">Contexto / gravidade</label>
+                <select id="mucosite_grau" onchange="mucositeCalcular()">
+                  <option value="leve">Leve</option>
+                  <option value="moderada">Moderada</option>
+                  <option value="intensa">Intensa</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_lambda">Comprimento de onda (nm)</label>
+                <input type="number" id="mucosite_lambda" value="660" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_potencia">Potência (mW)</label>
+                <input type="number" id="mucosite_potencia" value="100" step="0.01" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_tempo">Tempo por ponto (s)</label>
+                <input type="number" id="mucosite_tempo" value="5" step="0.01" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_pontos">Número de pontos</label>
+                <input type="number" id="mucosite_pontos" value="6" step="1" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_area_cm2">Área estimada (cm²)</label>
+                <input type="number" id="mucosite_area_cm2" value="2" step="0.01" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="mucosite_frequencia">Frequência sugerida</label>
+                <input type="text" id="mucosite_frequencia" placeholder="Ex: diário / alternado" oninput="mucositeCalcular()">
+              </div>
+
+              <div class="meta-grid full">
+                <div class="input-group">
+                  <label for="mucosite_data">Data</label>
+                  <input type="date" id="mucosite_data" oninput="mucositeCalcular()">
+                </div>
+                <div class="input-group">
+                  <label for="mucosite_hora">Hora</label>
+                  <input type="time" id="mucosite_hora" oninput="mucositeCalcular()">
+                </div>
+              </div>
+
+              <div class="input-group full">
+                <label for="mucosite_observacoes">Observações clínicas</label>
+                <textarea id="mucosite_observacoes" placeholder="Dor, aceitação alimentar, hidratação, extensão, aspecto local..." oninput="mucositeCalcular()"></textarea>
+              </div>
+
+              <div class="input-group full">
+                <label for="mucosite_intercorrencias">Intercorrências / tolerância</label>
+                <textarea id="mucosite_intercorrencias" placeholder="Ex: sem intercorrências, boa tolerância..." oninput="mucositeCalcular()"></textarea>
+              </div>
+            </div>
+
+            <div class="checklist-grid">
+              <label class="check-item"><input type="checkbox" id="mucosite_chk_dor" onchange="mucositeCalcular()"> Dor registrada</label>
+              <label class="check-item"><input type="checkbox" id="mucosite_chk_alimentacao" onchange="mucositeCalcular()"> Alimentação avaliada</label>
+              <label class="check-item"><input type="checkbox" id="mucosite_chk_hidratacao" onchange="mucositeCalcular()"> Hidratação avaliada</label>
+              <label class="check-item"><input type="checkbox" id="mucosite_chk_reavaliacao" onchange="mucositeCalcular()"> Reavaliação programada</label>
+            </div>
+
+            <div class="laser-results-grid">
+              <div class="laser-result-card">
+                <small>Energia por ponto</small>
+                <strong id="mucosite_j_ponto">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Energia total</small>
+                <strong id="mucosite_j_total">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Densidade energética</small>
+                <strong id="mucosite_densidade">—</strong>
+              </div>
+              <div class="laser-result-card laser-result-highlight">
+                <small>Tempo total</small>
+                <strong id="mucosite_tempo_total">—</strong>
+              </div>
+            </div>
+
+            <div class="laser-note-box">
+              <h4>Sugestão clínica</h4>
+              <div class="protocol-text" id="mucosite_protocolo">Preencha os campos para visualizar a sugestão.</div>
+            </div>
+
+            <div class="actions-row">
+              <button class="btn-primary" onclick="mucositeGerarProntuario()">Gerar texto para prontuário</button>
+              <button class="btn-secondary" onclick="mucositeCopiar()">Copiar texto</button>
+            </div>
+
+            <div class="form-toolbar hidden-print">
+              <button class="btn-tertiary" onclick="mucositeGerarResumo()">Gerar resumo</button>
+              <button class="btn-tertiary" onclick="mucositeSalvarLocal()">Salvar localmente</button>
+              <button class="btn-tertiary" onclick="mucositeCarregarLocal()">Carregar salvo</button>
+              <button class="btn-tertiary" onclick="mucositeLimpar()">Limpar</button>
+              <button class="btn-tertiary" onclick="mucositeImprimir()">Imprimir</button>
+            </div>
+
+            <div class="prontuario-box" id="mucosite_box" style="display:none;">
+              <h4 class="protocol-title">Texto para prontuário</h4>
+              <textarea id="mucosite_prontuario" readonly></textarea>
+            </div>
+
+            <div class="print-area" id="mucosite_print_area" style="display:none;">
+              <div class="print-sheet">
+                <div class="print-header">
+                  <div>
+                    <div class="print-brand">PueriCalc • Laserterapia</div>
+                    <div class="print-subbrand">Registro clínico assistencial</div>
+                  </div>
+                  <div class="badge-soft">Mucosite</div>
+                </div>
+                <div class="print-body"></div>
+                <div class="signature-box">
+                  Dr. Wevelin Matos<br>
+                  Pediatria • Cardiologia Pediátrica • Laserterapia
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DERMATO -->
+        <div id="laser-panel-dermato" class="laser-panel">
+          <div class="laser-panel-head">
+            <h3>Dermatologia</h3>
+            <p>Planejamento por pontos e acompanhamento clínico de lesões/inflamação cutânea.</p>
+          </div>
+
+          <div class="laser-card">
+            <div class="quick-actions">
+              <button class="mini-btn" onclick="dermatoAplicarPreset('inflamacao')">Preset inflamação</button>
+              <button class="mini-btn" onclick="dermatoAplicarPreset('reparo')">Preset reparo</button>
+              <button class="mini-btn" onclick="dermatoAplicarPreset('analgesia')">Preset analgesia</button>
+              <button class="mini-btn" onclick="dermatoAplicarPreset('adjuvante')">Preset adjuvante</button>
+            </div>
+
+            <div class="form-grid">
+              <div class="input-group full">
+                <label for="dermato_paciente">Paciente</label>
+                <input type="text" id="dermato_paciente" placeholder="Nome do paciente" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_modo">Modo clínico</label>
+                <select id="dermato_modo" onchange="dermatoCalcular()">
+                  <option value="pediatrico">Pediátrico</option>
+                  <option value="adulto">Adulto</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_area_nome">Área tratada</label>
+                <input type="text" id="dermato_area_nome" placeholder="Ex: face / braço / couro cabeludo" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_objetivo">Objetivo</label>
+                <select id="dermato_objetivo" onchange="dermatoCalcular()">
+                  <option value="inflamacao">Modulação inflamatória</option>
+                  <option value="reparo">Reparo tecidual</option>
+                  <option value="analgesia">Analgesia</option>
+                  <option value="adjuvante">Adjuvante dermatológico</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_lambda">Comprimento de onda (nm)</label>
+                <input type="number" id="dermato_lambda" value="660" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_potencia">Potência (mW)</label>
+                <input type="number" id="dermato_potencia" value="100" step="0.01" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_tempo">Tempo por ponto (s)</label>
+                <input type="number" id="dermato_tempo" value="8" step="0.01" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_pontos">Número de pontos</label>
+                <input type="number" id="dermato_pontos" value="8" step="1" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_area_cm2">Área estimada (cm²)</label>
+                <input type="number" id="dermato_area_cm2" value="3" step="0.01" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="input-group">
+                <label for="dermato_frequencia">Frequência sugerida</label>
+                <input type="text" id="dermato_frequencia" placeholder="Ex: 1–3x/semana" oninput="dermatoCalcular()">
+              </div>
+
+              <div class="meta-grid full">
+                <div class="input-group">
+                  <label for="dermato_data">Data</label>
+                  <input type="date" id="dermato_data" oninput="dermatoCalcular()">
+                </div>
+                <div class="input-group">
+                  <label for="dermato_hora">Hora</label>
+                  <input type="time" id="dermato_hora" oninput="dermatoCalcular()">
+                </div>
+              </div>
+
+              <div class="input-group full">
+                <label for="dermato_observacoes">Observações clínicas</label>
+                <textarea id="dermato_observacoes" placeholder="Extensão, cor, edema, dor, prurido, aspecto evolutivo..." oninput="dermatoCalcular()"></textarea>
+              </div>
+
+              <div class="input-group full">
+                <label for="dermato_intercorrencias">Intercorrências / tolerância</label>
+                <textarea id="dermato_intercorrencias" placeholder="Ex: sem intercorrências, boa tolerância..." oninput="dermatoCalcular()"></textarea>
+              </div>
+            </div>
+
+            <div class="checklist-grid">
+              <label class="check-item"><input type="checkbox" id="dermato_chk_area" onchange="dermatoCalcular()"> Área documentada</label>
+              <label class="check-item"><input type="checkbox" id="dermato_chk_foto" onchange="dermatoCalcular()"> Registro fotográfico</label>
+              <label class="check-item"><input type="checkbox" id="dermato_chk_sinais" onchange="dermatoCalcular()"> Sinais locais avaliados</label>
+              <label class="check-item"><input type="checkbox" id="dermato_chk_reavaliacao" onchange="dermatoCalcular()"> Reavaliação programada</label>
+            </div>
+
+            <div class="laser-results-grid">
+              <div class="laser-result-card">
+                <small>Energia por ponto</small>
+                <strong id="dermato_j_ponto">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Energia total</small>
+                <strong id="dermato_j_total">—</strong>
+              </div>
+              <div class="laser-result-card">
+                <small>Densidade energética</small>
+                <strong id="dermato_densidade">—</strong>
+              </div>
+              <div class="laser-result-card laser-result-highlight">
+                <small>Tempo total</small>
+                <strong id="dermato_tempo_total">—</strong>
+              </div>
+            </div>
+
+            <div class="laser-note-box">
+              <h4>Sugestão clínica</h4>
+              <div class="protocol-text" id="dermato_protocolo">Preencha os campos para visualizar a sugestão.</div>
+            </div>
+
+            <div class="actions-row">
+              <button class="btn-primary" onclick="dermatoGerarProntuario()">Gerar texto para prontuário</button>
+              <button class="btn-secondary" onclick="dermatoCopiar()">Copiar texto</button>
+            </div>
+
+            <div class="form-toolbar hidden-print">
+              <button class="btn-tertiary" onclick="dermatoGerarResumo()">Gerar resumo</button>
+              <button class="btn-tertiary" onclick="dermatoSalvarLocal()">Salvar localmente</button>
+              <button class="btn-tertiary" onclick="dermatoCarregarLocal()">Carregar salvo</button>
+              <button class="btn-tertiary" onclick="dermatoLimpar()">Limpar</button>
+              <button class="btn-tertiary" onclick="dermatoImprimir()">Imprimir</button>
+            </div>
+
+            <div class="prontuario-box" id="dermato_box" style="display:none;">
+              <h4 class="protocol-title">Texto para prontuário</h4>
+              <textarea id="dermato_prontuario" readonly></textarea>
+            </div>
+
+            <div class="print-area" id="dermato_print_area" style="display:none;">
+              <div class="print-sheet">
+                <div class="print-header">
+                  <div>
+                    <div class="print-brand">PueriCalc • Laserterapia</div>
+                    <div class="print-subbrand">Registro clínico assistencial</div>
+                  </div>
+                  <div class="badge-soft">Dermatologia</div>
+                </div>
+                <div class="print-body"></div>
+                <div class="signature-box">
+                  Dr. Wevelin Matos<br>
+                  Pediatria • Cardiologia Pediátrica • Laserterapia
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROTOCOLOS -->
+        <div id="laser-panel-protocolos" class="laser-panel">
+          <div class="laser-panel-head">
+            <h3>Protocolos</h3>
+            <p>Quadro-resumo para organização clínica e padronização assistencial.</p>
+          </div>
+
+          <div class="laser-card">
+            <div class="table-wrap">
+              <table class="laser-table">
+                <thead>
+                  <tr>
+                    <th>Área</th>
+                    <th>Objetivo</th>
+                    <th>Frequência sugerida</th>
+                    <th>Observação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>ILIB</td>
+                    <td>Suporte sistêmico / modulação inflamatória</td>
+                    <td>1–3x por semana</td>
+                    <td>Individualizar por quadro clínico e resposta</td>
+                  </tr>
+                  <tr>
+                    <td>Feridas</td>
+                    <td>Reparo tecidual / cicatrização</td>
+                    <td>2–3x por semana</td>
+                    <td>Registrar evolução fotográfica seriada</td>
+                  </tr>
+                  <tr>
+                    <td>Mucosite</td>
+                    <td>Analgesia / reparo de mucosa</td>
+                    <td>Diário ou alternado</td>
+                    <td>Pode exigir associação com protocolo local</td>
+                  </tr>
+                  <tr>
+                    <td>Dermatologia</td>
+                    <td>Modulação inflamatória cutânea</td>
+                    <td>1–3x por semana</td>
+                    <td>Definir por extensão e resposta clínica</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="laser-note-box">
+              <h4>Checklist pré-sessão</h4>
+              <div class="protocol-text">• Confirmar indicação clínica
 • Registrar área-alvo e objetivo terapêutico
 • Verificar integridade da pele/mucosa
 • Registrar parâmetros utilizados
 • Documentar tolerância e resposta clínica
 • Programar reavaliação</div>
+            </div>
           </div>
         </div>
-      </div>
+
+      </section>
     </div>
   </div>
 </div>
@@ -3787,12 +3874,19 @@
 /* =========================
    LASERTERAPIA
 ========================= */
-function openLaserSubtab(tabId, btnEl){
-  document.querySelectorAll('#tab-laser .laser-subtab').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('#tab-laser .subtab-btn').forEach(btn => btn.classList.remove('active'));
-  const target = document.getElementById(tabId);
+function openLaserPanel(panelId, btnEl){
+  document.querySelectorAll('#tab-laser .laser-panel').forEach(el => {
+    el.classList.remove('active');
+  });
+
+  document.querySelectorAll('#tab-laser .laser-menu-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  const target = document.getElementById(panelId);
   if (target) target.classList.add('active');
   if (btnEl) btnEl.classList.add('active');
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
