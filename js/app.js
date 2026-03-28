@@ -1,4 +1,5 @@
 import { initMainTabs } from './router.js';
+
 import { renderNeonato } from './tabs/neonato/index.js';
 import { renderCrescimento } from './tabs/crescimento/index.js';
 import { renderCardio } from './tabs/cardio/index.js';
