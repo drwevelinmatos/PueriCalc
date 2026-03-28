@@ -1,5 +1,3 @@
-import { byId } from './utils/dom.js';
-
 export function initMainTabs() {
   const buttons = document.querySelectorAll('[data-tab]');
 
@@ -13,7 +11,7 @@ export function initMainTabs() {
 
       buttons.forEach((btn) => btn.classList.remove('active'));
 
-      byId(targetId)?.classList.add('active');
+      document.getElementById(targetId)?.classList.add('active');
       button.classList.add('active');
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
