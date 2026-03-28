@@ -10,7 +10,7 @@ export function initECGCard() {
         <h2>Avaliação de ECG</h2>
       </div>
 
-      <p class="muted">Use quadradinhos: 1 mm = 0,04 s (25 mm/s).</p>
+      <p class="muted">Use quadradinhos: 1 mm = 0,04 s (25 mm/s). Se preferir, você pode expandir depois para RR em milissegundos.</p>
 
       <div class="grid-2">
         <div>
@@ -28,6 +28,10 @@ export function initECGCard() {
       </button>
 
       <div id="res-ecg" class="result-box"></div>
+
+      <div class="muted warn">
+        Intervalos por idade, eixo e padrões pediátricos específicos podem ser plugados depois em arquivo próprio.
+      </div>
     </div>
   `;
 
@@ -53,17 +57,16 @@ function calculateECG() {
   const qtcFridericia = qtSeconds / Math.cbrt(rrSeconds);
   const heartRate = 1500 / rrq;
 
-  showResult(
-    'res-ecg',
-    [
-      `FC estimada: ${heartRate.toFixed(0)} bpm`,
-      `QT: ${qtSeconds.toFixed(3)} s`,
-      `RR: ${rrSeconds.toFixed(3)} s`,
-      '',
-      `QTc (Bazett): ${(qtcBazett * 1000).toFixed(0)} ms`,
-      `QTc (Fridericia): ${(qtcFridericia * 1000).toFixed(0)} ms`,
-      '',
-      'Intervalos por idade/eixo: PLACEHOLDER.',
-    ].join('\n')
-  );
+  const text = [
+    `FC estimada: ${heartRate.toFixed(0)} bpm`,
+    `QT: ${qtSeconds.toFixed(3)} s`,
+    `RR: ${rrSeconds.toFixed(3)} s`,
+    '',
+    `QTc (Bazett): ${(qtcBazett * 1000).toFixed(0)} ms`,
+    `QTc (Fridericia): ${(qtcFridericia * 1000).toFixed(0)} ms`,
+    '',
+    'Análise etária detalhada: módulo pronto para expansão.'
+  ].join('\n');
+
+  showResult('res-ecg', text);
 }
