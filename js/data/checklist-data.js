@@ -546,5 +546,409 @@ export const CHECK_DATA = {
       "Não segue comandos simples",
       "Regressão de habilidades"
     ]
+  },
+
+  "2_3a": {
+    titulo: "2 a 3 anos",
+    vacinas: [
+      "Influenza anual - rotina para crianças de 6 meses a menores de 6 anos.",
+      "Covid-19 - manter atualização conforme produto disponível e grupos contemplados pelo PNI vigente; na prática privada, seguir disponibilidade/licença do imunizante.",
+      "Hepatite A - checar se completou, dose única aos 15 meses, com resgate até antes de 5 anos.",
+      "Varicela - checar se completou 2 doses; uma dose aos 15 meses e outra aos 4 anos."
+    ],
+    privado: [
+      "Influenza - pode ser trivalente ou tetravalente.",
+      "Hepatite A - preferem 2 doses no esquema 0 e 6 meses; se a criança recebeu só a dose do PNI, vale revisar se a família deseja completar o esquema ampliado.",
+      "Varicela - recomendam 2 doses após 1 ano, usualmente aos 12 e 15 a 24 meses, podendo usar varicela isolada ou tetraviral. Se aos 24 meses a criança ainda só tiver 1 dose, vale programar a 2ª dose."
+    ],
+    dnpm: {
+      social: [
+        "Jogo paralelo com outras crianças",
+        "Demonstra preferências claras",
+        "Início de comportamento opositor (fase do não)",
+        "Demonstra afeto por cuidadores"
+      ],
+      linguagem: [
+        "Vocabulário > 50 palavras",
+        "Frases de 2–3 palavras",
+        "Nomeia objetos familiares",
+        "Entende instruções de 2 etapas"
+      ],
+      cognitivo: [
+        "Brincadeira simbólica elaborada",
+        "Identifica objetos em livros",
+        "Começa a categorizar objetos simples"
+      ],
+      motor: [
+        "Corre com boa coordenação",
+        "Sobe escadas alternando pés (com apoio)",
+        "Chuta bola",
+        "Empilha ≥ 6 blocos"
+      ]
+    },
+    alertas: []
+  },
+
+  "3a": {
+    titulo: "3 anos",
+    vacinas: [
+      "Influenza anual",
+      "Covid-19 - conforme recomendação vigente.",
+      "Revisão de atrasos - SCR, varicela, hepatite A, febre amarela, dT/DTP conforme carteira."
+    ],
+    privado: [
+      "Conferir se já recebeu a 2ª dose da varicela.",
+      "Conferir se foi feito o esquema ampliado da hepatite A.",
+      "Em situações de risco, revisar indicações especiais de meningocócicas e pneumocócicas."
+    ],
+    dnpm: {
+      social: [
+        "Brinca com outras crianças (início do jogo associativo)",
+        "Demonstra empatia inicial",
+        "Imita comportamentos adultos"
+      ],
+      linguagem: [
+        "Frases de 3–4 palavras",
+        "Fala compreensível para familiares",
+        "Faz perguntas simples"
+      ],
+      cognitivo: [
+        "Entende conceitos simples de tamanho e quantidade",
+        "Início de imaginação estruturada"
+      ],
+      motor: [
+        "Pedala triciclo",
+        "Sobe escadas alternando pés",
+        "Desenha círculo"
+      ]
+    },
+    alertas: []
+  },
+
+  "4a": {
+    titulo: "4 anos",
+    vacinas: [
+      "DTP - reforço do PNI",
+      "Varicela - 2ª dose no PNI",
+      "Febre amarela - 2ª dose no PNI se a 1ª dose foi antes dos 5 anos",
+      "Dengue tetravalente - pode entrar no PNI entre 10 e 14 anos, não aos 4 anos; portanto, nesta idade só na rede privada."
+    ],
+    privado: [
+      "DTPa ou dTpa-VIP no reforço de 4–5 anos, em vez da formulação de células inteiras, quando desejado.",
+      "Dengue (Qdenga®) - 2 doses, 0 e 3 meses, licenciada e recomendada pela SBIm a partir de 4 anos.",
+      "Se ainda não completou, fazer 2ª dose da varicela.",
+      "Revisar febre amarela: a SBIm recomenda 2 doses e, depois dos 5 anos, considera reforço em 10 anos em vez de dose única para toda a vida."
+    ],
+    dnpm: {
+      social: [
+        "Jogo cooperativo inicial",
+        "Entende regras simples",
+        "Capacidade maior de compartilhar"
+      ],
+      linguagem: [
+        "Frases completas",
+        "Conta pequenas histórias"
+      ],
+      cognitivo: [
+        "Reconhece cores básicas",
+        "Entende sequência simples de eventos"
+      ],
+      motor: [
+        "Salta em um pé",
+        "Desenha figuras simples",
+        "Coordenação motora mais refinada"
+      ]
+    },
+    alertas: []
+  },
+
+  "5a": {
+    titulo: "5 anos",
+    vacinas: [
+      "Checar se o reforço dos 4 anos foi feito.",
+      "Influenza anual.",
+      "Febre amarela: se a primeira dose foi antes dos 5 anos e ainda faltou o reforço, atualizar."
+    ],
+    privado: [
+      "Meningocócica ACWY - reforço entre 5 e 6 anos.",
+      "DTPa/dTpa-VIP - se o reforço não foi feito aos 4 a 5 anos.",
+      "Dengue (Qdenga®) se ainda não iniciou aos 4 anos.",
+      "Em suscetíveis, completar SCR e varicela."
+    ],
+    dnpm: {
+      social: [
+        "Maior autonomia",
+        "Interesse por amizades estáveis"
+      ],
+      linguagem: [
+        "Linguagem quase totalmente inteligível",
+        "Vocabulário ampliado"
+      ],
+      cognitivo: [
+        "Compreende regras de jogos",
+        "Início de noção temporal (ontem/amanhã)"
+      ],
+      motor: [
+        "Corre, pula e escala com coordenação",
+        "Desenha pessoa com várias partes do corpo"
+      ]
+    },
+    alertas: []
+  },
+
+  "6a": {
+    titulo: "6 anos",
+    vacinas: [
+      "Influenza anual - rotina infantil vai até menores de 6 anos; a partir daí, fora grupos contemplados, geralmente sai da rotina universal pública."
+    ],
+    privado: [
+      "Meningocócica ACWY - ainda dentro da janela do reforço de 5 a 6 anos.",
+      "Dengue (Qdenga®) se ainda pendente.",
+      "Atualizar SCR, varicela, hepatite A, febre amarela e dTpa/dTpa-VIP conforme carteira."
+    ],
+    dnpm: {
+      social: [
+        "Integração social escolar",
+        "Desenvolve autoestima baseada em habilidades"
+      ],
+      linguagem: [
+        "Narrativa estruturada",
+        "Compreende instruções complexas"
+      ],
+      cognitivo: [
+        "Pensamento concreto",
+        "Início de habilidades matemáticas básicas"
+      ],
+      motor: [
+        "Coordenação motora fina para escrita",
+        "Participa de esportes simples"
+      ]
+    },
+    alertas: []
+  },
+
+  "7_8a": {
+    titulo: "7 a 8 anos",
+    vacinas: [
+      "dT - em esquemas de resgate / incompletos no PNI.",
+      "Atualização de hepatite B, SCR, febre amarela e demais atrasos."
+    ],
+    privado: [
+      "Revisar se já recebeu ACWY 5 a 6 anos.",
+      "Pode haver indicação individualizada de MenB em suscetíveis ou grupos de risco.",
+      "Influenza anual continua recomendada na rede privada."
+    ],
+    dnpm: {
+      social: [
+        "Amizades mais estáveis",
+        "Capacidade de cooperação em grupo"
+      ],
+      linguagem: [
+        "Conversação complexa",
+        "Capacidade de argumentação inicial"
+      ],
+      cognitivo: [
+        "Pensamento lógico concreto",
+        "Melhor compreensão de regras"
+      ],
+      motor: [
+        "Coordenação esportiva mais refinada",
+        "Escrita fluida"
+      ],
+      puberdade: [
+        "Pré-puberdade",
+        "Possível início discreto de telarca (meninas > 8 anos)"
+      ]
+    },
+    alertas: []
+  },
+
+  "9a": {
+    titulo: "9 anos",
+    vacinas: [
+      "HPV4 - dose única entre 9 e 14 anos.",
+      "Atualizar atrasos de SCR, febre amarela, hepatite B e dT."
+    ],
+    privado: [
+      "HPV9 - preferencial pela SBIm, em 2 doses (0 e 6 meses) para menores de 20 anos.",
+      "Em quem tomou HPV4 no passado, a SBIm admite discutir revacinação com HPV9 para ampliar cobertura de sorotipos.",
+      "Influenza anual."
+    ],
+    dnpm: {
+      social: [
+        "Maior consciência social",
+        "Formação de identidade social"
+      ],
+      linguagem: [
+        "Discussões mais complexas",
+        "Capacidade narrativa avançada"
+      ],
+      cognitivo: [
+        "Pensamento lógico estruturado",
+        "Capacidade de resolver problemas mais complexos"
+      ],
+      motor: [
+        "Coordenação motora madura",
+        "Participação esportiva estruturada"
+      ],
+      puberdade: [
+        "Início da puberdade em parte das meninas",
+        "Telarca",
+        "Estirão inicial possível"
+      ]
+    },
+    alertas: []
+  },
+
+  "10a": {
+    titulo: "10 anos",
+    vacinas: [
+      "Dengue tetravalente - entre 10 e 14 anos, 2 doses, conforme histórico vacinal.",
+      "Hepatite B, dT, SCR, febre amarela - completar se incompletas."
+    ],
+    privado: [
+      "HPV9 - 2 doses se ainda não vacinou.",
+      "Dengue (Qdenga®) - também disponível na rede privada, 2 doses 0 e 3 meses.",
+      "Influenza anual.",
+      "Pode iniciar atualização de MenACWY se o esquema estiver incompleto."
+    ],
+    dnpm: {
+      social: [
+        "Preocupação com aceitação social",
+        "Maior autonomia emocional"
+      ],
+      linguagem: [
+        "Debate de ideias",
+        "Melhor expressão verbal"
+      ],
+      cognitivo: [
+        "Pensamento lógico consolidado",
+        "Capacidade de planejamento"
+      ],
+      motor: [
+        "Desempenho esportivo avançado"
+      ],
+      puberdade: [
+        "Meninas: progressão puberal",
+        "Início puberal em alguns meninos"
+      ]
+    },
+    alertas: []
+  },
+
+  "11a": {
+    titulo: "11 anos",
+    vacinas: [
+      "Meningocócica ACWY - 1 dose entre 11 e 14 anos.",
+      "Manter avaliação de HPV, dengue, dT, hepatite B, SCR e febre amarela."
+    ],
+    privado: [
+      "Meningocócica ACWY - reforço aos 11 anos ou 5 anos após a última dose.",
+      "MenB - pode ser feita em 2 doses, intervalo mínimo de 1 mês.",
+      "dTpa preferencial como reforço 10 anos após a última dose com componente tetânico; considerar antecipar para contactantes de lactentes.",
+      "Influenza anual."
+    ],
+    dnpm: {
+      social: [
+        "Busca maior independência",
+        "Influência do grupo de pares"
+      ],
+      linguagem: [
+        "Comunicação semelhante ao adulto jovem"
+      ],
+      cognitivo: [
+        "Pensamento abstrato inicial"
+      ],
+      motor: [
+        "Coordenação motora adulta"
+      ],
+      puberdade: [
+        "Meninas: menarca pode ocorrer",
+        "Meninos: aumento testicular (Tanner G2)"
+      ]
+    },
+    alertas: []
+  },
+
+  "12_14a": {
+    titulo: "12 a 14 anos",
+    vacinas: [
+      "HPV4 - ainda dentro da faixa do PNI.",
+      "Dengue tetravalente - ainda dentro da faixa do PNI.",
+      "MenACWY - manter oportunidade até 14 anos.",
+      "Atualizar hepatite B, dT, SCR, febre amarela."
+    ],
+    privado: [
+      "HPV9 - 2 doses, preferencial.",
+      "MenB - 2 doses.",
+      "Influenza anual.",
+      "dTpa/dTpa em situações de reforço, viagem ou resgate.",
+      "VIP em situações de reforço, viagem ou resgate."
+    ],
+    dnpm: {
+      social: [
+        "Formação de identidade",
+        "Maior influência dos pares"
+      ],
+      linguagem: [
+        "Argumentação complexa"
+      ],
+      cognitivo: [
+        "Pensamento abstrato",
+        "Reflexão moral"
+      ],
+      motor: [
+        "Pico do estirão puberal"
+      ],
+      puberdade: [
+        "Meninas: menarca",
+        "Meninas: desenvolvimento mamário",
+        "Meninas: estirão",
+        "Meninos: crescimento testicular",
+        "Meninos: mudança da voz",
+        "Meninos: aumento de massa muscular"
+      ]
+    },
+    alertas: []
+  },
+
+  "15_19a": {
+    titulo: "15 a 19 anos",
+    vacinas: [
+      "HPV4 - fora da rotina universal, mas há estratégia de resgate de HPV4 para 15 a 19 anos sem histórico vacinal, conforme organização local/estadual.",
+      "Completar hepatite B (3 doses 0-1-6 meses), dT, SCR (2 doses) e febre amarela conforme histórico."
+    ],
+    privado: [
+      "HPV9 - ainda recomendada em 2 doses (0 e 6 meses) para menores de 20 anos.",
+      "MenACWY - se não vacinado até 15 anos, fazer 2 doses com intervalo de 5 anos; a partir de 16 anos, uma dose.",
+      "MenB - 2 doses.",
+      "dTpa preferencial nos reforços.",
+      "Hepatite A - 2 doses se não vacinado.",
+      "Varicela - 2 doses se suscetível; a partir de 13 anos, intervalo de 1 a 2 meses.",
+      "Dengue (Qdenga®) - disponível na rede privada até 60 anos; no PNI, a rotina mostrada é 10 a 14 anos.",
+      "Influenza anual."
+    ],
+    dnpm: {
+      social: [
+        "Consolidação da identidade",
+        "Autonomia emocional"
+      ],
+      linguagem: [
+        "Comunicação adulta plena"
+      ],
+      cognitivo: [
+        "Pensamento abstrato consolidado",
+        "Planejamento futuro"
+      ],
+      motor: [
+        "Maturidade motora completa"
+      ],
+      puberdade: [
+        "Meninas: desenvolvimento puberal completo (Tanner V)",
+        "Meninos: finalização do desenvolvimento genital",
+        "Meninos: estabilização do crescimento"
+      ]
+    },
+    alertas: []
   }
 };
