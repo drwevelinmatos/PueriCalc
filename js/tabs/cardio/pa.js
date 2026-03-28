@@ -7,7 +7,7 @@ export function initPACard() {
   slot.innerHTML = `
     <div class="card">
       <div class="card-header" style="border-color:var(--cardio)">
-        <h2>Classificação de Pressão Arterial</h2>
+        <h2>Classificação de Pressão Arterial (Pediatria e Adulto)</h2>
       </div>
 
       <div class="grid-2">
@@ -43,6 +43,10 @@ export function initPACard() {
       </button>
 
       <div id="res-pa" class="result-box"></div>
+
+      <div class="muted warn">
+        A parte pediátrica está estruturada para receber depois as tabelas percentílicas por idade, sexo e estatura.
+      </div>
     </div>
   `;
 
@@ -56,10 +60,21 @@ function classifyPA() {
   const sexo = byId('pa-sexo')?.value;
   const estatura = Number(byId('pa-estatura')?.value);
 
-  if (!Number.isFinite(pas) || pas <= 0) return showResult('res-pa', 'Informe PAS.');
-  if (!Number.isFinite(pad) || pad <= 0) return showResult('res-pa', 'Informe PAD.');
-  if (!Number.isFinite(idade) || idade < 0) return showResult('res-pa', 'Informe idade.');
-  if (!Number.isFinite(estatura) || estatura <= 0) return showResult('res-pa', 'Informe estatura.');
+  if (!Number.isFinite(pas) || pas <= 0) {
+    return showResult('res-pa', 'Informe PAS.');
+  }
+
+  if (!Number.isFinite(pad) || pad <= 0) {
+    return showResult('res-pa', 'Informe PAD.');
+  }
+
+  if (!Number.isFinite(idade) || idade < 0) {
+    return showResult('res-pa', 'Informe idade.');
+  }
+
+  if (!Number.isFinite(estatura) || estatura <= 0) {
+    return showResult('res-pa', 'Informe estatura.');
+  }
 
   if (idade >= 18) {
     let cls = 'Normal';
@@ -68,20 +83,24 @@ function classifyPA() {
     else if (pas >= 120 && pas <= 129 && pad < 80) cls = 'PA elevada';
     else if ((pas >= 130 && pas <= 139) || (pad >= 80 && pad <= 89)) cls = 'HAS estágio 1';
     else if (pas >= 140 || pad >= 90) cls = 'HAS estágio 2';
-    if (pas >= 180 || pad >= 120) cls = 'Crise hipertensiva';
+    if (pas >= 180 || pad >= 120) cls = 'Crise hipertensiva (avaliar urgência/emergência)';
 
-    return showResult('res-pa', `Adulto: ${cls}\nPAS/PAD: ${pas}/${pad} mmHg`);
+    return showResult('res-pa', `Adulto\nClassificação: ${cls}\nPAS/PAD: ${pas}/${pad} mmHg`);
   }
 
   return showResult(
     'res-pa',
     [
-      'Pediatria: classificação depende da tabela percentílica por idade/sexo/estatura.',
+      'Pediatria',
+      'A classificação definitiva depende de percentis por idade, sexo e estatura.',
       '',
-      `Dados: ${idade} anos | sexo ${sexo} | estatura ${estatura} cm`,
-      `PAS/PAD: ${pas}/${pad} mmHg`,
+      `Dados informados:`,
+      `- Idade: ${idade} anos`,
+      `- Sexo: ${sexo}`,
+      `- Estatura: ${estatura} cm`,
+      `- PAS/PAD: ${pas}/${pad} mmHg`,
       '',
-      'Pronto para plugar tabela P90/P95/P95+12.',
+      'Estrutura pronta para plugar P90, P95 e P95+12.'
     ].join('\n')
   );
 }
