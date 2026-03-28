@@ -53,3 +53,88 @@ export function renderChecklist() {
 
   byId('ck-idade')?.addEventListener('change', renderCheckArea);
 }
+
+function renderCheckArea() {
+  const idade = byId('ck-idade')?.value;
+  const area = byId('check-area');
+
+  if (!area) return;
+  if (!idade || !CHECK_DATA[idade]) {
+    area.innerHTML = '';
+    return;
+  }
+
+  const d = CHECK_DATA[idade];
+
+  area.innerHTML = `
+    <div class="result-box" style="display:block">
+      <span class="destaque">${d.titulo}</span>
+      <div class="muted">Checklist ampliado de vacinação, rede privada/SBIm, desenvolvimento e alertas.</div>
+    </div>
+
+    <div class="check-wrap">
+      ${renderList('Vacinas / condutas principais', d.vacinas, 'PNI')}
+      ${renderList('Privado / SBIm / observações', d.privado, 'Privado / SBIm')}
+      ${renderDNPM(d.dnpm)}
+      ${renderAlertas(d.alertas)}
+    </div>
+  `;
+}
+
+function renderList(title, items, tag = '') {
+  if (!items || !items.length) return '';
+
+  return `
+    <div class="check-block">
+      ${tag ? `<div class="check-tag">${tag}</div>` : ''}
+      <h3>${title}</h3>
+      <ul class="check-list">
+        ${items.map(item => `<li>☐ ${item}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+}
+
+function renderDNPM(dnpm) {
+  if (!dnpm) return '';
+
+  let html = `
+    <div class="check-block">
+      <h3>DNPM</h3>
+      <div class="check-subtitle">Marcos esperados para a faixa etária</div>
+  `;
+
+  if (dnpm.social?.length) {
+    html += `<div class="check-muted-box"><b>Social / Emocional</b><br>${dnpm.social.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+  }
+
+  if (dnpm.linguagem?.length) {
+    html += `<div class="check-muted-box"><b>Linguagem / Comunicação</b><br>${dnpm.linguagem.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+  }
+
+  if (dnpm.cognitivo?.length) {
+    html += `<div class="check-muted-box"><b>Cognitivo</b><br>${dnpm.cognitivo.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+  }
+
+  if (dnpm.motor?.length) {
+    html += `<div class="check-muted-box"><b>Movimento / Desenvolvimento físico</b><br>${dnpm.motor.map(i => `☐ ${i}`).join('<br>')}</div><br>`;
+  }
+
+  if (dnpm.puberdade?.length) {
+    html += `<div class="check-muted-box"><b>Puberdade</b><br>${dnpm.puberdade.map(i => `☐ ${i}`).join('<br>')}</div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function renderAlertas(alertas) {
+  if (!alertas || !alertas.length) return '';
+
+  return `
+    <div class="check-alert">
+      <b>🚩 Alertas importantes</b><br>
+      ${alertas.map(item => `• ${item}`).join('<br>')}
+    </div>
+  `;
+}
