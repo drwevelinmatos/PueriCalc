@@ -15,7 +15,7 @@ import {
 
 const STORAGE_KEY = 'puericalc_laser_mucosite';
 
-export function initmucosite() {
+export function initMucosite() {
   const root = byId('laser-panel-mucosite');
   if (!root) return;
 
