@@ -1,0 +1,21 @@
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .main-nav,
+  .app-footer,
+  .hidden-print {
+    display: none !important;
+  }
+
+  .tab-content {
+    display: block !important;
+  }
+
+  .card,
+  .laser-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc;
+  }
+}
