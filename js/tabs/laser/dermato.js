@@ -15,7 +15,7 @@ import {
 
 const STORAGE_KEY = 'puericalc_laser_dermato';
 
-export function initdermato() {
+export function initDermato() {
   const root = byId('laser-panel-dermato');
   if (!root) return;
 
