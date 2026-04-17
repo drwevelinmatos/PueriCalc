@@ -21,7 +21,7 @@ export function initMucosite() {
 
   root.innerHTML = `
     <div class="laser-panel-head">
-      <h3>mucosite</h3>
+      <h3>mucosite</h3> 
       <p>Planejamento local por ponto, densidade energética e geração de texto clínico.</p>
     </div>
 
