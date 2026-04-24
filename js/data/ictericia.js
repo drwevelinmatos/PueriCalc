@@ -8,8 +8,32 @@ export const SBP2021_PRE35 = [
 
 export const SBP2021_GE35 = {
   groups: [
-    { name: '35-37', minGA: 35, maxGA: 37.999, rows: [] },
-    { name: '>=38', minGA: 38, maxGA: 99, rows: [] }
+    {
+      name: '35-37 semanas',
+      minGA: 35,
+      maxGA: 37.999,
+      rows: [
+        { minH: 24, maxH: 35.999, photo: 8, exch: 15 },
+        { minH: 36, maxH: 47.999, photo: 9.5, exch: 16 },
+        { minH: 48, maxH: 71.999, photo: 11, exch: 18 },
+        { minH: 72, maxH: 95.999, photo: 13, exch: 20 },
+        { minH: 96, maxH: 119.999, photo: 14, exch: 21 },
+        { minH: 120, maxH: 168, photo: 15, exch: 21 }
+      ]
+    },
+    {
+      name: '≥38 semanas',
+      minGA: 38,
+      maxGA: 99,
+      rows: [
+        { minH: 24, maxH: 35.999, photo: 10, exch: 18 },
+        { minH: 36, maxH: 47.999, photo: 11.5, exch: 20 },
+        { minH: 48, maxH: 71.999, photo: 13, exch: 21 },
+        { minH: 72, maxH: 95.999, photo: 15, exch: 22 },
+        { minH: 96, maxH: 119.999, photo: 16, exch: 23 },
+        { minH: 120, maxH: 168, photo: 17, exch: 24 }
+      ]
+    }
   ]
 };
 
