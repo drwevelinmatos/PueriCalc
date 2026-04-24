@@ -247,45 +247,38 @@ function handleCalculateIctericia() {
   const hours = Number(byId('ict-horas')?.value);
 
   if (result.group === 'pre35') {
-    return showResult(
-      'res-ict',
-      [
-        'SBP 2021 — RN <35 semanas',
-        `IG: ${ga} sem | Horas: ${hours}h | Risco: ${hasRisk ? 'Sim (limite inferior)' : 'Não (limite superior)'}`,
-        `BT: ${bt.toFixed(1)} mg/dL`,
-        '',
-        `Limiar fototerapia: ${result.photoThreshold.toFixed(1)} mg/dL`,
-        `Limiar exsanguíneo: ${result.exchThreshold.toFixed(1)} mg/dL`,
-        '',
-        `Conduta: ${result.recommendation}`
-      ].join('\n')
-    );
+   return showResult(
+  'res-ict',
+  [
+    'SBP 2021 — RN <35 semanas',
+    `IG: ${ga} sem | Horas: ${hours}h | Risco: ${hasRisk ? 'Sim (limite inferior)' : 'Não (limite superior)'}`,
+    `BT: ${bt.toFixed(1)} mg/dL`,
+    '',
+    `Limiar fototerapia: ${result.photoThreshold.toFixed(1)} mg/dL`,
+    `Limiar exsanguíneo: ${result.exchThreshold.toFixed(1)} mg/dL`,
+    '',
+    `Conduta: ${result.recommendation}`,
+    '',
+    result.guidance
+  ].join('\n')
+);
   }
 
   if (result.group === 'ge35-unfilled') {
-    return showResult(
-      'res-ict',
-      [
-        'SBP 2021 — RN ≥35 semanas',
-        'Tabela por horas/IG ainda não foi preenchida no código.',
-        '',
-        'Preencher SBP2021_GE35.groups[].rows com os limiares oficiais.'
-      ].join('\n')
-    );
-  }
-
-  return showResult(
-    'res-ict',
-    [
-      'SBP 2021 — RN ≥35 semanas',
-      `Grupo IG: ${result.igGroupName}`,
-      `Horas: ${hours}h`,
-      `BT: ${bt.toFixed(1)} mg/dL`,
-      '',
-      `Limiar fototerapia: ${result.photoThreshold.toFixed(1)} mg/dL`,
-      `Limiar exsanguíneo: ${result.exchThreshold.toFixed(1)} mg/dL`,
-      '',
-      `Conduta: ${result.recommendation}`
-    ].join('\n')
-  );
+   return showResult(
+  'res-ict',
+  [
+    'SBP 2021 — RN ≥35 semanas',
+    `Grupo IG: ${result.igGroupName}`,
+    `Horas: ${hours}h`,
+    `BT: ${bt.toFixed(1)} mg/dL`,
+    '',
+    `Limiar fototerapia: ${result.photoThreshold.toFixed(1)} mg/dL`,
+    `Limiar exsanguíneo: ${result.exchThreshold.toFixed(1)} mg/dL`,
+    '',
+    `Conduta: ${result.recommendation}`,
+    '',
+    result.guidance
+  ].join('\n')
+);
 }
