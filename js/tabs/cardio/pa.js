@@ -1,4 +1,5 @@
 import { byId, showResult } from '../../utils/dom.js';
+import { SBP_DATA, TASKFORCE_DATA } from './PA_data.js';
 
 export function initPACard() {
   const slot = byId('cardio-pa-slot');
@@ -6,8 +7,6 @@ export function initPACard() {
 
   slot.innerHTML = `
 // tabs/cardio/index.js
-import { byId, showResult } from '../../utils/dom.js';
-import { SBP_DATA, TASKFORCE_DATA } from './PA_data.js';
 
 // Importa WHO_DATA para cálculo de percentil de estatura (≥ 1 ano)
 let WHO_DATA = null;
